@@ -1,9 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroTower from "@/assets/hero-tower.jpg";
-import { BROADCASTS } from "@/lib/intranet-data";
+import residentsLounge from "@/assets/residents-lounge.jpg";
+import longBar from "@/assets/long-bar.jpg";
+import privateDining from "@/assets/private-dining.jpg";
+import laPadrona from "@/assets/la-padrona.jpg";
+import guerlainSpa from "@/assets/guerlain-spa.jpg";
 import { ANNOUNCEMENTS } from "@/lib/portal-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { Reveal } from "@/components/Reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,121 +25,168 @@ export const Route = createFileRoute("/")({
         content:
           "Board broadcasts, reservations, house account, concierge services and the resident community register for 40 Trinity Place.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
 });
 
-const QUICK_LINKS = [
-  { to: "/amenities", label: "Reservations", detail: "Lounge, private dining, spa and restaurants." },
-  { to: "/services", label: "Valet & maintenance", detail: "Request the car, report an issue, track parcels." },
-  { to: "/account", label: "House account", detail: "Statements, condominium fees and payments." },
-  { to: "/directory", label: "Directory", detail: "Opt-in register of neighbouring households." },
-  { to: "/messages", label: "Messages", detail: "Group and private conversations." },
-  { to: "/community", label: "Member forum", detail: "Topics and interest circles." },
-  { to: "/marketplace", label: "Marketplace", detail: "Recommendations, sales and give-aways." },
-  { to: "/proposals", label: "Proposals", detail: "Vote for or against resident requests." },
-  { to: "/management", label: "Management", detail: "Board, staff, notices and the monthly survey." },
-  { to: "/governance", label: "Governance", detail: "Ballots, minutes and governing instruments." },
+const PATHS = [
+  {
+    to: "/amenities",
+    image: residentsLounge,
+    alt: "The Residents' Lounge on floor twenty-one, set for morning coffee",
+    eyebrow: "Reservations",
+    title: "Amenities, reserved in a moment",
+    body: "The Residents' Lounge on twenty-one, the Guerlain Spa, La Padrona's private table and in-residence dining — with catering options and concierge notes attached to every request.",
+    cta: "Reserve an amenity",
+  },
+  {
+    to: "/events",
+    image: longBar,
+    alt: "The Long Bar dressed for a resident gathering",
+    eyebrow: "Resident Life",
+    title: "Gatherings on the calendar",
+    body: "RSVP to house evenings, propose something for the committee to weigh, and see which neighbours are joining before you commit.",
+    cta: "See the calendar",
+  },
+  {
+    to: "/services",
+    image: privateDining,
+    alt: "A private dining table laid in a residence",
+    eyebrow: "In Residence",
+    title: "The concierge desk, always open",
+    body: "Call the car from valet, lodge maintenance and housekeeping requests, follow parcels held at the desk, and post to lost and found.",
+    cta: "Request a service",
+  },
+  {
+    to: "/community",
+    image: laPadrona,
+    alt: "Residents in conversation at a warmly lit dining room",
+    eyebrow: "Community",
+    title: "Neighbours, on your terms",
+    body: "An opt-in directory, group and private messaging, interest circles in the member forum, and a marketplace for recommendations and sales.",
+    cta: "Enter the community",
+  },
+  {
+    to: "/management",
+    image: guerlainSpa,
+    alt: "A quiet corridor within the residences",
+    eyebrow: "Governance",
+    title: "The board, in plain sight",
+    body: "Notices from the Residences Office, ballots and minutes, the people who look after the building, and the monthly satisfaction survey.",
+    cta: "Meet the board",
+  },
 ] as const;
 
 function Index() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
-      <SiteHeader />
+      <SiteHeader variant="overlay" />
 
-      <section className="relative isolate">
+      {/* Cinematic full-viewport opening */}
+      <section className="chrome-dark relative isolate flex min-h-[100svh] flex-col justify-between overflow-hidden">
         <img
           src={heroTower}
           alt="The Raffles Residences Boston at 40 Trinity Place, illuminated above Back Bay at dusk"
           width={1600}
           height={912}
-          className="h-[70svh] max-h-[820px] min-h-[440px] w-full object-cover"
+          className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/10" />
-        <div className="absolute inset-0 flex items-end">
-          <div className="mx-auto w-full max-w-7xl px-5 pb-10 text-center sm:px-8 sm:pb-16">
-            <p className="eyebrow">Private Residents' Portal</p>
-            <h1 className="display-hero mx-auto mt-5 max-w-5xl">
-              At home in Boston,
-              <span className="block text-primary italic">cultivated around the world</span>
+        <div className="panel-scrim absolute inset-0 -z-10" />
+
+        <div />
+
+        <div className="mx-auto w-full max-w-5xl px-5 text-center sm:px-8">
+          <Reveal>
+            <h1 className="font-display text-[clamp(2rem,6.4vw,5rem)] leading-[1.06] font-light tracking-[0.06em] uppercase">
+              At home in Boston
             </h1>
-            <p className="measure mx-auto mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Board communications, the Raffles Concierge desk and a community register where every deed-holder's
-              proposal is heard, weighed and carried forward — forty Trinity Place, Back Bay.
+            <p className="mt-5 text-[0.7rem] tracking-[0.34em] uppercase sm:text-xs">Cultivated around the world</p>
+            <p className="measure mx-auto mt-8 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              The private residents' portal for forty Trinity Place — board communications, the concierge desk and a
+              community register where every deed-holder's proposal is heard.
             </p>
-          </div>
+          </Reveal>
+        </div>
+
+        <div className="flex flex-col items-center gap-4 pb-10 sm:pb-14">
+          <a
+            href="#select-your-path"
+            className="script inline-flex min-h-11 items-center text-xl sm:text-2xl"
+          >
+            Select your path
+          </a>
+          <span className="scroll-cue-line" aria-hidden="true" />
         </div>
       </section>
 
+      <main id="main-content" className="flex-1">
+        <h2 id="select-your-path" className="sr-only">
+          Select your path
+        </h2>
 
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 space-y-20 px-5 py-16 sm:px-8 md:space-y-28 md:py-24">
-        <section aria-labelledby="broadcasts-heading">
-          <p className="eyebrow">Board of Trustees</p>
-          <h2 id="broadcasts-heading" className="display-section mt-4">
-            Executive communications
-          </h2>
-          <div className="gold-rule mt-5" />
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {BROADCASTS.map((b) => (
-              <li key={b.id} className="border border-border bg-card p-7 transition-colors hover:border-primary/50">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="border border-primary px-2.5 py-1 text-[0.6rem] tracking-[0.2em] text-primary uppercase">
-                    {b.badge}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{b.date}</span>
-                </div>
-                <h3 className="mt-5 text-2xl leading-snug">{b.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.summary}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* Full-bleed panels, one per portal territory */}
+        {PATHS.map((p, i) => (
+          <section
+            key={p.to}
+            aria-labelledby={`panel-${p.to.slice(1)}`}
+            className="chrome-dark relative isolate flex min-h-[82svh] items-end overflow-hidden"
+          >
+            <img
+              src={p.image}
+              alt={p.alt}
+              width={1600}
+              height={1000}
+              loading="lazy"
+              className="absolute inset-0 -z-10 h-full w-full object-cover"
+            />
+            <div className="panel-scrim absolute inset-0 -z-10" />
 
-        <section aria-labelledby="notices-heading" className="border-t border-border pt-16">
-          <p className="eyebrow">Residences Office</p>
-          <h2 id="notices-heading" className="display-section mt-4">
-            Latest announcements
-          </h2>
-          <div className="gold-rule mt-5" />
-          <ul className="mt-10 space-y-4">
-            {ANNOUNCEMENTS.slice(0, 2).map((a) => (
-              <li key={a.id} className="border border-border bg-card p-6">
+            <div className="mx-auto w-full max-w-7xl px-5 pt-24 pb-14 sm:px-8 sm:pb-20">
+              <Reveal className={i % 2 === 1 ? "sm:ml-auto sm:max-w-xl sm:text-right" : "sm:max-w-xl"}>
+                <p className="eyebrow">{p.eyebrow}</p>
+                <h3 id={`panel-${p.to.slice(1)}`} className="display-section mt-4">
+                  {p.title}
+                </h3>
+                <p className="measure mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">{p.body}</p>
+                <Link to={p.to} className="btn-outline mt-8">
+                  {p.cta}
+                </Link>
+              </Reveal>
+            </div>
+          </section>
+        ))}
+
+        {/* Quiet editorial coda: latest word from the Residences Office */}
+        <section aria-labelledby="notices-heading" className="mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 md:py-28">
+          <Reveal>
+            <p className="eyebrow">Residences Office</p>
+            <h2 id="notices-heading" className="display-section mt-4">
+              Latest announcements
+            </h2>
+            <div className="gold-rule mt-5" />
+          </Reveal>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
+            {ANNOUNCEMENTS.slice(0, 2).map((a, i) => (
+              <Reveal as="li" key={a.id} delay={i * 120} className="border border-border bg-card p-6 sm:p-7">
                 <p className="eyebrow">
                   {a.author} · {a.date}
                 </p>
-                <h3 className="mt-2 text-2xl leading-snug">{a.title}</h3>
-                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">{a.body}</p>
-              </li>
+                <h3 className="mt-3 text-2xl leading-snug">{a.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.body}</p>
+              </Reveal>
             ))}
           </ul>
-          <Link
-            to="/management"
-            className="mt-8 inline-flex min-h-11 items-center border border-primary px-6 text-xs tracking-[0.18em] text-primary uppercase transition-colors hover:bg-primary hover:text-primary-foreground"
-          >
-            All announcements
-          </Link>
-        </section>
-
-        <section aria-labelledby="portal-heading" className="border-t border-border pt-16">
-          <p className="eyebrow">In Residence</p>
-          <h2 id="portal-heading" className="display-section mt-4">
-            Your portal
-          </h2>
-          <div className="gold-rule mt-5" />
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {QUICK_LINKS.map((l) => (
-              <li key={l.to}>
-                <Link
-                  to={l.to}
-                  className="flex h-full flex-col border border-border bg-card p-6 transition-colors hover:border-primary"
-                >
-                  <span className="text-xl text-primary">{l.label}</span>
-                  <span className="mt-2 text-sm leading-relaxed text-muted-foreground">{l.detail}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <Reveal delay={120}>
+            <Link
+              to="/management"
+              className="mt-10 inline-flex min-h-11 items-center border border-primary px-6 text-xs tracking-[0.18em] text-primary uppercase transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              All announcements
+            </Link>
+          </Reveal>
         </section>
       </main>
 
