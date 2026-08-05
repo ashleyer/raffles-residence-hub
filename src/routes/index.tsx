@@ -146,7 +146,6 @@ function Index() {
                 <h3 id={`panel-${p.to.slice(1)}`} className="display-section mt-4">
                   {p.title}
                 </h3>
-                <p className="measure mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">{p.body}</p>
                 <Link to={p.to} className="btn-outline mt-8">
                   {p.cta}
                 </Link>
@@ -155,34 +154,6 @@ function Index() {
           </section>
         ))}
 
-        {/* Quiet editorial coda: latest word from the Residences Office */}
-        <section aria-labelledby="notices-heading" className="mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 md:py-28">
-          <Reveal>
-            <p className="eyebrow">Residences Office</p>
-            <h2 id="notices-heading" className="display-section mt-4">
-              Latest announcements
-            </h2>
-            <div className="gold-rule mt-5" />
-          </Reveal>
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
-            {ANNOUNCEMENTS.slice(0, 2).map((a, i) => (
-              <Reveal as="li" key={a.id} delay={i * 120} className="border border-border bg-card p-6 sm:p-7">
-                <p className="eyebrow">
-                  {a.author} · {a.date}
-                </p>
-                <h3 className="mt-3 text-2xl leading-snug">{a.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.body}</p>
-              </Reveal>
-            ))}
-          </ul>
-          <Reveal delay={120}>
-            <Link
-              to="/management"
-              className="mt-10 inline-flex min-h-11 items-center border border-primary px-6 text-xs tracking-[0.18em] text-primary uppercase transition-colors hover:bg-primary hover:text-primary-foreground"
-            >
-              All announcements
-            </Link>
-          </Reveal>
         </section>
       </main>
 
