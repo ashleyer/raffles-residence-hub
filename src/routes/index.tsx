@@ -82,7 +82,7 @@ const PATHS = [
 
 function Index() {
   return (
-    <div className="flex min-h-dvh flex-col bg-background">
+    <div className="relative flex min-h-dvh flex-col bg-background">
       <SiteHeader variant="overlay" />
 
       {/* Cinematic full-viewport opening */}
