@@ -8,8 +8,8 @@ export function SiteFooter() {
           src={rafflesLogo}
           alt="The Raffles Residences Boston"
           loading="lazy"
-          width={1152}
-          height={576}
+          width={1200}
+          height={896}
           className="h-12 w-auto invert"
         />
         <p className="mt-6 text-xs leading-relaxed tracking-[0.16em] text-muted-foreground uppercase">
