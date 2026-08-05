@@ -68,7 +68,7 @@ function AmenitiesPage() {
         guests: Math.max(1, Number(guests) || 1),
         unit: unit.trim(),
         catering,
-        notes: notes.trim() || undefined,
+        ...(notes.trim() ? { notes: notes.trim() } : {}),
       },
       ...prev,
     ]);
