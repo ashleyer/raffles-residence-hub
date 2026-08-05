@@ -27,10 +27,13 @@ export function SiteHeader() {
     <header className="chrome-dark border-b border-border">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
         <Link to="/" className="block">
-          <p className="font-display text-2xl tracking-[0.42em] text-primary">RAFFLES</p>
-          <p className="mt-1 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
-            The Residences · Boston
-          </p>
+          <img
+            src={rafflesLogo}
+            alt="The Raffles Residences Boston"
+            width={1152}
+            height={576}
+            className="h-14 w-auto invert md:h-16"
+          />
         </Link>
 
         <div className="flex items-center gap-3">
