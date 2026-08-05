@@ -50,16 +50,36 @@ export function SiteFooter() {
           </DialogHeader>
           <ul className="space-y-3 text-sm">
             <li>
-              <a className="text-primary underline underline-offset-4" href="mailto:ashleye.romano@gmail.com">
+              <a
+                className="text-primary underline underline-offset-4"
+                href="mailto:ashleye.romano@gmail.com"
+              >
                 ashleye.romano@gmail.com
               </a>
             </li>
-            <li>
+            <li className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <a className="text-primary underline underline-offset-4" href="tel:+19788575775">
                 Call or text: 978-857-5775
               </a>
+              <button
+                type="button"
+                onClick={async () => {
+                  const number = "978-857-5775";
+                  try {
+                    await navigator.clipboard.writeText(number);
+                    toast.success("Phone number copied");
+                  } catch {
+                    toast.error(`Copy failed — the number is ${number}`);
+                  }
+                }}
+                className="inline-flex min-h-11 items-center gap-1.5 text-xs tracking-[0.12em] text-muted-foreground uppercase transition-colors hover:text-foreground"
+              >
+                <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                Copy phone number
+              </button>
             </li>
           </ul>
+
         </DialogContent>
       </Dialog>
     </footer>
