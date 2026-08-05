@@ -179,6 +179,6 @@ export function SiteHeader() {
           </div>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
