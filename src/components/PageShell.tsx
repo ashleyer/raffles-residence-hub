@@ -42,8 +42,9 @@ export function SectionCard({
   id?: string;
 }) {
   return (
-    <section id={id} className="border border-border bg-card p-7" aria-labelledby={`${id ?? title}-heading`}>
-      <h2 id={`${id ?? title}-heading`} className="text-2xl">
+    <section id={id} className="border border-border bg-card p-5 sm:p-7" aria-labelledby={`${id ?? title}-heading`}>
+      <h2 id={`${id ?? title}-heading`} className="text-xl sm:text-2xl">
+
         {title}
       </h2>
       {description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>}
