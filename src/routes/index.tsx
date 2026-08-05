@@ -101,9 +101,9 @@ function Index() {
             </h1>
             <p className="mt-5 text-[0.7rem] tracking-[0.34em] uppercase sm:text-xs">Cultivated around the world</p>
             <p className="measure mx-auto mt-8 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              The private residents' portal for forty Trinity Place — board communications, the concierge desk and a
-              community register where every deed-holder's proposal is heard.
+              The private residents' portal for forty Trinity Place.
             </p>
+
           </Reveal>
         </div>
 
