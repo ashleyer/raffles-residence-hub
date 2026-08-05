@@ -102,7 +102,7 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
             alt="The Raffles Residences Boston"
             width={1200}
             height={896}
-            className="h-12 w-auto sm:h-14 md:h-16"
+            className={`h-12 w-auto sm:h-14 md:h-16 ${overlay ? "brightness-0 invert" : ""}`}
           />
         </Link>
 
@@ -125,21 +125,24 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
       </div>
 
       {/* Slim desktop rail of primary destinations */}
-      <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
-        <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
-          {PRIMARY.map((item) => (
-            <li key={item.to}>
-              <Link
-                to={item.to}
-                activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
-                className="nav-link inline-flex min-h-11 items-center"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {!overlay && (
+        <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
+          <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
+            {PRIMARY.map((item) => (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
+                  className="nav-link inline-flex min-h-11 items-center"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
     </header>
 
       {/* Full-screen navigation overlay */}
