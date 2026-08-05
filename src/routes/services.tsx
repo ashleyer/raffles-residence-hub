@@ -272,8 +272,8 @@ function MailSection() {
         Mail & package notifications
       </h2>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        The package room is attended 7:00 AM – 10:00 PM. Anything arriving outside those hours is held at the concierge
-        desk and appears here as soon as it is logged.
+        Deliveries are received at the concierge desk and appear here as soon as they are logged. Request delivery to
+        your residence or collect at your convenience.
       </p>
       <ul className="mt-8 space-y-4" aria-live="polite">
         {parcels.map((p) => (
