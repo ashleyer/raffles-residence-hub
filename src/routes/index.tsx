@@ -86,11 +86,12 @@ function Index() {
           <div className="gold-rule mt-5" />
           <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["Raffles Butler", "Round-the-clock personal service for every residence."],
-              ["Guerlain Spa", "Priority treatment allocation for in-residence members."],
-              ["Sky Lobby", "Seventeenth-floor lounge, terrace and private dining."],
-              ["Arrival Court", "Valet, porterage and secure parcel handling."],
+              ["Raffles Butler", "Legendary, discreet service attending every residence around the clock."],
+              ["Guerlain Spa", "Twenty-metre lap pool, hot tub, sauna and treatment suites on the wellness level."],
+              ["Long Bar & Terrace", "All-day dining, heritage mixology and sunset Champagne above Back Bay."],
+              ["La Padrona & Blind Duck", "Michelin-recommended Italian, and an intimate speakeasy by introduction."],
             ].map(([t, d]) => (
+
               <div key={t}>
                 <h3 className="text-xl text-primary">{t}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{d}</p>
