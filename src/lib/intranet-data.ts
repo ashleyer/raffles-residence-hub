@@ -75,9 +75,9 @@ export const CATEGORIES = [
 export const BROADCASTS: Broadcast[] = [
   {
     id: 1,
-    title: "Sky Lobby Terrace Reopening",
+    title: "Long Bar Terrace Reopening",
     summary:
-      "The 17th-floor terrace returns to residents on the 12th following completion of the stone restoration programme. Evening service resumes at 5:00 PM daily.",
+      "The terrace above Back Bay returns to residents on the 12th following completion of the stone restoration programme. Evening service resumes at 5:00 PM daily.",
     badge: "Amenity",
     date: "March 4",
   },
