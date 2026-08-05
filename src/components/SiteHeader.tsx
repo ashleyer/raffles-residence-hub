@@ -14,7 +14,7 @@ export function SiteHeader() {
         <Link to="/" className="block">
           <p className="font-display text-2xl tracking-[0.42em] text-primary">RAFFLES</p>
           <p className="mt-1 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
-            Boston Residences · Intranet
+            The Residences · Boston
           </p>
         </Link>
         <nav aria-label="Primary" className="flex flex-wrap gap-6 text-xs tracking-[0.22em] uppercase md:gap-9">

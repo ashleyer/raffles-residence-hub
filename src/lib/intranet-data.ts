@@ -132,38 +132,38 @@ export const SEED_SUGGESTIONS: Suggestion[] = [
 
 export const AMENITIES: Amenity[] = [
   {
-    id: "private-dining",
-    name: "Private Dining Room",
-    location: "Seventeenth Floor · Sky Lobby",
+    id: "long-bar",
+    name: "Long Bar & Terrace",
+    location: "Perched above Back Bay",
     description:
-      "Seats fourteen beneath the Back Bay skyline, with menus composed by the hotel kitchen and service by the residence butler.",
+      "Raffles heritage meets Boston energy: classic mixology in the spirit of the Singapore Sling, New England small plates, and sunset Champagne on the terrace.",
     hours: "11:00 AM – 10:00 PM daily",
     slots: ["Luncheon · 12:00", "Aperitif · 17:00", "Dinner · 19:30"],
   },
   {
     id: "guerlain-spa",
-    name: "Guerlain Spa Suite",
-    location: "Fourth Floor · Wellness Level",
+    name: "Guerlain Spa",
+    location: "Wellness Level · Residents' allocation",
     description:
-      "Residents' allocation for the treatment suite, thermal circuit and relaxation gallery, held apart from hotel inventory.",
+      "A full destination wellness experience — treatment suites, the twenty-metre indoor lap pool, hot tub and sauna, held apart from hotel inventory.",
     hours: "7:00 AM – 8:00 PM daily",
     slots: ["Morning · 08:00", "Midday · 12:30", "Evening · 18:00"],
   },
   {
-    id: "screening-room",
-    name: "Screening Room",
-    location: "Third Floor · Residents' Club",
+    id: "la-padrona",
+    name: "La Padrona — Private Table",
+    location: "Michelin-recommended Italian",
     description:
-      "Twenty velvet seats, Dolby Atmos and a projection booth attended by the club steward for private engagements.",
+      "The chef's table held for residences, with menus composed by the kitchen and service by the Raffles Butler.",
     hours: "10:00 AM – 11:00 PM daily",
     slots: ["Matinée · 14:00", "Evening · 19:00", "Late · 21:30"],
   },
   {
-    id: "board-room",
-    name: "Trustees' Board Room",
-    location: "Seventeenth Floor · East Wing",
+    id: "blind-duck",
+    name: "Blind Duck Speakeasy",
+    location: "By introduction only",
     description:
-      "A panelled room for committee sittings, private meetings and the reading of the residence accounts.",
+      "An intimate, design-forward cocktail room reserved for residents and their guests on request of the concierge.",
     hours: "8:00 AM – 7:00 PM weekdays",
     slots: ["Morning · 09:00", "Afternoon · 14:00", "Evening · 17:30"],
   },
@@ -172,8 +172,8 @@ export const AMENITIES: Amenity[] = [
 export const SEED_BOOKINGS: Booking[] = [
   {
     id: 1,
-    amenityId: "private-dining",
-    amenityName: "Private Dining Room",
+    amenityId: "long-bar",
+    amenityName: "Long Bar & Terrace",
     date: "2026-08-08",
     slot: "Dinner · 19:30",
     guests: 8,
@@ -181,8 +181,8 @@ export const SEED_BOOKINGS: Booking[] = [
   },
   {
     id: 2,
-    amenityId: "screening-room",
-    amenityName: "Screening Room",
+    amenityId: "la-padrona",
+    amenityName: "La Padrona — Private Table",
     date: "2026-08-09",
     slot: "Evening · 19:00",
     guests: 12,
