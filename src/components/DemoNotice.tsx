@@ -25,27 +25,30 @@ export function DemoBanner() {
   if (dismissed) return null;
 
   return (
-    <div className="relative border-b border-border bg-muted/60 px-10 py-2 text-center sm:px-12">
-      <p className="text-[0.625rem] leading-relaxed tracking-[0.18em] text-muted-foreground uppercase">
-        Demo Site Only: All information is simulated and not real
-      </p>
-      <button
-        type="button"
-        aria-label="Dismiss demo notice"
-        onClick={() => {
-          setDismissed(true);
-          try {
-            localStorage.setItem(BANNER_KEY, "1");
-          } catch {
-            /* ignore */
-          }
-        }}
-        className="absolute top-1/2 right-1 flex h-9 w-9 -translate-y-1/2 items-center justify-center text-muted-foreground transition-colors hover:text-foreground sm:right-3"
-      >
-        <X className="h-3.5 w-3.5" aria-hidden="true" />
-      </button>
+    <div className="w-full border-b border-border bg-muted/60">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-2 py-1.5 pr-1 pl-4 sm:gap-4 sm:py-2 sm:pr-2 sm:pl-6">
+        <p className="min-w-0 flex-1 text-center text-[0.6875rem] leading-snug tracking-[0.12em] text-balance text-muted-foreground uppercase sm:text-[0.6875rem] sm:tracking-[0.18em]">
+          Demo Site Only: All information is simulated and not real
+        </p>
+        <button
+          type="button"
+          aria-label="Dismiss demo notice"
+          onClick={() => {
+            setDismissed(true);
+            try {
+              localStorage.setItem(BANNER_KEY, "1");
+            } catch {
+              /* ignore */
+            }
+          }}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
+        >
+          <X className="h-3.5 w-3.5" aria-hidden="true" />
+        </button>
+      </div>
     </div>
   );
+
 }
 
 
