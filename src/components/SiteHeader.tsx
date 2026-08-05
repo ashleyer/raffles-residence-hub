@@ -132,6 +132,7 @@ export function SiteHeader() {
           ))}
         </ul>
       </nav>
+    </header>
 
       {/* Full-screen navigation overlay */}
       <div
