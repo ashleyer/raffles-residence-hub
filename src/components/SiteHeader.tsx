@@ -9,7 +9,7 @@ const NAV = [
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-border/70 bg-emerald-deep">
+    <header className="chrome-dark border-b border-border">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
         <Link to="/" className="block">
           <p className="font-display text-2xl tracking-[0.42em] text-primary">RAFFLES</p>
