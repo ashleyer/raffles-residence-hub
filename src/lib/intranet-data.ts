@@ -24,6 +24,8 @@ export type Amenity = {
   description: string;
   hours: string;
   slots: string[];
+  image: string;
+  service?: string;
 };
 
 export type Booking = {
@@ -34,7 +36,31 @@ export type Booking = {
   slot: string;
   guests: number;
   unit: string;
+  catering: string;
+  notes?: string;
 };
+
+export type ResidentEvent = {
+  id: number;
+  title: string;
+  detail: string;
+  location: string;
+  date: string;
+  time: string;
+  capacity: number;
+  attending: number;
+  image: string;
+};
+
+export type EventIdea = {
+  id: number;
+  title: string;
+  body: string;
+  unit?: string;
+  anonymous: boolean;
+  interest: number;
+};
+
 
 export type ConciergeRequest = {
   id: number;
