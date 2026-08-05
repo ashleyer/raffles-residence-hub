@@ -139,3 +139,14 @@
   width: 3rem;
   background: linear-gradient(90deg, var(--gold), transparent);
 }
+
+/* Dark emerald chrome (masthead/footer) with inverted token scope. */
+@utility chrome-dark {
+  background-color: var(--emerald-deep);
+  color: var(--ivory);
+  --foreground: oklch(0.96 0.011 92);
+  --muted-foreground: oklch(0.8 0.02 100);
+  --primary: oklch(0.78 0.09 88);
+  --gold: oklch(0.78 0.09 88);
+  --border: oklch(0.32 0.035 158);
+}
