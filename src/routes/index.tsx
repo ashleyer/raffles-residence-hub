@@ -78,7 +78,7 @@ function Index() {
           <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {BROADCASTS.map((b) => (
               <li key={b.id} className="border border-border bg-card p-7 transition-colors hover:border-primary/50">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="border border-primary px-2.5 py-1 text-[0.6rem] tracking-[0.2em] text-primary uppercase">
                     {b.badge}
                   </span>
