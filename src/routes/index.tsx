@@ -68,10 +68,10 @@ function Index() {
       </section>
 
 
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 space-y-24 px-6 py-20">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 space-y-20 px-5 py-16 sm:px-8 md:space-y-28 md:py-24">
         <section aria-labelledby="broadcasts-heading">
           <p className="eyebrow">Board of Trustees</p>
-          <h2 id="broadcasts-heading" className="mt-3 text-4xl">
+          <h2 id="broadcasts-heading" className="display-section mt-4">
             Executive communications
           </h2>
           <div className="gold-rule mt-5" />
@@ -93,7 +93,7 @@ function Index() {
 
         <section aria-labelledby="notices-heading" className="border-t border-border pt-16">
           <p className="eyebrow">Residences Office</p>
-          <h2 id="notices-heading" className="mt-3 text-4xl">
+          <h2 id="notices-heading" className="display-section mt-4">
             Latest announcements
           </h2>
           <div className="gold-rule mt-5" />
@@ -118,7 +118,7 @@ function Index() {
 
         <section aria-labelledby="portal-heading" className="border-t border-border pt-16">
           <p className="eyebrow">In Residence</p>
-          <h2 id="portal-heading" className="mt-3 text-4xl">
+          <h2 id="portal-heading" className="display-section mt-4">
             Your portal
           </h2>
           <div className="gold-rule mt-5" />
