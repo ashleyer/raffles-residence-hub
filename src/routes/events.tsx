@@ -103,7 +103,7 @@ function EventsPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
         <p className="eyebrow">Residents' Calendar</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Events & gatherings</h1>
         <div className="gold-rule mt-5" />
@@ -127,7 +127,7 @@ function EventsPage() {
           <p className="pb-3 text-xs text-muted-foreground">Applied to each RSVP you place.</p>
         </div>
 
-        <ul className="mt-8 grid gap-6 md:grid-cols-3">
+        <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {events.map((e) => {
             const mine = rsvped[e.id];
             const remaining = e.capacity - e.attending;

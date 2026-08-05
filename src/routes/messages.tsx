@@ -49,7 +49,7 @@ function MessagesBody() {
   const active = threads.find((t) => t.id === activeId) ?? null;
 
   return (
-    <div className="mt-12 grid gap-8 lg:grid-cols-[320px_1fr]">
+    <div className="mt-12 grid gap-8 md:grid-cols-[260px_minmax(0,1fr)] lg:grid-cols-[320px_minmax(0,1fr)]">
       <nav aria-label="Conversations" className="border border-border bg-card p-5">
         <h2 className="text-xl">Conversations</h2>
         <ul className="mt-4 space-y-1">

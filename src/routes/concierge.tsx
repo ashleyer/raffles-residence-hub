@@ -81,7 +81,7 @@ function ConciergePage() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
         <p className="eyebrow">Raffles Concierge</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Concierge requests</h1>
         <div className="gold-rule mt-5" />
@@ -90,7 +90,7 @@ function ConciergePage() {
           are acknowledged within fifteen minutes.
         </p>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1.5fr_1fr]">
+        <div className="mt-12 grid gap-10 md:gap-12 lg:grid-cols-[1.5fr_1fr]">
           <section aria-labelledby="register">
             <h2 id="register" className="text-2xl">
               Request register

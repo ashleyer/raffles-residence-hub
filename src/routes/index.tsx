@@ -75,7 +75,7 @@ function Index() {
             Executive communications
           </h2>
           <div className="gold-rule mt-5" />
-          <ul className="mt-10 grid gap-6 md:grid-cols-3">
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {BROADCASTS.map((b) => (
               <li key={b.id} className="border border-border bg-card p-7 transition-colors hover:border-primary/50">
                 <div className="flex items-center justify-between">
