@@ -18,6 +18,7 @@ import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as ProposalsRouteImport } from './routes/proposals'
@@ -68,6 +69,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManagementRoute = ManagementRouteImport.update({
+  id: '/management',
+  path: '/management',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
   '/login': typeof LoginRoute
+  '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
@@ -114,6 +121,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
   '/login': typeof LoginRoute
+  '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
   '/login': typeof LoginRoute
+  '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/governance'
     | '/login'
+    | '/management'
     | '/marketplace'
     | '/messages'
     | '/proposals'
@@ -162,6 +172,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/governance'
     | '/login'
+    | '/management'
     | '/marketplace'
     | '/messages'
     | '/proposals'
@@ -177,6 +188,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/governance'
     | '/login'
+    | '/management'
     | '/marketplace'
     | '/messages'
     | '/proposals'
@@ -193,6 +205,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   GovernanceRoute: typeof GovernanceRoute
   LoginRoute: typeof LoginRoute
+  ManagementRoute: typeof ManagementRoute
   MarketplaceRoute: typeof MarketplaceRoute
   MessagesRoute: typeof MessagesRoute
   ProposalsRoute: typeof ProposalsRoute
@@ -264,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/management': {
+      id: '/management'
+      path: '/management'
+      fullPath: '/management'
+      preLoaderRoute: typeof ManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/marketplace': {
       id: '/marketplace'
       path: '/marketplace'
@@ -305,6 +325,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   GovernanceRoute: GovernanceRoute,
   LoginRoute: LoginRoute,
+  ManagementRoute: ManagementRoute,
   MarketplaceRoute: MarketplaceRoute,
   MessagesRoute: MessagesRoute,
   ProposalsRoute: ProposalsRoute,
