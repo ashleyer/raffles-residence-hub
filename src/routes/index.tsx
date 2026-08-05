@@ -95,14 +95,22 @@ function Index() {
               </div>
             ))}
           </div>
+          <div className="mt-10 flex flex-wrap gap-4 text-xs tracking-[0.18em] uppercase">
+            <Link to="/amenities" className="border border-primary px-6 py-3 text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+              Reserve an amenity
+            </Link>
+            <Link to="/concierge" className="border border-border px-6 py-3 text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              Concierge desk
+            </Link>
+            <Link to="/governance" className="border border-border px-6 py-3 text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              Governance & ballots
+            </Link>
+          </div>
         </section>
       </main>
 
-      <footer className="border-t border-border bg-emerald-deep">
-        <div className="mx-auto max-w-7xl px-6 py-10 text-xs tracking-[0.16em] text-muted-foreground uppercase">
-          Raffles Boston Residences · 40 Trinity Place, Back Bay · Residents' Intranet
-        </div>
-      </footer>
+      <SiteFooter />
+
     </div>
   );
 }
