@@ -54,7 +54,7 @@ export function SiteHeader() {
           ) : (
             <Link
               to="/login"
-              className="inline-flex min-h-11 items-center border border-primary px-4 text-xs tracking-[0.18em] text-primary uppercase transition-colors hover:bg-primary hover:text-primary-foreground"
+              className="inline-flex min-h-11 items-center border border-primary bg-primary px-4 text-xs tracking-[0.18em] text-emerald-deep uppercase transition-colors hover:bg-transparent hover:text-primary"
             >
               Sign in
             </Link>
