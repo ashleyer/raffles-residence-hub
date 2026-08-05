@@ -1,4 +1,11 @@
+import { useState } from "react";
 import rafflesLogo from "@/assets/raffles-logo.png";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function SiteFooter() {
   return (
