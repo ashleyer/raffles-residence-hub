@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { PortalProvider } from "@/lib/portal-store";
+import { DemoBanner, DemoModal } from "@/components/DemoNotice";
 
 
 
@@ -136,6 +137,8 @@ function RootComponent() {
         >
           Skip to main content
         </a>
+        <DemoBanner />
+        <DemoModal />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <Toaster position="top-center" />

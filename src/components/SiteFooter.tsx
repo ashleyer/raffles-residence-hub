@@ -1,6 +1,14 @@
+import { useState } from "react";
 import rafflesLogo from "@/assets/raffles-logo.png";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function SiteFooter() {
+  const [devOpen, setDevOpen] = useState(false);
   return (
     <footer className="chrome-dark mt-24">
       <div className="mx-auto max-w-7xl px-5 py-16 text-center sm:px-8">
@@ -20,7 +28,40 @@ export function SiteFooter() {
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>
+        <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
+          className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
+          built with 🤍 in Raffles Residence Boston, Unit 22H by{" "}
+          <button
+            type="button"
+            onClick={() => setDevOpen(true)}
+            className="underline underline-offset-4 hover:no-underline"
+          >
+            Ashley Romano
+          </button>
+        </p>
       </div>
+
+      <Dialog open={devOpen} onOpenChange={setDevOpen}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-display text-xl font-light">
+              GitHub Repo/Comments/Questions for Dev?
+            </DialogTitle>
+          </DialogHeader>
+          <ul className="space-y-3 text-sm">
+            <li>
+              <a className="text-primary underline underline-offset-4" href="mailto:ashleye.romano@gmail.com">
+                ashleye.romano@gmail.com
+              </a>
+            </li>
+            <li>
+              <a className="text-primary underline underline-offset-4" href="tel:+19788575775">
+                Call or text: 978-857-5775
+              </a>
+            </li>
+          </ul>
+        </DialogContent>
+      </Dialog>
     </footer>
   );
 }
