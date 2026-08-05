@@ -295,7 +295,7 @@ function MailSection() {
                   className="min-h-11 tracking-[0.16em] uppercase"
                   onClick={() => {
                     requestParcelDelivery(p.id);
-                    toast.success("A butler will bring it up.");
+                    toast.success("A concierge will bring it up.");
                   }}
                 >
                   Deliver to my residence

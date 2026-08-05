@@ -179,9 +179,9 @@ export const AMENITIES: Amenity[] = [
   {
     id: "private-dining",
     name: "Private Dining — In-Residence",
-    location: "Served in your residence by the Raffles Butler",
+    location: "Served in your residence by the Raffles Concierge",
     description:
-      "A full in-room dining service: à la carte from the house kitchen, multi-course menus for seated dinners at home, and butler-served breakfast. Table dressing, glassware and clearing are included.",
+      "A full in-room dining service: à la carte from the house kitchen, multi-course menus for seated dinners at home, and concierge-served breakfast. Table dressing, glassware and clearing are included.",
     hours: "6:30 AM – 11:00 PM daily",
     service: "Kitchen closes at 11:00 PM; overnight requests are limited to a cold menu.",
     slots: ["Breakfast · 08:00", "Luncheon · 12:30", "Dinner · 19:00", "Late supper · 21:30"],
@@ -212,7 +212,7 @@ export const AMENITIES: Amenity[] = [
     name: "La Padrona — Private Table",
     location: "Michelin-recommended Italian",
     description:
-      "The chef's table held for residences, with menus composed by the kitchen and service by the Raffles Butler.",
+      "The chef's table held for residences, with menus composed by the kitchen and service by the Raffles Concierge.",
     hours: "10:00 AM – 11:00 PM daily",
     slots: ["Matinée · 14:00", "Evening · 19:00", "Late · 21:30"],
     image: laPadronaImg,

@@ -23,7 +23,7 @@ export const Route = createFileRoute("/concierge")({
       { property: "og:title", content: "Concierge Requests — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "Round-the-clock butler service requests for residents of Raffles Boston.",
+        content: "Round-the-clock concierge service requests for residents of Raffles Boston.",
       },
     ],
   }),
@@ -65,7 +65,7 @@ function ConciergePage() {
       ...prev,
     ]);
     setDetail("");
-    toast.success("Request lodged with the butler's desk.");
+    toast.success("Request lodged with the concierge desk.");
   };
 
   const advance = (id: number) => {
@@ -82,11 +82,11 @@ function ConciergePage() {
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
       <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
-        <p className="eyebrow">Raffles Butler</p>
+        <p className="eyebrow">Raffles Concierge</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Concierge requests</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Every residence is attended around the clock. Requests lodged here reach the butler's desk immediately and
+          Every residence is attended around the clock. Requests lodged here reach the concierge desk immediately and
           are acknowledged within fifteen minutes.
         </p>
 
@@ -154,7 +154,7 @@ function ConciergePage() {
 
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <form onSubmit={submit} className="border border-border bg-card p-7">
-              <p className="eyebrow">Butler's Desk</p>
+              <p className="eyebrow">Concierge Desk</p>
               <h2 className="mt-3 text-2xl">Lodge a request</h2>
               <div className="gold-rule mt-4" />
 
@@ -182,7 +182,7 @@ function ConciergePage() {
                     rows={4}
                     value={detail}
                     onChange={(e) => setDetail(e.target.value)}
-                    placeholder="Describe the request for the butler"
+                    placeholder="Describe the request for the concierge"
                   />
                 </div>
 
