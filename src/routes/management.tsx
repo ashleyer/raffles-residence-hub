@@ -93,7 +93,7 @@ function ManagementPage() {
         <PeopleGrid
           headingId="staff-heading"
           heading="The residences team"
-          description="The Raffles team on site every day, from the butler desk to building engineering."
+          description="The Raffles team on site every day, from the concierge desk to building engineering."
           people={STAFF}
         />
       </TabPanel>

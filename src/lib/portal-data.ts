@@ -123,8 +123,8 @@ export const STAFF: Person[] = [
   {
     id: 2,
     name: "Amelia Reyes",
-    role: "Head Raffles Butler",
-    bio: "Leads the butler team: in-residence dining, packing, unpacking and the daily rhythm of the residences.",
+    role: "Head Concierge",
+    bio: "Leads the concierge team: in-residence dining, packing, unpacking and the daily rhythm of the residences.",
     photo: staff2,
   },
   {
@@ -323,7 +323,7 @@ export type Parcel = {
   description: string;
   arrived: string;
   unit: string;
-  status: "Awaiting collection" | "Butler delivery requested" | "Delivered to residence";
+  status: "Awaiting collection" | "Concierge delivery requested" | "Delivered to residence";
 };
 
 export const SEED_PARCELS: Parcel[] = [
@@ -341,7 +341,7 @@ export const SEED_PARCELS: Parcel[] = [
     description: "Garment box",
     arrived: "Today, 9:40 AM",
     unit: "Residence 34B",
-    status: "Butler delivery requested",
+    status: "Concierge delivery requested",
   },
   {
     id: 3,
@@ -612,7 +612,7 @@ export const SEED_THREADS: Thread[] = [
 export type SurveyQuestion = { id: string; prompt: string };
 
 export const SURVEY_QUESTIONS: SurveyQuestion[] = [
-  { id: "concierge", prompt: "Responsiveness of the concierge and butler team" },
+  { id: "concierge", prompt: "Responsiveness of the concierge team" },
   { id: "amenities", prompt: "Condition and availability of the amenities" },
   { id: "maintenance", prompt: "Speed and quality of maintenance work" },
   { id: "communication", prompt: "Clarity of communication from management" },
@@ -634,7 +634,7 @@ export const SEED_SURVEY_RESPONSES: SurveyResponse[] = [
     id: 1,
     month: "August 2026",
     ratings: { concierge: 5, amenities: 4, maintenance: 4, communication: 3, value: 4 },
-    comment: "The butler team has been exceptional this month.",
+    comment: "The concierge team has been exceptional this month.",
     submittedBy: "Anonymous",
   },
   {

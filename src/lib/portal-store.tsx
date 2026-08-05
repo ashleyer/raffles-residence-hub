@@ -182,7 +182,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       parcels,
       requestParcelDelivery: (id) =>
         setParcels((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, status: "Butler delivery requested" } : p)),
+          prev.map((p) => (p.id === id ? { ...p, status: "Concierge delivery requested" } : p)),
         ),
       lostFound,
       addLostFound: (i) => setLostFound((prev) => [{ ...i, id: nextId(), status: "Open" }, ...prev]),

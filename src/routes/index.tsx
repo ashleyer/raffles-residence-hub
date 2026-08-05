@@ -60,7 +60,7 @@ function Index() {
               <span className="block text-primary italic">cultivated around the world</span>
             </h1>
             <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Board communications, the Raffles Butler desk and a community register where every deed-holder's
+              Board communications, the Raffles Concierge desk and a community register where every deed-holder's
               proposal is heard, weighed and carried forward — forty Trinity Place, Back Bay.
             </p>
           </div>

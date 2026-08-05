@@ -91,7 +91,7 @@ function AmenitiesPage() {
         <h1 className="mt-3 text-4xl md:text-5xl">Reservation requests</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Requests are submitted to the Residences Office and confirmed by the Raffles Butler. Catering may be
+          Requests are submitted to the Residences Office and confirmed by the Raffles Concierge. Catering may be
           attached to any sitting. Releases made before noon return the window to the house immediately.
         </p>
 
@@ -264,7 +264,7 @@ function AmenitiesPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Notes for the butler</Label>
+                  <Label htmlFor="notes">Notes for the concierge</Label>
                   <Textarea
                     id="notes"
                     value={notes}
