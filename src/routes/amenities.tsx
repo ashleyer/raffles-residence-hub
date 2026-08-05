@@ -1,13 +1,14 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { CalendarCheck, Clock, MapPin } from "lucide-react";
+import { CalendarCheck, Clock, Info, MapPin, UtensilsCrossed } from "lucide-react";
 import { toast } from "sonner";
-import { AMENITIES, SEED_BOOKINGS, type Booking } from "@/lib/intranet-data";
+import { AMENITIES, CATERING_OPTIONS, SEED_BOOKINGS, type Booking } from "@/lib/intranet-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/amenities")({
   head: () => ({
@@ -16,12 +17,13 @@ export const Route = createFileRoute("/amenities")({
       {
         name: "description",
         content:
-          "Reserve the private dining room, Guerlain spa suite, screening room and trustees' board room at Raffles Boston Residences.",
+          "Submit reservation requests with catering options for the Residents' Lounge on Floor 21, private in-residence dining, Long Bar & Terrace, Guerlain Spa and La Padrona.",
       },
       { property: "og:title", content: "Amenity Reservations — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "Residents' booking desk for private dining, spa, screening room and board room.",
+        content:
+          "Residents' booking desk: lounge, private dining, spa and restaurant requests with catering selections.",
       },
     ],
   }),
@@ -35,11 +37,10 @@ function AmenitiesPage() {
   const [slot, setSlot] = useState(AMENITIES[0]!.slots[0]!);
   const [guests, setGuests] = useState("2");
   const [unit, setUnit] = useState("");
+  const [catering, setCatering] = useState<string>(CATERING_OPTIONS[0]);
+  const [notes, setNotes] = useState("");
 
-  const amenity = useMemo(
-    () => AMENITIES.find((a) => a.id === amenityId) ?? AMENITIES[0]!,
-    [amenityId],
-  );
+  const amenity = useMemo(() => AMENITIES.find((a) => a.id === amenityId) ?? AMENITIES[0]!, [amenityId]);
 
   const selectAmenity = (id: string) => {
     const next = AMENITIES.find((a) => a.id === id) ?? AMENITIES[0]!;
@@ -66,12 +67,15 @@ function AmenitiesPage() {
         slot,
         guests: Math.max(1, Number(guests) || 1),
         unit: unit.trim(),
+        catering,
+        notes: notes.trim() || undefined,
       },
       ...prev,
     ]);
     setDate("");
     setUnit("");
-    toast.success(`${amenity.name} reserved. The concierge will confirm shortly.`);
+    setNotes("");
+    toast.success(`Request lodged for ${amenity.name}. The concierge will confirm shortly.`);
   };
 
   const release = (id: number) => {
@@ -84,11 +88,11 @@ function AmenitiesPage() {
       <SiteHeader />
       <main className="mx-auto max-w-7xl px-6 py-16">
         <p className="eyebrow">Residents' Booking Desk</p>
-        <h1 className="mt-3 text-4xl md:text-5xl">Amenity reservations</h1>
+        <h1 className="mt-3 text-4xl md:text-5xl">Reservation requests</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Sittings are held for deed-holders and confirmed by the residence butler. Releases made before noon
-          return the window to the house immediately.
+          Requests are submitted to the Residences Office and confirmed by the Raffles Butler. Catering may be
+          attached to any sitting. Releases made before noon return the window to the house immediately.
         </p>
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[1.5fr_1fr]">
@@ -96,43 +100,59 @@ function AmenitiesPage() {
             <h2 id="rooms" className="text-2xl">
               In residence
             </h2>
-            <ul className="mt-6 grid gap-5 sm:grid-cols-2">
+            <ul className="mt-6 grid gap-6 sm:grid-cols-2">
               {AMENITIES.map((a) => (
                 <li key={a.id}>
                   <article
-                    className={`h-full border p-6 transition-colors ${
+                    className={`flex h-full flex-col border transition-colors ${
                       a.id === amenityId ? "border-primary bg-card" : "border-border bg-card hover:border-primary/50"
                     }`}
                   >
-                    <h3 className="text-2xl leading-snug">{a.name}</h3>
-                    <p className="mt-2 flex items-center gap-2 text-xs tracking-wider text-muted-foreground uppercase">
-                      <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-                      {a.location}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.description}</p>
-                    <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                      <Clock className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
-                      {a.hours}
-                    </p>
-                    <Button
-                      variant="outline"
-                      onClick={() => selectAmenity(a.id)}
-                      className="mt-5 w-full tracking-[0.18em] uppercase"
-                    >
-                      {a.id === amenityId ? "Selected" : "Reserve this room"}
-                    </Button>
+                    <img
+                      src={a.image}
+                      alt={`${a.name} at The Raffles Residences Boston`}
+                      width={1200}
+                      height={800}
+                      loading="lazy"
+                      className="h-48 w-full object-cover"
+                    />
+                    <div className="flex flex-1 flex-col p-6">
+                      <h3 className="text-2xl leading-snug">{a.name}</h3>
+                      <p className="mt-2 flex items-center gap-2 text-xs tracking-wider text-muted-foreground uppercase">
+                        <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                        {a.location}
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.description}</p>
+                      <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                        <Clock className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                        {a.hours}
+                      </p>
+                      {a.service && (
+                        <p className="mt-3 flex gap-2 border-l-2 border-primary/50 pl-3 text-xs leading-relaxed text-muted-foreground">
+                          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                          {a.service}
+                        </p>
+                      )}
+                      <Button
+                        variant="outline"
+                        onClick={() => selectAmenity(a.id)}
+                        className="mt-5 w-full tracking-[0.18em] uppercase"
+                      >
+                        {a.id === amenityId ? "Selected" : "Request this room"}
+                      </Button>
+                    </div>
                   </article>
                 </li>
               ))}
             </ul>
 
-            <h2 className="mt-14 text-2xl">Held sittings</h2>
+            <h2 className="mt-14 text-2xl">Current bookings</h2>
             <div className="gold-rule mt-4" />
             <ul className="mt-6 space-y-3">
               {bookings.map((b) => (
                 <li
                   key={b.id}
-                  className="flex flex-wrap items-center justify-between gap-4 border border-border bg-card p-5"
+                  className="flex flex-wrap items-start justify-between gap-4 border border-border bg-card p-5"
                 >
                   <div>
                     <p className="flex items-center gap-2 text-lg">
@@ -142,6 +162,11 @@ function AmenitiesPage() {
                     <p className="mt-1 text-xs tracking-wider text-muted-foreground uppercase">
                       {b.date} · {b.slot} · {b.guests} guests · {b.unit}
                     </p>
+                    <p className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                      <UtensilsCrossed className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                      {b.catering}
+                    </p>
+                    {b.notes && <p className="mt-1 text-xs text-muted-foreground italic">{b.notes}</p>}
                   </div>
                   <Button variant="ghost" onClick={() => release(b.id)} className="tracking-[0.18em] uppercase">
                     Release
@@ -158,13 +183,13 @@ function AmenitiesPage() {
 
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <form onSubmit={submit} className="border border-border bg-card p-7">
-              <p className="eyebrow">Reservation</p>
+              <p className="eyebrow">Reservation request</p>
               <h2 className="mt-3 text-2xl">{amenity.name}</h2>
               <div className="gold-rule mt-4" />
 
               <div className="mt-6 space-y-5">
                 <div className="space-y-2">
-                  <Label htmlFor="amenity">Room</Label>
+                  <Label htmlFor="amenity">Room or service</Label>
                   <select
                     id="amenity"
                     value={amenityId}
@@ -201,12 +226,28 @@ function AmenitiesPage() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="catering">Catering</Label>
+                  <select
+                    id="catering"
+                    value={catering}
+                    onChange={(e) => setCatering(e.target.value)}
+                    className="h-11 w-full border border-input bg-transparent px-3 text-sm"
+                  >
+                    {CATERING_OPTIONS.map((c) => (
+                      <option key={c} value={c} className="bg-card">
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="guests">Guests</Label>
                   <Input
                     id="guests"
                     type="number"
                     min={1}
-                    max={20}
+                    max={60}
                     value={guests}
                     onChange={(e) => setGuests(e.target.value)}
                   />
@@ -222,8 +263,20 @@ function AmenitiesPage() {
                   />
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="notes">Notes for the butler</Label>
+                  <Textarea
+                    id="notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    maxLength={500}
+                    rows={3}
+                    placeholder="Dietary requirements, seating, floristry…"
+                  />
+                </div>
+
                 <Button type="submit" className="min-h-12 w-full tracking-[0.18em] uppercase">
-                  Hold this sitting
+                  Submit request
                 </Button>
               </div>
             </form>
