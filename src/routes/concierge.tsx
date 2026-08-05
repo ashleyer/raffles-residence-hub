@@ -196,7 +196,7 @@ function ConciergePage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-between border-t border-border pt-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
                   <Label htmlFor="priority" className="text-sm font-normal">
                     Priority attendance
                   </Label>
