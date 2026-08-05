@@ -95,11 +95,12 @@ export function TabBar({
                 }
               }
             }}
-            className={`min-h-11 border px-5 py-2 text-xs tracking-[0.16em] uppercase transition-colors ${
+            className={`min-h-11 shrink-0 snap-start border px-4 py-2 text-[0.65rem] tracking-[0.14em] whitespace-nowrap uppercase transition-colors sm:px-5 sm:text-xs sm:tracking-[0.16em] ${
               selected
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border text-muted-foreground hover:border-primary hover:text-primary"
             }`}
+
           >
             {t.label}
           </button>
