@@ -38,17 +38,15 @@ const PATHS = [
     image: residentsLounge,
     alt: "The Residents' Lounge on floor twenty-one, set for morning coffee",
     eyebrow: "Reservations",
-    title: "Amenities, reserved in a moment",
-    body: "The Residents' Lounge on twenty-one, the Guerlain Spa, La Padrona's private table and in-residence dining — with catering options and concierge notes attached to every request.",
-    cta: "Reserve an amenity",
+    title: "Amenities",
+    cta: "Reserve",
   },
   {
     to: "/events",
     image: longBar,
     alt: "The Long Bar dressed for a resident gathering",
     eyebrow: "Resident Life",
-    title: "Gatherings on the calendar",
-    body: "RSVP to house evenings, propose something for the committee to weigh, and see which neighbours are joining before you commit.",
+    title: "Events",
     cta: "See the calendar",
   },
   {
@@ -56,17 +54,15 @@ const PATHS = [
     image: privateDining,
     alt: "A private dining table laid in a residence",
     eyebrow: "In Residence",
-    title: "The concierge desk, always open",
-    body: "Call the car from valet, lodge maintenance and housekeeping requests, follow parcels held at the desk, and post to lost and found.",
-    cta: "Request a service",
+    title: "Concierge",
+    cta: "Make a request",
   },
   {
     to: "/community",
     image: laPadrona,
     alt: "Residents in conversation at a warmly lit dining room",
     eyebrow: "Community",
-    title: "Neighbours, on your terms",
-    body: "An opt-in directory, group and private messaging, interest circles in the member forum, and a marketplace for recommendations and sales.",
+    title: "Neighbours",
     cta: "Enter the community",
   },
   {
@@ -74,11 +70,11 @@ const PATHS = [
     image: guerlainSpa,
     alt: "A quiet corridor within the residences",
     eyebrow: "Governance",
-    title: "The board, in plain sight",
-    body: "Notices from the Residences Office, ballots and minutes, the people who look after the building, and the monthly satisfaction survey.",
+    title: "The Board",
     cta: "Meet the board",
   },
 ] as const;
+
 
 function Index() {
   return (
