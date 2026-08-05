@@ -10,14 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AmenitiesRouteImport } from './routes/amenities'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ConciergeRouteImport } from './routes/concierge'
+import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as ManagementRouteImport } from './routes/management'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as ProposalsRouteImport } from './routes/proposals'
+import { Route as ServicesRouteImport } from './routes/services'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AmenitiesRoute = AmenitiesRouteImport.update({
@@ -25,9 +39,19 @@ const AmenitiesRoute = AmenitiesRouteImport.update({
   path: '/amenities',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ConciergeRoute = ConciergeRouteImport.update({
   id: '/concierge',
   path: '/concierge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DirectoryRoute = DirectoryRouteImport.update({
+  id: '/directory',
+  path: '/directory',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -40,43 +64,152 @@ const GovernanceRoute = GovernanceRouteImport.update({
   path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManagementRoute = ManagementRouteImport.update({
+  id: '/management',
+  path: '/management',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProposalsRoute = ProposalsRouteImport.update({
+  id: '/proposals',
+  path: '/proposals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
+  '/community': typeof CommunityRoute
   '/concierge': typeof ConciergeRoute
+  '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
+  '/login': typeof LoginRoute
+  '/management': typeof ManagementRoute
+  '/marketplace': typeof MarketplaceRoute
+  '/messages': typeof MessagesRoute
+  '/proposals': typeof ProposalsRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
+  '/community': typeof CommunityRoute
   '/concierge': typeof ConciergeRoute
+  '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
+  '/login': typeof LoginRoute
+  '/management': typeof ManagementRoute
+  '/marketplace': typeof MarketplaceRoute
+  '/messages': typeof MessagesRoute
+  '/proposals': typeof ProposalsRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
+  '/community': typeof CommunityRoute
   '/concierge': typeof ConciergeRoute
+  '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
+  '/login': typeof LoginRoute
+  '/management': typeof ManagementRoute
+  '/marketplace': typeof MarketplaceRoute
+  '/messages': typeof MessagesRoute
+  '/proposals': typeof ProposalsRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/amenities' | '/concierge' | '/events' | '/governance'
+  fullPaths:
+    | '/'
+    | '/account'
+    | '/amenities'
+    | '/community'
+    | '/concierge'
+    | '/directory'
+    | '/events'
+    | '/governance'
+    | '/login'
+    | '/management'
+    | '/marketplace'
+    | '/messages'
+    | '/proposals'
+    | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/amenities' | '/concierge' | '/events' | '/governance'
-  id: '__root__' | '/' | '/amenities' | '/concierge' | '/events' | '/governance'
+  to:
+    | '/'
+    | '/account'
+    | '/amenities'
+    | '/community'
+    | '/concierge'
+    | '/directory'
+    | '/events'
+    | '/governance'
+    | '/login'
+    | '/management'
+    | '/marketplace'
+    | '/messages'
+    | '/proposals'
+    | '/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/account'
+    | '/amenities'
+    | '/community'
+    | '/concierge'
+    | '/directory'
+    | '/events'
+    | '/governance'
+    | '/login'
+    | '/management'
+    | '/marketplace'
+    | '/messages'
+    | '/proposals'
+    | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   AmenitiesRoute: typeof AmenitiesRoute
+  CommunityRoute: typeof CommunityRoute
   ConciergeRoute: typeof ConciergeRoute
+  DirectoryRoute: typeof DirectoryRoute
   EventsRoute: typeof EventsRoute
   GovernanceRoute: typeof GovernanceRoute
+  LoginRoute: typeof LoginRoute
+  ManagementRoute: typeof ManagementRoute
+  MarketplaceRoute: typeof MarketplaceRoute
+  MessagesRoute: typeof MessagesRoute
+  ProposalsRoute: typeof ProposalsRoute
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -88,6 +221,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/amenities': {
       id: '/amenities'
       path: '/amenities'
@@ -95,11 +235,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AmenitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/concierge': {
       id: '/concierge'
       path: '/concierge'
       fullPath: '/concierge'
       preLoaderRoute: typeof ConciergeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/directory': {
+      id: '/directory'
+      path: '/directory'
+      fullPath: '/directory'
+      preLoaderRoute: typeof DirectoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -116,15 +270,66 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/management': {
+      id: '/management'
+      path: '/management'
+      fullPath: '/management'
+      preLoaderRoute: typeof ManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proposals': {
+      id: '/proposals'
+      path: '/proposals'
+      fullPath: '/proposals'
+      preLoaderRoute: typeof ProposalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   AmenitiesRoute: AmenitiesRoute,
+  CommunityRoute: CommunityRoute,
   ConciergeRoute: ConciergeRoute,
+  DirectoryRoute: DirectoryRoute,
   EventsRoute: EventsRoute,
   GovernanceRoute: GovernanceRoute,
+  LoginRoute: LoginRoute,
+  ManagementRoute: ManagementRoute,
+  MarketplaceRoute: MarketplaceRoute,
+  MessagesRoute: MessagesRoute,
+  ProposalsRoute: ProposalsRoute,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

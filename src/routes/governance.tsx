@@ -55,9 +55,9 @@ function GovernancePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main className="mx-auto max-w-7xl px-6 py-16">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
         <p className="eyebrow">Board of Trustees</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Governance & ballots</h1>
         <div className="gold-rule mt-5" />
@@ -133,7 +133,7 @@ function GovernancePage() {
                     <FileText className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                     <div>
                       <p className="text-sm leading-snug">{d.title}</p>
-                      <p className="mt-1 text-xs tracking-wider text-muted-foreground/70 uppercase">
+                      <p className="mt-1 text-xs tracking-wider text-muted-foreground uppercase">
                         {d.kind} · {d.issued}
                       </p>
                     </div>

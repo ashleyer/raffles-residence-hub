@@ -101,9 +101,9 @@ function EventsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main className="mx-auto max-w-7xl px-6 py-16">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
         <p className="eyebrow">Residents' Calendar</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Events & gatherings</h1>
         <div className="gold-rule mt-5" />
