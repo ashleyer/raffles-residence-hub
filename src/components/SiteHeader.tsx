@@ -47,10 +47,11 @@ const PRIMARY = [
   { label: "Community", to: "/community" },
 ] as const;
 
-export function SiteHeader() {
+export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay" }) {
   const [open, setOpen] = useState(false);
   const { currentUser, signOut } = usePortal();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const overlay = variant === "overlay";
 
   useEffect(() => {
     if (!open) return;
@@ -68,7 +69,14 @@ export function SiteHeader() {
 
   return (
     <>
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
+    <header
+      className={
+        overlay
+          ? "chrome-dark absolute inset-x-0 top-0 z-40 bg-transparent"
+          : "sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm"
+      }
+    >
+
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-4 sm:px-8 md:py-6">
         <div className="flex min-w-0 items-center">
           <button
