@@ -5,7 +5,6 @@ import longBar from "@/assets/long-bar.jpg";
 import privateDining from "@/assets/private-dining.jpg";
 import laPadrona from "@/assets/la-padrona.jpg";
 import guerlainSpa from "@/assets/guerlain-spa.jpg";
-import { ANNOUNCEMENTS } from "@/lib/portal-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
