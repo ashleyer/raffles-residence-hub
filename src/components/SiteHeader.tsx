@@ -47,10 +47,11 @@ const PRIMARY = [
   { label: "Community", to: "/community" },
 ] as const;
 
-export function SiteHeader() {
+export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay" }) {
   const [open, setOpen] = useState(false);
   const { currentUser, signOut } = usePortal();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const overlay = variant === "overlay";
 
   useEffect(() => {
     if (!open) return;
@@ -68,7 +69,14 @@ export function SiteHeader() {
 
   return (
     <>
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
+    <header
+      className={
+        overlay
+          ? "chrome-dark absolute inset-x-0 top-0 z-40 bg-transparent"
+          : "sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm"
+      }
+    >
+
       <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-4 sm:px-8 md:py-6">
         <div className="flex min-w-0 items-center">
           <button
@@ -94,7 +102,7 @@ export function SiteHeader() {
             alt="The Raffles Residences Boston"
             width={1200}
             height={896}
-            className="h-12 w-auto sm:h-14 md:h-16"
+            className={`h-12 w-auto sm:h-14 md:h-16 ${overlay ? "brightness-0 invert" : ""}`}
           />
         </Link>
 
@@ -117,21 +125,24 @@ export function SiteHeader() {
       </div>
 
       {/* Slim desktop rail of primary destinations */}
-      <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
-        <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
-          {PRIMARY.map((item) => (
-            <li key={item.to}>
-              <Link
-                to={item.to}
-                activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
-                className="nav-link inline-flex min-h-11 items-center"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      {!overlay && (
+        <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
+          <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
+            {PRIMARY.map((item) => (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
+                  className="nav-link inline-flex min-h-11 items-center"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
     </header>
 
       {/* Full-screen navigation overlay */}
