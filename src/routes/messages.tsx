@@ -50,7 +50,7 @@ function MessagesBody() {
 
   return (
     <div className="mt-12 grid gap-8 md:grid-cols-[260px_minmax(0,1fr)] lg:grid-cols-[320px_minmax(0,1fr)]">
-      <nav aria-label="Conversations" className="border border-border bg-card p-5">
+      <nav aria-label="Conversations" className="min-w-0 border border-border bg-card p-5">
         <h2 className="text-xl">Conversations</h2>
         <ul className="mt-4 space-y-1">
           {threads.map((t) => (
@@ -129,10 +129,10 @@ function MessagesBody() {
         </form>
       </nav>
 
-      <section aria-labelledby="thread-heading" className="border border-border bg-card p-7">
+      <section aria-labelledby="thread-heading" className="min-w-0 border border-border bg-card p-5 sm:p-7">
         {active ? (
           <>
-            <h2 id="thread-heading" className="text-2xl">
+            <h2 id="thread-heading" className="text-xl break-words sm:text-2xl">
               {active.name}
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -142,7 +142,7 @@ function MessagesBody() {
             <ul aria-live="polite" className="mt-6 space-y-4">
               {active.messages.map((m) => (
                 <li key={m.id} className="border-l-2 border-primary/40 pl-4">
-                  <p className="text-sm">{m.body}</p>
+                  <p className="text-sm break-words">{m.body}</p>
                   <p className="mt-1 text-xs tracking-wide text-muted-foreground uppercase">
                     {m.author} · {m.at}
                   </p>
