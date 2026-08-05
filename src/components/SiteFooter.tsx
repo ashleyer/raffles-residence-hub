@@ -68,13 +68,30 @@ export function SiteFooter() {
                 type="button"
                 onClick={async () => {
                   const number = "978-857-5775";
+                  const legacyCopy = () => {
+                    const el = document.createElement("textarea");
+                    el.value = number;
+                    el.setAttribute("readonly", "");
+                    el.style.position = "fixed";
+                    el.style.opacity = "0";
+                    document.body.appendChild(el);
+                    el.select();
+                    const ok = document.execCommand("copy");
+                    document.body.removeChild(el);
+                    return ok;
+                  };
                   try {
                     await navigator.clipboard.writeText(number);
-                    toast.success("Phone number copied");
+                    toast.success(`Copied ${number}`);
                   } catch {
-                    toast.error(`Copy failed — the number is ${number}`);
+                    if (legacyCopy()) {
+                      toast.success(`Copied ${number}`);
+                    } else {
+                      toast.info(`Copy unavailable — the number is ${number}`);
+                    }
                   }
                 }}
+
                 className="inline-flex min-h-11 items-center gap-1.5 text-xs tracking-[0.12em] text-muted-foreground uppercase transition-colors hover:text-foreground"
               >
                 <Copy className="h-3.5 w-3.5" aria-hidden="true" />
