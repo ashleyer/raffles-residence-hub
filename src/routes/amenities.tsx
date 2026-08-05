@@ -30,21 +30,21 @@ export const Route = createFileRoute("/amenities")({
 
 function AmenitiesPage() {
   const [bookings, setBookings] = useState<Booking[]>(SEED_BOOKINGS);
-  const [amenityId, setAmenityId] = useState(AMENITIES[0].id);
+  const [amenityId, setAmenityId] = useState(AMENITIES[0]!.id);
   const [date, setDate] = useState("");
-  const [slot, setSlot] = useState(AMENITIES[0].slots[0]);
+  const [slot, setSlot] = useState(AMENITIES[0]!.slots[0]!);
   const [guests, setGuests] = useState("2");
   const [unit, setUnit] = useState("");
 
   const amenity = useMemo(
-    () => AMENITIES.find((a) => a.id === amenityId) ?? AMENITIES[0],
+    () => AMENITIES.find((a) => a.id === amenityId) ?? AMENITIES[0]!,
     [amenityId],
   );
 
   const selectAmenity = (id: string) => {
-    const next = AMENITIES.find((a) => a.id === id) ?? AMENITIES[0];
+    const next = AMENITIES.find((a) => a.id === id) ?? AMENITIES[0]!;
     setAmenityId(next.id);
-    setSlot(next.slots[0]);
+    setSlot(next.slots[0]!);
   };
 
   const submit = (e: React.FormEvent) => {
