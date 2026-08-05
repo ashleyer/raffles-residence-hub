@@ -31,8 +31,8 @@ export function SiteHeader() {
           <img
             src={rafflesLogo}
             alt="The Raffles Residences Boston"
-            width={1152}
-            height={576}
+            width={1200}
+            height={896}
             className="h-14 w-auto invert md:h-16"
           />
         </Link>
