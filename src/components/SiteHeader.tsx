@@ -1,96 +1,130 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { usePortal } from "@/lib/portal-store";
 import rafflesLogo from "@/assets/raffles-logo.png";
 
-const NAV = [
-  { label: "Residence", to: "/" },
+const NAV_GROUPS = [
+  {
+    heading: "The Residence",
+    items: [
+      { label: "Residence", to: "/" },
+      { label: "Amenities", to: "/amenities" },
+      { label: "Events", to: "/events" },
+      { label: "Concierge", to: "/concierge" },
+    ],
+  },
+  {
+    heading: "In Residence",
+    items: [
+      { label: "Services", to: "/services" },
+      { label: "House account", to: "/account" },
+      { label: "Directory", to: "/directory" },
+      { label: "Messages", to: "/messages" },
+    ],
+  },
+  {
+    heading: "Community",
+    items: [
+      { label: "Community", to: "/community" },
+      { label: "Marketplace", to: "/marketplace" },
+      { label: "Proposals", to: "/proposals" },
+    ],
+  },
+  {
+    heading: "Governance",
+    items: [
+      { label: "Governance", to: "/governance" },
+      { label: "Management", to: "/management" },
+    ],
+  },
+] as const;
+
+const PRIMARY = [
   { label: "Amenities", to: "/amenities" },
   { label: "Events", to: "/events" },
   { label: "Services", to: "/services" },
-  { label: "Concierge", to: "/concierge" },
-  { label: "House account", to: "/account" },
-  { label: "Directory", to: "/directory" },
-  { label: "Messages", to: "/messages" },
   { label: "Community", to: "/community" },
-  { label: "Marketplace", to: "/marketplace" },
-  { label: "Proposals", to: "/proposals" },
-  { label: "Governance", to: "/governance" },
-  { label: "Management", to: "/management" },
 ] as const;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const { currentUser, signOut } = usePortal();
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header className="chrome-dark border-b border-border">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5">
-        <Link to="/" className="block">
+    <>
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm">
+      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-4 sm:px-8 md:py-6">
+        <div className="flex min-w-0 items-center">
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-expanded={open}
+            aria-controls="primary-navigation"
+            className="nav-link inline-flex min-h-11 items-center gap-3"
+          >
+            <span aria-hidden="true" className="flex flex-col gap-[5px]">
+              <span className="block h-px w-6 bg-current" />
+              <span className="block h-px w-6 bg-current" />
+              <span className="block h-px w-6 bg-current" />
+            </span>
+            <span className="hidden sm:inline">Menu</span>
+            <span className="sr-only sm:hidden">Open navigation menu</span>
+          </button>
+        </div>
+
+        <Link to="/" className="justify-self-center" aria-label="The Raffles Residences Boston — home">
           <img
             src={rafflesLogo}
             alt="The Raffles Residences Boston"
             width={1200}
             height={896}
-            className="h-14 w-auto invert md:h-16"
+            className="h-12 w-auto sm:h-14 md:h-16"
           />
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-4">
           {currentUser ? (
             <>
-              <Link
-                to="/directory"
-                hash="my-profile"
-                className="hidden min-h-11 items-center text-xs tracking-[0.18em] text-muted-foreground uppercase transition-colors hover:text-primary sm:inline-flex"
-              >
+              <Link to="/directory" hash="my-profile" className="nav-link hidden min-h-11 items-center sm:inline-flex">
                 {currentUser.unit}
               </Link>
-              <button
-                type="button"
-                onClick={() => signOut()}
-                className="min-h-11 border border-border px-4 text-xs tracking-[0.18em] text-muted-foreground uppercase transition-colors hover:border-primary hover:text-primary"
-              >
+              <button type="button" onClick={() => signOut()} className="btn-outline">
                 Sign out
               </button>
             </>
           ) : (
-            <Link
-              to="/login"
-              className="inline-flex min-h-11 items-center border border-primary bg-primary px-4 text-xs tracking-[0.18em] text-emerald-deep uppercase transition-colors hover:bg-transparent hover:text-primary"
-            >
+            <Link to="/login" className="btn-outline">
               Sign in
             </Link>
           )}
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="primary-navigation"
-            className="inline-flex min-h-11 min-w-11 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:text-primary lg:hidden"
-          >
-            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
-            <span className="sr-only">{open ? "Close navigation menu" : "Open navigation menu"}</span>
-          </button>
         </div>
       </div>
 
-      <nav
-        id="primary-navigation"
-        aria-label="Primary"
-        className={`${open ? "block" : "hidden"} border-t border-border lg:block`}
-      >
-        <ul className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-3 text-xs tracking-[0.22em] uppercase lg:flex-row lg:flex-wrap lg:gap-6">
-          {NAV.map((item) => (
+      {/* Slim desktop rail of primary destinations */}
+      <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
+        <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
+          {PRIMARY.map((item) => (
             <li key={item.to}>
               <Link
                 to={item.to}
-                onClick={() => setOpen(false)}
-                activeOptions={{ exact: item.to === "/" }}
-                activeProps={{ className: "text-primary", "aria-current": "page" }}
-                className="flex min-h-11 items-center py-2 text-muted-foreground transition-colors hover:text-primary"
+                activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
+                className="nav-link inline-flex min-h-11 items-center"
               >
                 {item.label}
               </Link>
@@ -99,5 +133,52 @@ export function SiteHeader() {
         </ul>
       </nav>
     </header>
+
+      {/* Full-screen navigation overlay */}
+      <div
+        id="primary-navigation"
+        hidden={!open}
+        className="fixed inset-0 z-50 overflow-y-auto bg-background"
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 md:py-6">
+          <img src={rafflesLogo} alt="" aria-hidden="true" className="h-12 w-auto sm:h-14" />
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={() => setOpen(false)}
+            className="nav-link inline-flex min-h-11 min-w-11 items-center justify-center gap-3"
+          >
+            <span className="hidden sm:inline">Close</span>
+            <X className="h-5 w-5" aria-hidden="true" />
+            <span className="sr-only">Close navigation menu</span>
+          </button>
+        </div>
+
+        <nav aria-label="Primary" className="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
+          <div className="grid gap-10 border-t border-border pt-10 sm:grid-cols-2 lg:grid-cols-4">
+            {NAV_GROUPS.map((group) => (
+              <div key={group.heading}>
+                <p className="eyebrow">{group.heading}</p>
+                <ul className="mt-5 space-y-1">
+                  {group.items.map((item) => (
+                    <li key={item.to}>
+                      <Link
+                        to={item.to}
+                        onClick={() => setOpen(false)}
+                        activeOptions={{ exact: item.to === "/" }}
+                        activeProps={{ className: "text-primary", "aria-current": "page" }}
+                        className="flex min-h-11 items-center font-display text-2xl font-light transition-colors hover:text-primary sm:text-3xl"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </nav>
+      </div>
+    </>
   );
 }

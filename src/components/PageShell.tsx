@@ -16,12 +16,12 @@ export function PageShell({
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
-        <header>
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
+        <header className="text-center sm:text-left">
           <p className="eyebrow">{eyebrow}</p>
-          <h1 className="mt-3 text-4xl md:text-5xl">{title}</h1>
-          <div className="gold-rule mt-5" />
-          {intro && <p className="mt-6 max-w-2xl text-sm leading-relaxed text-muted-foreground">{intro}</p>}
+          <h1 className="display-section mt-4">{title}</h1>
+          <div className="gold-rule mt-5 mx-auto sm:mx-0" />
+          {intro && <p className="measure mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">{intro}</p>}
         </header>
         {children}
       </main>
