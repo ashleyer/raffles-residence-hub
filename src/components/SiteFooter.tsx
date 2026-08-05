@@ -28,7 +28,8 @@ export function SiteFooter() {
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>
-        <p className="mt-10 font-mono text-[0.6875rem] text-[oklch(1_0_0)]">
+        <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
+          className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
           built with 🤍 in Raffles Residence Boston, Unit 22H by{" "}
           <button
             type="button"
