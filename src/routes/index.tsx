@@ -35,25 +35,27 @@ function Index() {
       <section className="relative">
         <img
           src={heroTower}
-          alt="Raffles Boston Residences tower illuminated at dusk"
+          alt="The Raffles Residences Boston at 40 Trinity Place, illuminated above Back Bay at dusk"
           width={1600}
           height={912}
-          className="h-[52vh] min-h-[380px] w-full object-cover"
+          className="h-[62vh] min-h-[420px] w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/5" />
         <div className="absolute inset-0 flex items-end">
-          <div className="mx-auto w-full max-w-7xl px-6 pb-12">
+          <div className="mx-auto w-full max-w-7xl px-6 pb-14">
             <p className="eyebrow">Private Residents' Portal</p>
-            <h1 className="mt-4 max-w-3xl text-5xl leading-tight md:text-6xl">
-              A considered forum for the residence
+            <h1 className="mt-4 max-w-4xl text-5xl leading-[1.05] font-light tracking-tight md:text-7xl">
+              At home in Boston,
+              <span className="block text-primary/90 italic">cultivated around the world</span>
             </h1>
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Board communications, service notices and a community register where every deed-holder's proposal is
-              heard, weighed and carried forward.
+            <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Board communications, the Raffles Butler desk and a community register where every deed-holder's
+              proposal is heard, weighed and carried forward — forty Trinity Place, Back Bay.
             </p>
           </div>
         </div>
       </section>
+
 
       <main className="mx-auto max-w-7xl space-y-24 px-6 py-20">
         <section id="broadcasts">
