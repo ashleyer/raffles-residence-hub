@@ -79,9 +79,9 @@ function ConciergePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main className="mx-auto max-w-7xl px-6 py-16">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
         <p className="eyebrow">Raffles Butler</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Concierge requests</h1>
         <div className="gold-rule mt-5" />
@@ -121,7 +121,7 @@ function ConciergePage() {
                       <div>
                         <p className="eyebrow">{r.service}</p>
                         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{r.detail}</p>
-                        <p className="mt-3 text-xs tracking-wider text-muted-foreground/70 uppercase">
+                        <p className="mt-3 text-xs tracking-wider text-muted-foreground uppercase">
                           {r.unit} · {r.priority} · {r.placedAt}
                         </p>
                       </div>
