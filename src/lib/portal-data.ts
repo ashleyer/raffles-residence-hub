@@ -612,7 +612,7 @@ export const SEED_THREADS: Thread[] = [
 export type SurveyQuestion = { id: string; prompt: string };
 
 export const SURVEY_QUESTIONS: SurveyQuestion[] = [
-  { id: "concierge", prompt: "Responsiveness of the concierge and concierge team" },
+  { id: "concierge", prompt: "Responsiveness of the concierge team" },
   { id: "amenities", prompt: "Condition and availability of the amenities" },
   { id: "maintenance", prompt: "Speed and quality of maintenance work" },
   { id: "communication", prompt: "Clarity of communication from management" },
