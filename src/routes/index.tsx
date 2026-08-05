@@ -5,7 +5,6 @@ import longBar from "@/assets/long-bar.jpg";
 import privateDining from "@/assets/private-dining.jpg";
 import laPadrona from "@/assets/la-padrona.jpg";
 import guerlainSpa from "@/assets/guerlain-spa.jpg";
-import { ANNOUNCEMENTS } from "@/lib/portal-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -38,17 +37,15 @@ const PATHS = [
     image: residentsLounge,
     alt: "The Residents' Lounge on floor twenty-one, set for morning coffee",
     eyebrow: "Reservations",
-    title: "Amenities, reserved in a moment",
-    body: "The Residents' Lounge on twenty-one, the Guerlain Spa, La Padrona's private table and in-residence dining — with catering options and concierge notes attached to every request.",
-    cta: "Reserve an amenity",
+    title: "Amenities",
+    cta: "Reserve",
   },
   {
     to: "/events",
     image: longBar,
     alt: "The Long Bar dressed for a resident gathering",
     eyebrow: "Resident Life",
-    title: "Gatherings on the calendar",
-    body: "RSVP to house evenings, propose something for the committee to weigh, and see which neighbours are joining before you commit.",
+    title: "Events",
     cta: "See the calendar",
   },
   {
@@ -56,17 +53,15 @@ const PATHS = [
     image: privateDining,
     alt: "A private dining table laid in a residence",
     eyebrow: "In Residence",
-    title: "The concierge desk, always open",
-    body: "Call the car from valet, lodge maintenance and housekeeping requests, follow parcels held at the desk, and post to lost and found.",
-    cta: "Request a service",
+    title: "Concierge",
+    cta: "Make a request",
   },
   {
     to: "/community",
     image: laPadrona,
     alt: "Residents in conversation at a warmly lit dining room",
     eyebrow: "Community",
-    title: "Neighbours, on your terms",
-    body: "An opt-in directory, group and private messaging, interest circles in the member forum, and a marketplace for recommendations and sales.",
+    title: "Neighbours",
     cta: "Enter the community",
   },
   {
@@ -74,11 +69,11 @@ const PATHS = [
     image: guerlainSpa,
     alt: "A quiet corridor within the residences",
     eyebrow: "Governance",
-    title: "The board, in plain sight",
-    body: "Notices from the Residences Office, ballots and minutes, the people who look after the building, and the monthly satisfaction survey.",
+    title: "The Board",
     cta: "Meet the board",
   },
 ] as const;
+
 
 function Index() {
   return (
@@ -105,9 +100,9 @@ function Index() {
             </h1>
             <p className="mt-5 text-[0.7rem] tracking-[0.34em] uppercase sm:text-xs">Cultivated around the world</p>
             <p className="measure mx-auto mt-8 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              The private residents' portal for forty Trinity Place — board communications, the concierge desk and a
-              community register where every deed-holder's proposal is heard.
+              The private residents' portal for forty Trinity Place.
             </p>
+
           </Reveal>
         </div>
 
@@ -150,7 +145,6 @@ function Index() {
                 <h3 id={`panel-${p.to.slice(1)}`} className="display-section mt-4">
                   {p.title}
                 </h3>
-                <p className="measure mt-5 text-sm leading-relaxed text-muted-foreground sm:text-base">{p.body}</p>
                 <Link to={p.to} className="btn-outline mt-8">
                   {p.cta}
                 </Link>
@@ -158,36 +152,6 @@ function Index() {
             </div>
           </section>
         ))}
-
-        {/* Quiet editorial coda: latest word from the Residences Office */}
-        <section aria-labelledby="notices-heading" className="mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 md:py-28">
-          <Reveal>
-            <p className="eyebrow">Residences Office</p>
-            <h2 id="notices-heading" className="display-section mt-4">
-              Latest announcements
-            </h2>
-            <div className="gold-rule mt-5" />
-          </Reveal>
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2">
-            {ANNOUNCEMENTS.slice(0, 2).map((a, i) => (
-              <Reveal as="li" key={a.id} delay={i * 120} className="border border-border bg-card p-6 sm:p-7">
-                <p className="eyebrow">
-                  {a.author} · {a.date}
-                </p>
-                <h3 className="mt-3 text-2xl leading-snug">{a.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.body}</p>
-              </Reveal>
-            ))}
-          </ul>
-          <Reveal delay={120}>
-            <Link
-              to="/management"
-              className="mt-10 inline-flex min-h-11 items-center border border-primary px-6 text-xs tracking-[0.18em] text-primary uppercase transition-colors hover:bg-primary hover:text-primary-foreground"
-            >
-              All announcements
-            </Link>
-          </Reveal>
-        </section>
       </main>
 
       <SiteFooter />
