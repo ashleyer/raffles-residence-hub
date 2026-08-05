@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import heroTower from "@/assets/hero-tower.jpg";
 import { BROADCASTS } from "@/lib/intranet-data";
 import { SuggestionBoard } from "@/components/SuggestionBoard";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
