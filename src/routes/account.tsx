@@ -113,8 +113,9 @@ function AccountBody() {
                   </button>
                 </h3>
                 {open && (
-                  <div id={`statement-${s.id}`} className="border-t border-border px-6 pt-5 pb-6">
+                  <div id={`statement-${s.id}`} className="border-t border-border px-5 pt-5 pb-6 sm:px-6">
                     <table className="w-full text-sm">
+
                       <caption className="sr-only">Charges for {s.period}</caption>
                       <thead>
                         <tr className="text-left text-xs tracking-[0.16em] text-muted-foreground uppercase">
