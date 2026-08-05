@@ -166,3 +166,77 @@
     outline-color: oklch(0.92 0.06 90);
   }
 }
+
+/* ---------------------------------------------------------------
+ * Editorial styling aligned to rafflesresidencesboston.com:
+ * hairline rules, wide-tracked uppercase navigation, fluid display type.
+ * ------------------------------------------------------------- */
+
+@utility nav-link {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  position: relative;
+  transition: color 200ms ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.5rem;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 260ms ease;
+  }
+
+  &:hover::after,
+  &.is-active::after {
+    transform: scaleX(1);
+  }
+}
+
+@utility btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding-inline: 1.25rem;
+  border: 1px solid var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+
+  &:hover {
+    background-color: var(--foreground);
+    color: var(--background);
+  }
+}
+
+/* Fluid editorial display sizes */
+@utility display-hero {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.25rem, 7vw, 5.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+}
+
+@utility display-section {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.875rem, 4.2vw, 3rem);
+  line-height: 1.12;
+}
+
+@utility measure {
+  max-width: 62ch;
+}
