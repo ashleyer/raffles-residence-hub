@@ -29,27 +29,8 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/70 bg-emerald-deep">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <div>
-            <p className="font-display text-2xl tracking-[0.42em] text-primary">RAFFLES</p>
-            <p className="mt-1 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
-              Boston Residences · Intranet
-            </p>
-          </div>
-          <nav className="hidden gap-9 text-xs tracking-[0.22em] uppercase md:flex">
-            {[
-              ["Broadcasts", "#broadcasts"],
-              ["Suggestions", "#suggestions"],
-              ["Amenities", "#amenities"],
-            ].map(([label, href]) => (
-              <a key={label} href={href} className="text-muted-foreground transition-colors hover:text-primary">
-                {label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
+
 
       <section className="relative">
         <img
