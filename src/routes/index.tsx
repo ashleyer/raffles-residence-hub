@@ -153,8 +153,6 @@ function Index() {
             </div>
           </section>
         ))}
-
-        </section>
       </main>
 
       <SiteFooter />
