@@ -321,7 +321,7 @@ export const SEED_EVENT_IDEAS: EventIdea[] = [
   },
 ];
 
-];
+
 
 export const CONCIERGE_SERVICES = [
   "Housekeeping",
