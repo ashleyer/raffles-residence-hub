@@ -66,7 +66,12 @@ export function TabBar({
   label: string;
 }) {
   return (
-    <div role="tablist" aria-label={label} className="mt-10 flex flex-wrap gap-2">
+    <div
+      role="tablist"
+      aria-label={label}
+      className="-mx-5 mt-10 flex snap-x gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+    >
+
       {tabs.map((t) => {
         const selected = t.id === active;
         return (
