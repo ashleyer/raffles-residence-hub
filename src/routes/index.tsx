@@ -86,10 +86,10 @@ function Index() {
           <div className="gold-rule mt-5" />
           <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["Raffles Butler", "Legendary, discreet service attending every residence around the clock."],
+              ["Residents' Lounge · Floor 21", "The private salon above Back Bay — library corner, fireside seating, and continental breakfast laid daily until 9:00 AM (self-serve thereafter)."],
+              ["Private Dining", "In-residence dining by the Raffles Butler: à la carte, seated multi-course menus and breakfast at home."],
               ["Guerlain Spa", "Twenty-metre lap pool, hot tub, sauna and treatment suites on the wellness level."],
-              ["Long Bar & Terrace", "All-day dining, heritage mixology and sunset Champagne above Back Bay."],
-              ["La Padrona & Blind Duck", "Michelin-recommended Italian, and an intimate speakeasy by introduction."],
+              ["Long Bar, La Padrona & Blind Duck", "Heritage mixology above Back Bay, Michelin-recommended Italian, and an intimate speakeasy by introduction."],
             ].map(([t, d]) => (
 
               <div key={t}>
@@ -100,7 +100,10 @@ function Index() {
           </div>
           <div className="mt-10 flex flex-wrap gap-4 text-xs tracking-[0.18em] uppercase">
             <Link to="/amenities" className="border border-primary px-6 py-3 text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
-              Reserve an amenity
+              Reservation requests
+            </Link>
+            <Link to="/events" className="border border-border px-6 py-3 text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              Events & RSVP
             </Link>
             <Link to="/concierge" className="border border-border px-6 py-3 text-muted-foreground transition-colors hover:border-primary hover:text-primary">
               Concierge desk
@@ -109,6 +112,7 @@ function Index() {
               Governance & ballots
             </Link>
           </div>
+
         </section>
       </main>
 

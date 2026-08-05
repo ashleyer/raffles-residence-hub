@@ -3,9 +3,11 @@ import { Link } from "@tanstack/react-router";
 const NAV = [
   { label: "Residence", to: "/" },
   { label: "Amenities", to: "/amenities" },
+  { label: "Events", to: "/events" },
   { label: "Concierge", to: "/concierge" },
   { label: "Governance", to: "/governance" },
 ] as const;
+
 
 export function SiteHeader() {
   return (
