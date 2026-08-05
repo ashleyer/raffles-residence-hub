@@ -1,3 +1,10 @@
+import residentsLoungeImg from "@/assets/residents-lounge.jpg";
+import privateDiningImg from "@/assets/private-dining.jpg";
+import longBarImg from "@/assets/long-bar.jpg";
+import guerlainSpaImg from "@/assets/guerlain-spa.jpg";
+import laPadronaImg from "@/assets/la-padrona.jpg";
+import blindDuckImg from "@/assets/blind-duck.jpg";
+
 export type Broadcast = {
   id: number;
   title: string;
