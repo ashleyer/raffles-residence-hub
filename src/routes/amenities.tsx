@@ -86,7 +86,7 @@ function AmenitiesPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-6 py-16">
+      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
         <p className="eyebrow">Residents' Booking Desk</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Reservation requests</h1>
         <div className="gold-rule mt-5" />
@@ -95,7 +95,7 @@ function AmenitiesPage() {
           attached to any sitting. Releases made before noon return the window to the house immediately.
         </p>
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1.5fr_1fr]">
+        <div className="mt-12 grid gap-10 md:gap-12 lg:grid-cols-[1.5fr_1fr]">
           <section aria-labelledby="rooms">
             <h2 id="rooms" className="text-2xl">
               In residence

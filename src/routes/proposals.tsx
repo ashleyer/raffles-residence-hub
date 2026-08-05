@@ -178,7 +178,7 @@ function ProposalsBody() {
               <Label htmlFor="p-body">Details</Label>
               <Textarea id="p-body" rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
             </div>
-            <div className="flex items-center justify-between gap-4 border-t border-border pt-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
               <Label htmlFor="p-anon" className="text-sm font-normal">
                 Submit anonymously
               </Label>

@@ -91,29 +91,31 @@ function AccountBody() {
                     onClick={() => setOpenId(open ? null : s.id)}
                     aria-expanded={open}
                     aria-controls={`statement-${s.id}`}
-                    className="flex w-full flex-wrap items-center justify-between gap-4 p-6 text-left"
+                    className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-5 text-left sm:flex sm:flex-wrap sm:justify-between sm:gap-4 sm:p-6"
                   >
-                    <span>
-                      <span className="block text-xl">{s.period}</span>
-                      <span className="text-sm text-muted-foreground">
+                    <span className="min-w-0">
+                      <span className="block text-lg sm:text-xl">{s.period}</span>
+                      <span className="block text-xs text-muted-foreground sm:text-sm">
                         Issued {s.issued} · Due {s.due}
                       </span>
                     </span>
-                    <span className="flex items-center gap-5">
-                      <span className="font-display text-2xl">{money(s.amount)}</span>
+                    <span className="flex shrink-0 flex-col items-end gap-2 sm:flex-row sm:items-center sm:gap-5">
+                      <span className="font-display text-xl sm:text-2xl">{money(s.amount)}</span>
                       <span
-                        className={`border px-3 py-1 text-xs tracking-[0.16em] uppercase ${
+                        className={`border px-2.5 py-1 text-[0.65rem] tracking-[0.16em] uppercase sm:px-3 sm:text-xs ${
                           s.status === "Paid" ? "border-primary text-primary" : "border-destructive text-destructive"
                         }`}
                       >
                         {s.status}
                       </span>
                     </span>
+
                   </button>
                 </h3>
                 {open && (
-                  <div id={`statement-${s.id}`} className="border-t border-border px-6 pt-5 pb-6">
+                  <div id={`statement-${s.id}`} className="border-t border-border px-5 pt-5 pb-6 sm:px-6">
                     <table className="w-full text-sm">
+
                       <caption className="sr-only">Charges for {s.period}</caption>
                       <thead>
                         <tr className="text-left text-xs tracking-[0.16em] text-muted-foreground uppercase">

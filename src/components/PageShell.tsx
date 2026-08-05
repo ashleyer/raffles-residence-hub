@@ -42,8 +42,9 @@ export function SectionCard({
   id?: string;
 }) {
   return (
-    <section id={id} className="border border-border bg-card p-7" aria-labelledby={`${id ?? title}-heading`}>
-      <h2 id={`${id ?? title}-heading`} className="text-2xl">
+    <section id={id} className="border border-border bg-card p-5 sm:p-7" aria-labelledby={`${id ?? title}-heading`}>
+      <h2 id={`${id ?? title}-heading`} className="text-xl sm:text-2xl">
+
         {title}
       </h2>
       {description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>}
@@ -65,7 +66,12 @@ export function TabBar({
   label: string;
 }) {
   return (
-    <div role="tablist" aria-label={label} className="mt-10 flex flex-wrap gap-2">
+    <div
+      role="tablist"
+      aria-label={label}
+      className="-mx-5 mt-10 flex snap-x gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+    >
+
       {tabs.map((t) => {
         const selected = t.id === active;
         return (
@@ -89,11 +95,12 @@ export function TabBar({
                 }
               }
             }}
-            className={`min-h-11 border px-5 py-2 text-xs tracking-[0.16em] uppercase transition-colors ${
+            className={`min-h-11 shrink-0 snap-start border px-4 py-2 text-[0.65rem] tracking-[0.14em] whitespace-nowrap uppercase transition-colors sm:px-5 sm:text-xs sm:tracking-[0.16em] ${
               selected
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border text-muted-foreground hover:border-primary hover:text-primary"
             }`}
+
           >
             {t.label}
           </button>
