@@ -10,14 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as AmenitiesRouteImport } from './routes/amenities'
 import { Route as ConciergeRouteImport } from './routes/concierge'
+import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as MessagesRouteImport } from './routes/messages'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AmenitiesRoute = AmenitiesRouteImport.update({
@@ -30,6 +39,11 @@ const ConciergeRoute = ConciergeRouteImport.update({
   path: '/concierge',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DirectoryRoute = DirectoryRouteImport.update({
+  id: '/directory',
+  path: '/directory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -40,43 +54,97 @@ const GovernanceRoute = GovernanceRouteImport.update({
   path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/concierge': typeof ConciergeRoute
+  '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
+  '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/concierge': typeof ConciergeRoute
+  '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
+  '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/concierge': typeof ConciergeRoute
+  '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/governance': typeof GovernanceRoute
+  '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/amenities' | '/concierge' | '/events' | '/governance'
+  fullPaths:
+    | '/'
+    | '/account'
+    | '/amenities'
+    | '/concierge'
+    | '/directory'
+    | '/events'
+    | '/governance'
+    | '/login'
+    | '/messages'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/amenities' | '/concierge' | '/events' | '/governance'
-  id: '__root__' | '/' | '/amenities' | '/concierge' | '/events' | '/governance'
+  to:
+    | '/'
+    | '/account'
+    | '/amenities'
+    | '/concierge'
+    | '/directory'
+    | '/events'
+    | '/governance'
+    | '/login'
+    | '/messages'
+  id:
+    | '__root__'
+    | '/'
+    | '/account'
+    | '/amenities'
+    | '/concierge'
+    | '/directory'
+    | '/events'
+    | '/governance'
+    | '/login'
+    | '/messages'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   AmenitiesRoute: typeof AmenitiesRoute
   ConciergeRoute: typeof ConciergeRoute
+  DirectoryRoute: typeof DirectoryRoute
   EventsRoute: typeof EventsRoute
   GovernanceRoute: typeof GovernanceRoute
+  LoginRoute: typeof LoginRoute
+  MessagesRoute: typeof MessagesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -86,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/amenities': {
@@ -102,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConciergeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/directory': {
+      id: '/directory'
+      path: '/directory'
+      fullPath: '/directory'
+      preLoaderRoute: typeof DirectoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -116,15 +198,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   AmenitiesRoute: AmenitiesRoute,
   ConciergeRoute: ConciergeRoute,
+  DirectoryRoute: DirectoryRoute,
   EventsRoute: EventsRoute,
   GovernanceRoute: GovernanceRoute,
+  LoginRoute: LoginRoute,
+  MessagesRoute: MessagesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
