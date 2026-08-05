@@ -43,29 +43,30 @@ function Index() {
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
 
-      <section className="relative">
+      <section className="relative isolate">
         <img
           src={heroTower}
           alt="The Raffles Residences Boston at 40 Trinity Place, illuminated above Back Bay at dusk"
           width={1600}
           height={912}
-          className="h-[62vh] min-h-[420px] w-full object-cover"
+          className="h-[70svh] max-h-[820px] min-h-[440px] w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/10" />
         <div className="absolute inset-0 flex items-end">
-          <div className="mx-auto w-full max-w-7xl px-6 pb-14">
+          <div className="mx-auto w-full max-w-7xl px-5 pb-10 text-center sm:px-8 sm:pb-16">
             <p className="eyebrow">Private Residents' Portal</p>
-            <h1 className="mt-4 max-w-4xl text-5xl leading-[1.05] font-light tracking-tight md:text-7xl">
+            <h1 className="display-hero mx-auto mt-5 max-w-5xl">
               At home in Boston,
               <span className="block text-primary italic">cultivated around the world</span>
             </h1>
-            <p className="mt-6 max-w-xl text-sm leading-relaxed text-muted-foreground">
+            <p className="measure mx-auto mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
               Board communications, the Raffles Concierge desk and a community register where every deed-holder's
               proposal is heard, weighed and carried forward — forty Trinity Place, Back Bay.
             </p>
           </div>
         </div>
       </section>
+
 
       <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 space-y-24 px-6 py-20">
         <section aria-labelledby="broadcasts-heading">
