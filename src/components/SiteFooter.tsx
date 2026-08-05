@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
+
 import {
   Dialog,
   DialogContent,
@@ -50,16 +53,53 @@ export function SiteFooter() {
           </DialogHeader>
           <ul className="space-y-3 text-sm">
             <li>
-              <a className="text-primary underline underline-offset-4" href="mailto:ashleye.romano@gmail.com">
+              <a
+                className="text-primary underline underline-offset-4"
+                href="mailto:ashleye.romano@gmail.com"
+              >
                 ashleye.romano@gmail.com
               </a>
             </li>
-            <li>
+            <li className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <a className="text-primary underline underline-offset-4" href="tel:+19788575775">
                 Call or text: 978-857-5775
               </a>
+              <button
+                type="button"
+                onClick={async () => {
+                  const number = "978-857-5775";
+                  const legacyCopy = () => {
+                    const el = document.createElement("textarea");
+                    el.value = number;
+                    el.setAttribute("readonly", "");
+                    el.style.position = "fixed";
+                    el.style.opacity = "0";
+                    document.body.appendChild(el);
+                    el.select();
+                    const ok = document.execCommand("copy");
+                    document.body.removeChild(el);
+                    return ok;
+                  };
+                  try {
+                    await navigator.clipboard.writeText(number);
+                    toast.success(`Copied ${number}`);
+                  } catch {
+                    if (legacyCopy()) {
+                      toast.success(`Copied ${number}`);
+                    } else {
+                      toast.info(`Copy unavailable — the number is ${number}`);
+                    }
+                  }
+                }}
+
+                className="inline-flex min-h-11 items-center gap-1.5 text-xs tracking-[0.12em] text-muted-foreground uppercase transition-colors hover:text-foreground"
+              >
+                <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                Copy phone number
+              </button>
             </li>
           </ul>
+
         </DialogContent>
       </Dialog>
     </footer>
