@@ -158,6 +158,29 @@ export const SEED_SUGGESTIONS: Suggestion[] = [
 
 export const AMENITIES: Amenity[] = [
   {
+    id: "residents-lounge",
+    name: "Residents' Lounge",
+    location: "Floor 21 · Deed-holders and their guests",
+    description:
+      "The private heart of the residences on the twenty-first floor: a panelled salon with skyline outlook over Back Bay, a library corner, fireside seating and a self-serve pantry for morning coffee and afternoon refreshment.",
+    hours: "6:00 AM – 11:00 PM daily",
+    service:
+      "Continental breakfast is laid daily until 9:00 AM. Outside that window the lounge is unattended — refreshments are self-serve, and anything further should be placed with the concierge or ordered as private dining.",
+    slots: ["Morning · 07:30", "Afternoon · 15:00", "Evening · 18:30"],
+    image: residentsLoungeImg,
+  },
+  {
+    id: "private-dining",
+    name: "Private Dining — In-Residence",
+    location: "Served in your residence by the Raffles Butler",
+    description:
+      "A full in-room dining service: à la carte from the house kitchen, multi-course menus for seated dinners at home, and butler-served breakfast. Table dressing, glassware and clearing are included.",
+    hours: "6:30 AM – 11:00 PM daily",
+    service: "Kitchen closes at 11:00 PM; overnight requests are limited to a cold menu.",
+    slots: ["Breakfast · 08:00", "Luncheon · 12:30", "Dinner · 19:00", "Late supper · 21:30"],
+    image: privateDiningImg,
+  },
+  {
     id: "long-bar",
     name: "Long Bar & Terrace",
     location: "Perched above Back Bay",
@@ -165,6 +188,7 @@ export const AMENITIES: Amenity[] = [
       "Raffles heritage meets Boston energy: classic mixology in the spirit of the Singapore Sling, New England small plates, and sunset Champagne on the terrace.",
     hours: "11:00 AM – 10:00 PM daily",
     slots: ["Luncheon · 12:00", "Aperitif · 17:00", "Dinner · 19:30"],
+    image: longBarImg,
   },
   {
     id: "guerlain-spa",
@@ -174,6 +198,7 @@ export const AMENITIES: Amenity[] = [
       "A full destination wellness experience — treatment suites, the twenty-metre indoor lap pool, hot tub and sauna, held apart from hotel inventory.",
     hours: "7:00 AM – 8:00 PM daily",
     slots: ["Morning · 08:00", "Midday · 12:30", "Evening · 18:00"],
+    image: guerlainSpaImg,
   },
   {
     id: "la-padrona",
@@ -183,6 +208,7 @@ export const AMENITIES: Amenity[] = [
       "The chef's table held for residences, with menus composed by the kitchen and service by the Raffles Butler.",
     hours: "10:00 AM – 11:00 PM daily",
     slots: ["Matinée · 14:00", "Evening · 19:00", "Late · 21:30"],
+    image: laPadronaImg,
   },
   {
     id: "blind-duck",
@@ -192,8 +218,19 @@ export const AMENITIES: Amenity[] = [
       "An intimate, design-forward cocktail room reserved for residents and their guests on request of the concierge.",
     hours: "8:00 AM – 7:00 PM weekdays",
     slots: ["Morning · 09:00", "Afternoon · 14:00", "Evening · 17:30"],
+    image: blindDuckImg,
   },
 ];
+
+export const CATERING_OPTIONS = [
+  "No catering — room only",
+  "Continental breakfast service",
+  "Coffee, tea & pastries",
+  "Canapés & Champagne reception",
+  "Seated three-course dinner",
+  "Chef's tasting menu with wine pairing",
+  "Bar service only (host account)",
+] as const;
 
 export const SEED_BOOKINGS: Booking[] = [
   {
@@ -204,6 +241,7 @@ export const SEED_BOOKINGS: Booking[] = [
     slot: "Dinner · 19:30",
     guests: 8,
     unit: "Residence 34B",
+    catering: "Canapés & Champagne reception",
   },
   {
     id: 2,
@@ -213,7 +251,76 @@ export const SEED_BOOKINGS: Booking[] = [
     slot: "Evening · 19:00",
     guests: 12,
     unit: "Residence 21A",
+    catering: "Chef's tasting menu with wine pairing",
   },
+  {
+    id: 3,
+    amenityId: "residents-lounge",
+    amenityName: "Residents' Lounge",
+    date: "2026-08-11",
+    slot: "Afternoon · 15:00",
+    guests: 6,
+    unit: "Residence 28D",
+    catering: "Coffee, tea & pastries",
+    notes: "Book club sitting by the fireplace.",
+  },
+];
+
+export const SEED_EVENTS: ResidentEvent[] = [
+  {
+    id: 1,
+    title: "Sommelier's Wine Salon",
+    detail:
+      "A guided tasting of six Piedmontese bottles with the hotel sommelier, poured alongside a cheese and charcuterie table.",
+    location: "Residents' Lounge · Floor 21",
+    date: "August 14, 2026",
+    time: "6:30 PM",
+    capacity: 40,
+    attending: 26,
+    image: residentsLoungeImg,
+  },
+  {
+    id: 2,
+    title: "Chef's Table — Late Summer Menu",
+    detail: "Five courses composed by the La Padrona kitchen, served at the private table for residences.",
+    location: "La Padrona",
+    date: "August 22, 2026",
+    time: "7:00 PM",
+    capacity: 14,
+    attending: 11,
+    image: laPadronaImg,
+  },
+  {
+    id: 3,
+    title: "Wellness Morning & Lap Swim",
+    detail: "Reserved pool hour followed by breathwork in the spa suite and a light breakfast in the lounge.",
+    location: "Guerlain Spa",
+    date: "September 5, 2026",
+    time: "8:00 AM",
+    capacity: 20,
+    attending: 7,
+    image: guerlainSpaImg,
+  },
+];
+
+export const SEED_EVENT_IDEAS: EventIdea[] = [
+  {
+    id: 1,
+    title: "Autumn rooftop jazz trio",
+    body: "A short set on the terrace before the season turns, with a cocktail from the Long Bar list.",
+    anonymous: true,
+    interest: 18,
+  },
+  {
+    id: 2,
+    title: "Children's holiday afternoon in the lounge",
+    body: "A supervised afternoon on Floor 21 for households with young families in December.",
+    unit: "Residence 41C",
+    anonymous: false,
+    interest: 12,
+  },
+];
+
 ];
 
 export const CONCIERGE_SERVICES = [
