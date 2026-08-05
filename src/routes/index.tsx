@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import heroTower from "@/assets/hero-tower.jpg";
 import { BROADCASTS } from "@/lib/intranet-data";
 import { SuggestionBoard } from "@/components/SuggestionBoard";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,27 +29,8 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/70 bg-emerald-deep">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <div>
-            <p className="font-display text-2xl tracking-[0.42em] text-primary">RAFFLES</p>
-            <p className="mt-1 text-[0.6rem] tracking-[0.3em] text-muted-foreground uppercase">
-              Boston Residences · Intranet
-            </p>
-          </div>
-          <nav className="hidden gap-9 text-xs tracking-[0.22em] uppercase md:flex">
-            {[
-              ["Broadcasts", "#broadcasts"],
-              ["Suggestions", "#suggestions"],
-              ["Amenities", "#amenities"],
-            ].map(([label, href]) => (
-              <a key={label} href={href} className="text-muted-foreground transition-colors hover:text-primary">
-                {label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
+
 
       <section className="relative">
         <img
@@ -111,14 +95,22 @@ function Index() {
               </div>
             ))}
           </div>
+          <div className="mt-10 flex flex-wrap gap-4 text-xs tracking-[0.18em] uppercase">
+            <Link to="/amenities" className="border border-primary px-6 py-3 text-primary transition-colors hover:bg-primary hover:text-primary-foreground">
+              Reserve an amenity
+            </Link>
+            <Link to="/concierge" className="border border-border px-6 py-3 text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              Concierge desk
+            </Link>
+            <Link to="/governance" className="border border-border px-6 py-3 text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              Governance & ballots
+            </Link>
+          </div>
         </section>
       </main>
 
-      <footer className="border-t border-border bg-emerald-deep">
-        <div className="mx-auto max-w-7xl px-6 py-10 text-xs tracking-[0.16em] text-muted-foreground uppercase">
-          Raffles Boston Residences · 40 Trinity Place, Back Bay · Residents' Intranet
-        </div>
-      </footer>
+      <SiteFooter />
+
     </div>
   );
 }
