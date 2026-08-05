@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { usePortal } from "@/lib/portal-store";
+import rafflesLogo from "@/assets/raffles-logo.png";
 
 const NAV = [
   { label: "Residence", to: "/" },
