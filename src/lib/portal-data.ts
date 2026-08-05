@@ -165,8 +165,8 @@ export const ANNOUNCEMENTS: Announcement[] = [
   },
   {
     id: 3,
-    title: "New package room hours",
-    body: "The package room is now attended 7:00 AM – 10:00 PM. Outside those hours the concierge desk will hold parcels for collection.",
+    title: "Parcel handling at the concierge desk",
+    body: "All deliveries are received and held at the concierge desk. Residents are notified in the portal on arrival and may request delivery to the residence.",
     author: "Concierge Desk",
     date: "July 22, 2026",
   },
