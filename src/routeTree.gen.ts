@@ -18,6 +18,7 @@ import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ForYouRouteImport } from './routes/for-you'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as HealthRouteImport } from './routes/health'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -70,6 +71,11 @@ const GovernanceRoute = GovernanceRouteImport.update({
   path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthRoute = HealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/health': typeof HealthRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/health'
     | '/login'
     | '/management'
     | '/marketplace'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/health'
     | '/login'
     | '/management'
     | '/marketplace'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/health'
     | '/login'
     | '/management'
     | '/marketplace'
@@ -217,6 +229,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   ForYouRoute: typeof ForYouRoute
   GovernanceRoute: typeof GovernanceRoute
+  HealthRoute: typeof HealthRoute
   LoginRoute: typeof LoginRoute
   ManagementRoute: typeof ManagementRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -290,6 +303,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health': {
+      id: '/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof HealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -345,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   ForYouRoute: ForYouRoute,
   GovernanceRoute: GovernanceRoute,
+  HealthRoute: HealthRoute,
   LoginRoute: LoginRoute,
   ManagementRoute: ManagementRoute,
   MarketplaceRoute: MarketplaceRoute,
@@ -355,13 +376,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
