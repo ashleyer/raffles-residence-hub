@@ -54,7 +54,15 @@ export const polishRecommendations = createServerFn({ method: "POST" })
         .object({ items: z.array(z.object({ id: z.string(), reason: z.string() })) })
         .parse(JSON.parse(json));
       const allowed = new Set(data.items.map((i) => i.id));
-      return { items: parsed.items.filter((i) => allowed.has(i.id) && i.reason.trim().length > 0) };
+      const matched = parsed.items.filter((i) => allowed.has(i.id) && i.reason.trim().length > 0);
+      if (matched.length > 0) return { items: matched };
+      // Model renamed the ids: fall back to positional pairing.
+      const positional = parsed.items
+        .slice(0, data.items.length)
+        .map((i, index) => ({ id: data.items[index]!.id, reason: i.reason }))
+        .filter((i) => i.reason.trim().length > 0);
+      if (positional.length > 0) return { items: positional };
+      return { items: [], error: "The model returned no usable wording." };
     } catch (error) {
       console.error("polishRecommendations failed", error);
       return { items: [], error: `DBG ${String(error).slice(0, 200)}` };
