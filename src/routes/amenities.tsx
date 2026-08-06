@@ -286,6 +286,8 @@ function AmenitiesPage() {
             </form>
           </aside>
         </div>
+
+        <ForYou variant="inline" area="amenities" />
       </main>
       <SiteFooter />
     </div>
