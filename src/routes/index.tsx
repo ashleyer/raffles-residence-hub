@@ -156,6 +156,31 @@ function Index() {
         <section className="mx-auto w-full max-w-7xl px-5 sm:px-8">
           <ForYou variant="band" />
         </section>
+
+        <section
+          aria-labelledby="contact-concierge"
+          className="mx-auto w-full max-w-7xl px-5 pb-20 sm:px-8"
+        >
+          <div className="mx-auto max-w-xl border border-border bg-card px-6 py-8 text-center sm:px-10">
+            <p className="eyebrow">At your service</p>
+            <h2 id="contact-concierge" className="mt-3 text-xl sm:text-2xl">
+              Contact the concierge
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Reservations, deliveries, transport or anything else — the desk replies daily.
+            </p>
+            <a
+              href="mailto:concierge@raffles-boston.demo?subject=Resident%20request"
+              className="btn-outline mt-6 inline-flex min-h-11 items-center"
+            >
+              concierge@raffles-boston.demo
+            </a>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Demo address — messages are not delivered.
+            </p>
+          </div>
+        </section>
+
       </main>
 
       <SiteFooter />
