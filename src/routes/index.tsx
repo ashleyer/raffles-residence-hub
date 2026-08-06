@@ -1,3 +1,4 @@
+import { ForYou } from "@/components/ForYou";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroTower from "@/assets/hero-tower.jpg";
 import residentsLounge from "@/assets/residents-lounge.jpg";
@@ -152,6 +153,9 @@ function Index() {
             </div>
           </section>
         ))}
+        <section className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+          <ForYou variant="band" />
+        </section>
       </main>
 
       <SiteFooter />

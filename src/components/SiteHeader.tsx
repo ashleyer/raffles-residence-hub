@@ -9,6 +9,7 @@ const NAV_GROUPS = [
     heading: "The Residence",
     items: [
       { label: "Residence", to: "/" },
+      { label: "Chosen for you", to: "/for-you" },
       { label: "Amenities", to: "/amenities" },
       { label: "Events", to: "/events" },
       { label: "Concierge", to: "/concierge" },
