@@ -33,7 +33,7 @@ export function SiteFooter() {
         </p>
         <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
           className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
-          built with 🤍 in Raffles Residence Boston, Unit 22H by{" "}
+          built with 🤍 in Raffles Residences Boston, Unit 22H by{" "}
           <button
             type="button"
             onClick={() => setDevOpen(true)}
