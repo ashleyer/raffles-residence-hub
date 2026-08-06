@@ -4,7 +4,7 @@ import residentsLounge from "@/assets/residents-lounge.jpg";
 import longBar from "@/assets/long-bar.jpg";
 import privateDining from "@/assets/private-dining.jpg";
 import laPadrona from "@/assets/la-padrona.jpg";
-import guerlainSpa from "@/assets/guerlain-spa.jpg";
+import boardRoom from "@/assets/board-room.jpg";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
@@ -66,8 +66,8 @@ const PATHS = [
   },
   {
     to: "/management",
-    image: guerlainSpa,
-    alt: "A quiet corridor within the residences",
+    image: boardRoom,
+    alt: "The residents' boardroom at dusk",
     eyebrow: "Governance",
     title: "The Board",
     cta: "Meet the board",
