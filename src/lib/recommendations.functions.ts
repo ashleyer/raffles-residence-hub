@@ -57,6 +57,6 @@ export const polishRecommendations = createServerFn({ method: "POST" })
       return { items: parsed.items.filter((i) => allowed.has(i.id) && i.reason.trim().length > 0) };
     } catch (error) {
       console.error("polishRecommendations failed", error);
-      return { items: [], error: "Personalised copy is unavailable just now." };
+      return { items: [], error: `DBG ${String(error).slice(0, 200)}` };
     }
   });
