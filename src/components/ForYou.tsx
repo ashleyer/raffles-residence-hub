@@ -27,7 +27,7 @@ export function useRecommendations() {
       listings,
       topicsAuthored: topics.filter((t) => t.author.includes(currentUser.name)).length,
       statements,
-      openMaintenance: maintenance.filter((m) => m.status !== "Resolved" && m.status !== "Completed").length,
+      openMaintenance: maintenance.filter((m) => m.status !== "Scheduled").length,
       parcelsWaiting: parcels.filter((p) => p.status === "Awaiting collection").length,
       hasAnsweredSurvey,
     });
