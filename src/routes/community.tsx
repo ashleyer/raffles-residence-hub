@@ -37,6 +37,7 @@ function CommunityPage() {
     >
       <RequireSession area="the member forum">
         <CommunityBody />
+        <SocialFeed />
       </RequireSession>
     </PageShell>
   );
