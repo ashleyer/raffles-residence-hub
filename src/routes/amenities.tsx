@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { usePortal } from "@/lib/portal-store";
+import { ForYou } from "@/components/ForYou";
 
 export const Route = createFileRoute("/amenities")({
   head: () => ({
@@ -31,6 +33,7 @@ export const Route = createFileRoute("/amenities")({
 });
 
 function AmenitiesPage() {
+  const { logActivity } = usePortal();
   const [bookings, setBookings] = useState<Booking[]>(SEED_BOOKINGS);
   const [amenityId, setAmenityId] = useState(AMENITIES[0]!.id);
   const [date, setDate] = useState("");
@@ -75,6 +78,7 @@ function AmenitiesPage() {
     setDate("");
     setUnit("");
     setNotes("");
+    logActivity({ kind: "booking", refId: amenity.id, label: amenity.name });
     toast.success(`Request lodged for ${amenity.name}. The concierge will confirm shortly.`);
   };
 
