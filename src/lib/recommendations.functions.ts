@@ -65,6 +65,6 @@ export const polishRecommendations = createServerFn({ method: "POST" })
       return { items: [], error: "The model returned no usable wording." };
     } catch (error) {
       console.error("polishRecommendations failed", error);
-      return { items: [], error: `DBG ${String(error).slice(0, 200)}` };
+      return { items: [], error: "Personalised copy is unavailable just now." };
     }
   });
