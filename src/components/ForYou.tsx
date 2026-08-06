@@ -64,6 +64,7 @@ function usePolishedReasons(items: Recommendation[], enabled: boolean) {
     })
       .then((res) => {
         if (cancelled) return;
+        if (res.error) console.error("ForYou:", res.error);
         if (res.error || res.items.length === 0) {
           setState("error");
           return;
