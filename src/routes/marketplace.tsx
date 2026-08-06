@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
+import { ForYou } from "@/components/ForYou";
 import { RequireSession } from "@/components/RequireSession";
 import { usePortal } from "@/lib/portal-store";
 import type { Listing } from "@/lib/portal-data";
@@ -211,6 +212,9 @@ function MarketplaceBody() {
           </div>
         </form>
       </aside>
+      <div className="col-span-full">
+        <ForYou variant="inline" area="marketplace" />
+      </div>
     </div>
   );
 }

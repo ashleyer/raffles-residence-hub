@@ -31,6 +31,7 @@ import {
   type ForumTopic,
   type ValetRequest,
 } from "./portal-data";
+import type { ActivityEvent } from "./recommendations";
 
 type Vote = "up" | "down";
 
@@ -84,6 +85,10 @@ type PortalValue = {
   castVote: (id: number, vote: Vote) => void;
   addProposal: (p: Omit<Proposal, "id" | "at" | "up" | "down">) => void;
 
+  /* activity signals for personalisation */
+  activity: ActivityEvent[];
+  logActivity: (e: Omit<ActivityEvent, "id" | "at">) => void;
+
   /* surveys */
   surveyResponses: SurveyResponse[];
   submitSurvey: (r: Omit<SurveyResponse, "id">) => void;
@@ -111,6 +116,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [votes, setVotes] = useState<Record<number, Vote>>({});
   const [surveyResponses, setSurveyResponses] = useState<SurveyResponse[]>(SEED_SURVEY_RESPONSES);
   const [answeredSurvey, setAnsweredSurvey] = useState(false);
+  const [activity, setActivity] = useState<ActivityEvent[]>([]);
 
   const currentUser = residents.find((r) => r.id === currentUserId) ?? null;
 
@@ -243,6 +249,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       addProposal: (p) =>
         setProposals((prev) => [{ ...p, id: nextId(), at: "Just now", up: 1, down: 0 }, ...prev]),
 
+      activity,
+      logActivity: (e) =>
+        setActivity((prev) => [{ ...e, id: nextId(), at: "Just now" }, ...prev]),
+
       surveyResponses,
       submitSurvey: (r) => {
         setSurveyResponses((prev) => [{ ...r, id: nextId() }, ...prev]);
@@ -269,6 +279,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       votes,
       surveyResponses,
       answeredSurvey,
+      activity,
     ],
   );
 

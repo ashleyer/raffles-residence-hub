@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { SocialFeed } from "@/components/SocialFeed";
+import { ForYou } from "@/components/ForYou";
 import { RequireSession } from "@/components/RequireSession";
 import { usePortal } from "@/lib/portal-store";
 import { SUB_COMMUNITIES } from "@/lib/portal-data";
@@ -223,6 +224,9 @@ function CommunityBody() {
           </div>
         </form>
       </aside>
+      <div className="col-span-full">
+        <ForYou variant="inline" area="community" />
+      </div>
     </div>
   );
 }

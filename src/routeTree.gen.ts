@@ -16,6 +16,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ConciergeRouteImport } from './routes/concierge'
 import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as ForYouRouteImport } from './routes/for-you'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ManagementRouteImport } from './routes/management'
@@ -57,6 +58,11 @@ const DirectoryRoute = DirectoryRouteImport.update({
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForYouRoute = ForYouRouteImport.update({
+  id: '/for-you',
+  path: '/for-you',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GovernanceRoute = GovernanceRouteImport.update({
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/concierge': typeof ConciergeRoute
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
+  '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/concierge': typeof ConciergeRoute
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
+  '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/concierge': typeof ConciergeRoute
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
+  '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/concierge'
     | '/directory'
     | '/events'
+    | '/for-you'
     | '/governance'
     | '/login'
     | '/management'
@@ -170,6 +180,7 @@ export interface FileRouteTypes {
     | '/concierge'
     | '/directory'
     | '/events'
+    | '/for-you'
     | '/governance'
     | '/login'
     | '/management'
@@ -186,6 +197,7 @@ export interface FileRouteTypes {
     | '/concierge'
     | '/directory'
     | '/events'
+    | '/for-you'
     | '/governance'
     | '/login'
     | '/management'
@@ -203,6 +215,7 @@ export interface RootRouteChildren {
   ConciergeRoute: typeof ConciergeRoute
   DirectoryRoute: typeof DirectoryRoute
   EventsRoute: typeof EventsRoute
+  ForYouRoute: typeof ForYouRoute
   GovernanceRoute: typeof GovernanceRoute
   LoginRoute: typeof LoginRoute
   ManagementRoute: typeof ManagementRoute
@@ -261,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/events'
       fullPath: '/events'
       preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/for-you': {
+      id: '/for-you'
+      path: '/for-you'
+      fullPath: '/for-you'
+      preLoaderRoute: typeof ForYouRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/governance': {
@@ -323,6 +343,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConciergeRoute: ConciergeRoute,
   DirectoryRoute: DirectoryRoute,
   EventsRoute: EventsRoute,
+  ForYouRoute: ForYouRoute,
   GovernanceRoute: GovernanceRoute,
   LoginRoute: LoginRoute,
   ManagementRoute: ManagementRoute,
@@ -334,13 +355,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
