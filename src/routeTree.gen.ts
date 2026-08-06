@@ -25,6 +25,7 @@ import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -106,6 +107,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthReadyRoute = HealthReadyRouteImport.update({
+  id: '/ready',
+  path: '/ready',
+  getParentRoute: () => HealthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,13 +123,14 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
-  '/health': typeof HealthRoute
+  '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
+  '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -135,13 +142,14 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
-  '/health': typeof HealthRoute
+  '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
+  '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -154,13 +162,14 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
-  '/health': typeof HealthRoute
+  '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
+  '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/proposals'
     | '/services'
+    | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/proposals'
     | '/services'
+    | '/health/ready'
   id:
     | '__root__'
     | '/'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/proposals'
     | '/services'
+    | '/health/ready'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -229,7 +241,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   ForYouRoute: typeof ForYouRoute
   GovernanceRoute: typeof GovernanceRoute
-  HealthRoute: typeof HealthRoute
+  HealthRoute: typeof HealthRouteWithChildren
   LoginRoute: typeof LoginRoute
   ManagementRoute: typeof ManagementRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -352,8 +364,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/ready': {
+      id: '/health/ready'
+      path: '/ready'
+      fullPath: '/health/ready'
+      preLoaderRoute: typeof HealthReadyRouteImport
+      parentRoute: typeof HealthRoute
+    }
   }
 }
+
+interface HealthRouteChildren {
+  HealthReadyRoute: typeof HealthReadyRoute
+}
+
+const HealthRouteChildren: HealthRouteChildren = {
+  HealthReadyRoute: HealthReadyRoute,
+}
+
+const HealthRouteWithChildren =
+  HealthRoute._addFileChildren(HealthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -365,7 +395,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   ForYouRoute: ForYouRoute,
   GovernanceRoute: GovernanceRoute,
-  HealthRoute: HealthRoute,
+  HealthRoute: HealthRouteWithChildren,
   LoginRoute: LoginRoute,
   ManagementRoute: ManagementRoute,
   MarketplaceRoute: MarketplaceRoute,
@@ -376,3 +406,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
