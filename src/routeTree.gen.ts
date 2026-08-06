@@ -18,12 +18,14 @@ import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ForYouRouteImport } from './routes/for-you'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as HealthRouteImport } from './routes/health'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +72,11 @@ const GovernanceRoute = GovernanceRouteImport.update({
   path: '/governance',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthRoute = HealthRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -100,6 +107,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HealthReadyRoute = HealthReadyRouteImport.update({
+  id: '/ready',
+  path: '/ready',
+  getParentRoute: () => HealthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -111,12 +123,14 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
+  '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -128,12 +142,14 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
+  '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -146,12 +162,14 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
+  '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -165,12 +183,14 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/health'
     | '/login'
     | '/management'
     | '/marketplace'
     | '/messages'
     | '/proposals'
     | '/services'
+    | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,12 +202,14 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/health'
     | '/login'
     | '/management'
     | '/marketplace'
     | '/messages'
     | '/proposals'
     | '/services'
+    | '/health/ready'
   id:
     | '__root__'
     | '/'
@@ -199,12 +221,14 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/health'
     | '/login'
     | '/management'
     | '/marketplace'
     | '/messages'
     | '/proposals'
     | '/services'
+    | '/health/ready'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -217,6 +241,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   ForYouRoute: typeof ForYouRoute
   GovernanceRoute: typeof GovernanceRoute
+  HealthRoute: typeof HealthRouteWithChildren
   LoginRoute: typeof LoginRoute
   ManagementRoute: typeof ManagementRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -290,6 +315,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GovernanceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health': {
+      id: '/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof HealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -332,8 +364,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/health/ready': {
+      id: '/health/ready'
+      path: '/ready'
+      fullPath: '/health/ready'
+      preLoaderRoute: typeof HealthReadyRouteImport
+      parentRoute: typeof HealthRoute
+    }
   }
 }
+
+interface HealthRouteChildren {
+  HealthReadyRoute: typeof HealthReadyRoute
+}
+
+const HealthRouteChildren: HealthRouteChildren = {
+  HealthReadyRoute: HealthReadyRoute,
+}
+
+const HealthRouteWithChildren =
+  HealthRoute._addFileChildren(HealthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -345,6 +395,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   ForYouRoute: ForYouRoute,
   GovernanceRoute: GovernanceRoute,
+  HealthRoute: HealthRouteWithChildren,
   LoginRoute: LoginRoute,
   ManagementRoute: ManagementRoute,
   MarketplaceRoute: MarketplaceRoute,
