@@ -37,6 +37,7 @@ export const polishRecommendations = createServerFn({ method: "POST" })
       "For each item below, write one warm, understated sentence (max 22 words) explaining why it is being suggested to this resident.",
       "Voice: a five-star residences concierge — precise, never salesy, no exclamation marks, no emoji, British-inflected but plain.",
       "Ground every sentence in the given signals and fact. Never invent facts. Address the resident as 'you'.",
+      'Return ONLY minified JSON of the shape {"items":[{"id":"<id>","reason":"<sentence>"}]} with one entry per item and no other text.',
       "",
       ...data.items.map(
         (i) => `id: ${i.id}\ntitle: ${i.title}\nfact: ${i.fact}\nsignals: ${i.signals.join("; ")}`,
@@ -44,16 +45,16 @@ export const polishRecommendations = createServerFn({ method: "POST" })
     ].join("\n");
 
     try {
-      const { output } = await generateText({
+      const { text } = await generateText({
         model: gateway("google/gemini-3.6-flash"),
-        output: Output.object({
-          schema: z.object({
-            items: z.array(z.object({ id: z.string(), reason: z.string() })),
-          }),
-        }),
         prompt,
       });
-      return { items: output.items };
+      const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
+      const parsed = z
+        .object({ items: z.array(z.object({ id: z.string(), reason: z.string() })) })
+        .parse(JSON.parse(json));
+      const allowed = new Set(data.items.map((i) => i.id));
+      return { items: parsed.items.filter((i) => allowed.has(i.id) && i.reason.trim().length > 0) };
     } catch (error) {
       console.error("polishRecommendations failed", error);
       return { items: [], error: "Personalised copy is unavailable just now." };
