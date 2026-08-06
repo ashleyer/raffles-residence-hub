@@ -64,7 +64,7 @@ function usePolishedReasons(items: Recommendation[], enabled: boolean) {
     })
       .then((res) => {
         if (cancelled) return;
-        if (res.error) console.error("ForYou:", res.error);
+        console.error("ForYou res:", JSON.stringify(res).slice(0, 300));
         if (res.error || res.items.length === 0) {
           setState("error");
           return;
@@ -72,7 +72,8 @@ function usePolishedReasons(items: Recommendation[], enabled: boolean) {
         setReasons(Object.fromEntries(res.items.map((i) => [i.id, i.reason])));
         setState("done");
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error("ForYou catch:", String(e).slice(0, 300));
         if (!cancelled) setState("error");
       });
     return () => {
