@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { usePortal } from "@/lib/portal-store";
+import { ForYou } from "@/components/ForYou";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -30,6 +32,7 @@ export const Route = createFileRoute("/events")({
 });
 
 function EventsPage() {
+  const { logActivity } = usePortal();
   const [events, setEvents] = useState<ResidentEvent[]>(SEED_EVENTS);
   const [rsvped, setRsvped] = useState<Record<number, number>>({});
   const [ideas, setIdeas] = useState<EventIdea[]>(SEED_EVENT_IDEAS);
@@ -61,6 +64,7 @@ function EventsPage() {
     }
     setEvents((prev) => prev.map((e) => (e.id === event.id ? { ...e, attending: e.attending + party } : e)));
     setRsvped((prev) => ({ ...prev, [event.id]: party }));
+    logActivity({ kind: "rsvp", refId: String(event.id), label: event.title });
     toast.success(`Attending ${event.title} · party of ${party}.`);
   };
 
@@ -270,6 +274,8 @@ function EventsPage() {
             </form>
           </aside>
         </section>
+
+        <ForYou variant="inline" area="events" />
       </main>
       <SiteFooter />
     </div>
