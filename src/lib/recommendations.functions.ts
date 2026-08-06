@@ -28,7 +28,7 @@ export const polishRecommendations = createServerFn({ method: "POST" })
     if (!key) return { items: [], error: "AI is not configured." };
     if (data.items.length === 0) return { items: [] };
 
-    const { generateText, Output } = await import("ai");
+    const { generateText } = await import("ai");
     const { createLovableAiGatewayProvider } = await import("./ai-gateway.server");
     const gateway = createLovableAiGatewayProvider(key);
 
