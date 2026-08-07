@@ -192,12 +192,9 @@ async function stageBrowser() {
       record("browser", `navigates to ${label}`, hasMain, hasMain ? page.url().replace(BASE, "") : "main content not rendered");
     }
 
-    // Sign out must put the gate back.
-    await navigateTo("Amenities");
-    await page.goto(`${BASE}/login`, { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(1200);
+    // A fresh page load has no session, so the gate must come back.
     await page.goto(`${BASE}/account`, { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(900);
+    await page.waitForTimeout(1200);
     const relocked = await page.getByText(/residents only/i).isVisible().catch(() => false);
     record("browser", "resident areas re-lock without a session", relocked, relocked ? "" : "gate did not return");
 
@@ -207,6 +204,8 @@ async function stageBrowser() {
       consoleErrors.length === 0,
       consoleErrors.slice(0, 3).join(" | ") || "",
     );
+  } catch (error) {
+    record("browser", "browser stage", false, error.message.split("\n")[0]);
   } finally {
     await browser.close();
   }
