@@ -180,7 +180,7 @@ export function ForYou({
               : state === "error"
                 ? "Showing standard wording"
                 : state === "done"
-                  ? "Tailored by Lovable AI"
+                  ? "Tailored for you"
                   : ""}
           </p>
           <button
