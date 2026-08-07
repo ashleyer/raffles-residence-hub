@@ -61,50 +61,56 @@
 }
 
 :root {
-  --radius: 0.125rem;
-  /* Warm ivory paper, deep Raffles emerald ink, antique gold accent. */
-  --background: oklch(0.972 0.011 92);
-  --foreground: oklch(0.24 0.036 156);
-  --card: oklch(0.988 0.008 92);
-  --card-foreground: oklch(0.24 0.036 156);
-  --popover: oklch(0.988 0.008 92);
-  --popover-foreground: oklch(0.24 0.036 156);
-  --primary: oklch(0.31 0.055 158);
-  --primary-foreground: oklch(0.975 0.011 92);
-  --secondary: oklch(0.94 0.014 92);
-  --secondary-foreground: oklch(0.28 0.04 156);
-  --muted: oklch(0.94 0.014 92);
-  --muted-foreground: oklch(0.43 0.02 140);
-  --accent: oklch(0.93 0.02 90);
-  --accent-foreground: oklch(0.28 0.04 156);
-  --destructive: oklch(0.52 0.17 25);
-  --destructive-foreground: oklch(0.97 0.01 92);
-  --border: oklch(0.87 0.014 92);
-  --input: oklch(0.84 0.016 92);
-  --ring: oklch(0.62 0.09 88);
-  --gold: oklch(0.62 0.09 88);
-  --gold-ink: oklch(0.45 0.08 82);
-  --gold-soft: oklch(0.78 0.07 90);
-  --emerald-deep: oklch(0.21 0.04 158);
-  --ivory: oklch(0.972 0.011 92);
-  --chart-1: oklch(0.62 0.09 88);
-  --chart-2: oklch(0.45 0.07 158);
-  --chart-3: oklch(0.6 0.04 120);
-  --chart-4: oklch(0.5 0.06 200);
-  --chart-5: oklch(0.66 0.09 60);
-  --sidebar: oklch(0.21 0.04 158);
-  --sidebar-foreground: oklch(0.96 0.011 92);
-  --sidebar-primary: oklch(0.72 0.09 88);
-  --sidebar-primary-foreground: oklch(0.21 0.04 158);
-  --sidebar-accent: oklch(0.27 0.04 158);
-  --sidebar-accent-foreground: oklch(0.96 0.011 92);
-  --sidebar-border: oklch(0.3 0.035 158);
-  --sidebar-ring: oklch(0.72 0.09 88);
+  --radius: 0px;
+
+  /* Spacing / rhythm — the brand sites run on generous, airy bands. */
+  --space-band: clamp(4rem, 9vw, 9rem);
+  --space-gutter: clamp(1.25rem, 5vw, 4.5rem);
+
+  /* Warm greige paper, espresso ink, champagne gold. */
+  --background: oklch(0.964 0.006 82);
+  --foreground: oklch(0.265 0.011 62);
+  --card: oklch(0.986 0.004 82);
+  --card-foreground: oklch(0.265 0.011 62);
+  --popover: oklch(0.986 0.004 82);
+  --popover-foreground: oklch(0.265 0.011 62);
+  --primary: oklch(0.315 0.013 62);
+  --primary-foreground: oklch(0.972 0.006 82);
+  --secondary: oklch(0.928 0.008 82);
+  --secondary-foreground: oklch(0.3 0.012 62);
+  --muted: oklch(0.928 0.008 82);
+  --muted-foreground: oklch(0.475 0.009 68);
+  --accent: oklch(0.915 0.012 80);
+  --accent-foreground: oklch(0.3 0.012 62);
+  --destructive: oklch(0.5 0.15 28);
+  --destructive-foreground: oklch(0.97 0.006 82);
+  --border: oklch(0.878 0.008 82);
+  --input: oklch(0.845 0.009 82);
+  --ring: oklch(0.7 0.062 78);
+  --gold: oklch(0.72 0.068 78);
+  --gold-ink: oklch(0.545 0.062 74);
+  --gold-soft: oklch(0.845 0.04 82);
+  /* Deep warm charcoal used for masthead, footer and photo scrims. */
+  --emerald-deep: oklch(0.235 0.008 62);
+  --ivory: oklch(0.964 0.006 82);
+  --chart-1: oklch(0.72 0.068 78);
+  --chart-2: oklch(0.45 0.02 62);
+  --chart-3: oklch(0.62 0.03 78);
+  --chart-4: oklch(0.55 0.04 220);
+  --chart-5: oklch(0.66 0.07 46);
+  --sidebar: oklch(0.235 0.008 62);
+  --sidebar-foreground: oklch(0.955 0.006 82);
+  --sidebar-primary: oklch(0.79 0.068 80);
+  --sidebar-primary-foreground: oklch(0.235 0.008 62);
+  --sidebar-accent: oklch(0.295 0.009 62);
+  --sidebar-accent-foreground: oklch(0.955 0.006 82);
+  --sidebar-border: oklch(0.33 0.008 62);
+  --sidebar-ring: oklch(0.79 0.068 80);
 }
 
 .dark {
-  --background: oklch(0.972 0.011 92);
-  --foreground: oklch(0.24 0.036 156);
+  --background: oklch(0.964 0.006 82);
+  --foreground: oklch(0.265 0.011 62);
 }
 
 
