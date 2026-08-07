@@ -135,8 +135,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
       // New guest: the demo passcode admits any address with a temporary residence profile.
       const id = `guest-${Date.now()}`;
-      const fallbackName = address
-        .split("@")[0]
+      const fallbackName = (address.split("@")[0] ?? "")
         .replace(/[._-]+/g, " ")
         .replace(/\b\w/g, (c) => c.toUpperCase());
       const guest: Resident = {
