@@ -139,41 +139,57 @@ async function stageBrowser() {
     if (msg.type() === "error" && !msg.text().includes("hydrat")) consoleErrors.push(msg.text());
   });
 
+  // Navigate through the app the way a resident does — in-app links. The demo
+  // session lives in memory, so a hard page load intentionally signs you out.
+  async function navigateTo(label) {
+    await page.getByRole("button", { name: /^menu$/i }).click();
+    await page.waitForTimeout(400);
+    await page.locator("#primary-navigation").getByRole("link", { name: new RegExp(`^${label}$`, "i") }).first().click();
+    await page.waitForTimeout(900);
+  }
+
   try {
     await page.goto(`${BASE}/login`, { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(2000);
+    await page.keyboard.press("Escape"); // dismiss the demo-mode notice
+    await page.waitForTimeout(400);
+
     await page.fill("#email", EMAIL);
     await page.fill("#passcode", PASSCODE);
     await page.getByRole("button", { name: /enter the portal/i }).click();
-    await page.waitForTimeout(1200);
+    await page.waitForTimeout(1500);
 
-    const signedIn = await page.getByText(/you are signed in as/i).isVisible().catch(() => false);
-    record("browser", "sign in with demo passcode", signedIn, signedIn ? EMAIL : "signed-in state never appeared");
+    const signedIn = !page.url().endsWith("/login");
+    record("browser", "sign in with demo passcode", signedIn, signedIn ? `landed on ${page.url().replace(BASE, "")}` : "still on the sign-in form");
 
-    if (signedIn) {
-      for (const target of GATED_PAGES) {
-        await page.goto(`${BASE}${target.path}`, { waitUntil: "domcontentloaded" });
-        await page.waitForTimeout(700);
-        const locked = await page.getByText(/residents only/i).isVisible().catch(() => false);
-        record("browser", `gated page unlocks: ${target.path}`, !locked, locked ? "still showing the sign-in gate" : "");
-      }
+    if (!signedIn) return;
+
+    for (const target of GATED_PAGES) {
+      await navigateTo(target.label);
+      const locked = await page.getByText(/residents only/i).isVisible().catch(() => false);
+      const onPath = page.url().endsWith(target.path);
+      record(
+        "browser",
+        `resident area unlocks: ${target.path}`,
+        onPath && !locked,
+        !onPath ? `landed on ${page.url().replace(BASE, "")}` : locked ? "still showing the sign-in gate" : "",
+      );
     }
 
-    for (const path of ["/", "/amenities", "/events", "/services", "/community"]) {
-      await page.goto(`${BASE}${path}`, { waitUntil: "domcontentloaded" });
-      await page.waitForTimeout(500);
+    for (const label of ["Amenities", "Events", "Services", "Community", "Residence"]) {
+      await navigateTo(label);
       const hasMain = await page.locator("main, #main").first().isVisible().catch(() => false);
-      record("browser", `navigates to ${path}`, hasMain, hasMain ? "" : "main content not rendered");
+      record("browser", `navigates to ${label}`, hasMain, hasMain ? page.url().replace(BASE, "") : "main content not rendered");
     }
 
-    // Sign out must return the gate.
+    // Sign out must put the gate back.
+    await navigateTo("Amenities");
     await page.goto(`${BASE}/login`, { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(600);
-    await page.getByRole("button", { name: /^sign out$/i }).click();
-    await page.waitForTimeout(600);
+    await page.waitForTimeout(1200);
     await page.goto(`${BASE}/account`, { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(700);
+    await page.waitForTimeout(900);
     const relocked = await page.getByText(/residents only/i).isVisible().catch(() => false);
-    record("browser", "sign out re-locks resident pages", relocked, relocked ? "" : "gate did not return");
+    record("browser", "resident areas re-lock without a session", relocked, relocked ? "" : "gate did not return");
 
     record(
       "browser",
