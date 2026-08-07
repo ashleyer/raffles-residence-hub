@@ -43,7 +43,7 @@ export function checkApi(): CheckResult {
   return { name: "api", status: "ok", detail: "server function runtime responding", durationMs: 0 };
 }
 
-/** Round-trips a cheap request against the Data API when one is configured. */
+/** Round-trips a cheap request against the backend when one is configured. */
 export function checkDatabase(): Promise<CheckResult> {
   return timed("database", async () => {
     const url = process.env["SUPABASE_URL"];
@@ -51,13 +51,13 @@ export function checkDatabase(): Promise<CheckResult> {
     if (!url || !key) {
       return { status: "skipped", detail: "no database configured for this deployment" };
     }
-    const response = await fetch(`${url}/rest/v1/`, {
-      headers: { apikey: key, authorization: `Bearer ${key}` },
-    });
+    // The Data API root rejects anonymous introspection, so probe the platform
+    // health endpoint instead — it proves the project is reachable and awake.
+    const response = await fetch(`${url}/auth/v1/health`, { headers: { apikey: key } });
     if (!response.ok) {
-      return { status: "down", detail: `data api responded ${response.status}` };
+      return { status: "down", detail: `backend responded ${response.status}` };
     }
-    return { status: "ok", detail: "data api reachable" };
+    return { status: "ok", detail: "backend reachable" };
   });
 }
 
