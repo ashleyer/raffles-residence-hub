@@ -51,7 +51,9 @@ export function checkDatabase(): Promise<CheckResult> {
     if (!url || !key) {
       return { status: "skipped", detail: "no database configured for this deployment" };
     }
-    const response = await fetch(`${url}/rest/v1/`, { headers: { apikey: key } });
+    const response = await fetch(`${url}/rest/v1/`, {
+      headers: { apikey: key, authorization: `Bearer ${key}` },
+    });
     if (!response.ok) {
       return { status: "down", detail: `data api responded ${response.status}` };
     }
