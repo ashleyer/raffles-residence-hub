@@ -130,9 +130,6 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  p {
-    color: var(--muted-foreground);
-  }
 
   h1,
   h2,
@@ -183,12 +180,12 @@
 @utility chrome-dark {
   background-color: var(--emerald-deep);
   color: var(--ivory);
-  --foreground: oklch(0.96 0.011 92);
-  --muted-foreground: oklch(0.8 0.02 100);
-  --primary: oklch(0.82 0.09 88);
-  --gold: oklch(0.82 0.09 88);
-  --gold-ink: oklch(0.82 0.09 88);
-  --border: oklch(0.32 0.035 158);
+  --foreground: oklch(0.958 0.006 82);
+  --muted-foreground: oklch(0.79 0.008 78);
+  --primary: oklch(0.83 0.062 80);
+  --gold: oklch(0.83 0.062 80);
+  --gold-ink: oklch(0.83 0.062 80);
+  --border: oklch(0.34 0.008 62);
 }
 
 /* WCAG 2.2 AA: always-visible focus indicator with sufficient contrast. */
