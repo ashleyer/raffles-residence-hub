@@ -29,18 +29,19 @@ function LoginPage() {
   const { currentUser, signIn, signOut } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = signIn(email, passcode);
+    const result = signIn(email, passcode, name);
     if (!result.ok) {
       setError(result.error ?? "Sign in failed.");
       return;
     }
     setError(null);
-    toast.success("Welcome back to the residences.");
+    toast.success("Welcome to the residences.");
     navigate({ to: "/directory" });
   };
 
