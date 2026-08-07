@@ -83,7 +83,19 @@ export const RESIDENTS: Resident[] = [
     visibleInDirectory: false,
     contactOptIn: false,
   },
+  {
+    id: "r-22h",
+    name: "Ashley Romano",
+    unit: "Residence 22H",
+    email: "ashleye.romano@gmail.com",
+    phone: "(978) 857-5775",
+    bio: "Resident of 22H and the builder of this demonstration portal. Interested in design, technology and community programming.",
+    interests: ["Design", "Technology", "Community"],
+    visibleInDirectory: true,
+    contactOptIn: true,
+  },
 ];
+
 
 /** Demo credentials — passcode is the same for every account in this preview. */
 export const DEMO_PASSCODE = "raffles2026";
