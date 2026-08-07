@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  DEMO_PASSCODE,
   RESIDENTS,
   SEED_LISTINGS,
   SEED_LOST_FOUND,
@@ -38,7 +39,7 @@ type Vote = "up" | "down";
 type PortalValue = {
   /* session */
   currentUser: Resident | null;
-  signIn: (email: string, passcode: string) => { ok: boolean; error?: string };
+  signIn: (email: string, passcode: string, name?: string) => { ok: boolean; error?: string };
   signOut: () => void;
 
   /* directory & profile */
@@ -121,11 +122,35 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const currentUser = residents.find((r) => r.id === currentUserId) ?? null;
 
   const signIn = useCallback(
-    (email: string, passcode: string) => {
-      const match = residents.find((r) => r.email.toLowerCase() === email.trim().toLowerCase());
-      if (!match) return { ok: false, error: "No residence is registered to that address." };
-      if (passcode !== "raffles2026") return { ok: false, error: "That passcode is not recognised." };
-      setCurrentUserId(match.id);
+    (email: string, passcode: string, name?: string) => {
+      const address = email.trim().toLowerCase();
+      if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+      if (passcode.trim() !== DEMO_PASSCODE) return { ok: false, error: "That passcode is not recognised." };
+
+      const match = residents.find((r) => r.email.toLowerCase() === address);
+      if (match) {
+        setCurrentUserId(match.id);
+        return { ok: true };
+      }
+
+      // New guest: the demo passcode admits any address with a temporary residence profile.
+      const id = `guest-${Date.now()}`;
+      const fallbackName = (address.split("@")[0] ?? "")
+        .replace(/[._-]+/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+      const guest: Resident = {
+        id,
+        name: name?.trim() || fallbackName || "Guest Resident",
+        unit: "Guest Access",
+        email: address,
+        phone: "",
+        bio: "Exploring the residents' portal with guest access.",
+        interests: [],
+        visibleInDirectory: false,
+        contactOptIn: false,
+      };
+      setResidents((prev) => [...prev, guest]);
+      setCurrentUserId(id);
       return { ok: true };
     },
     [residents],

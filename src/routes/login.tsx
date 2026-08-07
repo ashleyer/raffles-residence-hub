@@ -29,18 +29,19 @@ function LoginPage() {
   const { currentUser, signIn, signOut } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = signIn(email, passcode);
+    const result = signIn(email, passcode, name);
     if (!result.ok) {
       setError(result.error ?? "Sign in failed.");
       return;
     }
     setError(null);
-    toast.success("Welcome back to the residences.");
+    toast.success("Welcome to the residences.");
     navigate({ to: "/directory" });
   };
 
@@ -48,7 +49,7 @@ function LoginPage() {
     <PageShell
       eyebrow="Private Access"
       title="Resident sign in"
-      intro="Access is limited to registered deed-holders and long-term leaseholders. Household members may be added by the Residences Office."
+      intro="Registered deed-holders and leaseholders sign in with their residence address. New visitors may explore the demo with their own email and the shared preview passcode."
     >
       {currentUser ? (
         <div className="mt-12 max-w-xl border border-border bg-card p-8">
@@ -72,7 +73,7 @@ function LoginPage() {
             <h2 className="text-2xl">Sign in</h2>
             <div className="mt-6 space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="email">Registered email address</Label>
+                <Label htmlFor="email">Email address</Label>
                 <Input
                   id="email"
                   type="email"
@@ -80,8 +81,22 @@ function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  aria-describedby={error ? "signin-error" : undefined}
+                  aria-describedby={error ? "signin-error" : "email-hint"}
                   aria-invalid={error ? true : undefined}
+                  className="min-h-11"
+                />
+                <p id="email-hint" className="text-xs text-muted-foreground">
+                  Use a registered residence address, or any email of your own to explore as a guest.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="name">Your name (optional, for new guests)</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="min-h-11"
                 />
               </div>
@@ -99,7 +114,7 @@ function LoginPage() {
                   className="min-h-11"
                 />
                 <p id="passcode-hint" className="text-xs text-muted-foreground">
-                  Preview passcode for every demonstration account: {DEMO_PASSCODE}
+                  Preview passcode for every account, including new guests: {DEMO_PASSCODE}
                 </p>
               </div>
 
