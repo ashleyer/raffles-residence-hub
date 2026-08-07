@@ -112,9 +112,9 @@ async function stageHealth() {
 /* ------------------------------------------------------------------ */
 
 const GATED_PAGES = [
-  { path: "/account", heading: "House account" },
-  { path: "/directory", heading: "Directory" },
-  { path: "/messages", heading: "Messages" },
+  { path: "/account", label: "House account" },
+  { path: "/directory", label: "Directory" },
+  { path: "/messages", label: "Messages" },
 ];
 
 async function stageBrowser() {
