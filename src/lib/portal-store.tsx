@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  DEMO_PASSCODE,
   RESIDENTS,
   SEED_LISTINGS,
   SEED_LOST_FOUND,
@@ -38,7 +39,7 @@ type Vote = "up" | "down";
 type PortalValue = {
   /* session */
   currentUser: Resident | null;
-  signIn: (email: string, passcode: string) => { ok: boolean; error?: string };
+  signIn: (email: string, passcode: string, name?: string) => { ok: boolean; error?: string };
   signOut: () => void;
 
   /* directory & profile */
