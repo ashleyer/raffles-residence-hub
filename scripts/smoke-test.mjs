@@ -127,12 +127,22 @@ async function stageBrowser() {
       "browser",
       "browser stage",
       null,
-      "Playwright not installed — run `npx playwright install chromium` and re-run for full end-to-end coverage",
+      "Playwright not installed — run `npm i -D playwright && npx playwright install chromium` for full end-to-end coverage",
     );
     return;
   }
 
-  const browser = await chromium.launch({ headless: true });
+  let browser;
+  try {
+    browser = await chromium.launch({
+      headless: true,
+      // Optional escape hatch for CI images that already ship a Chromium build.
+      ...(process.env.SMOKE_CHROMIUM_PATH ? { executablePath: process.env.SMOKE_CHROMIUM_PATH } : {}),
+    });
+  } catch (error) {
+    record("browser", "browser stage", null, `chromium unavailable — ${error.message.split("\n")[0]}`);
+    return;
+  }
   const page = await browser.newPage({ viewport: { width: 1280, height: 1000 } });
   const consoleErrors = [];
   page.on("console", (msg) => {
