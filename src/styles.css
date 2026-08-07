@@ -5,8 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Raffles Boston Residences Intranet design system.
- * Deep heritage green, antique gold, warm ivory. Serif display + humanist sans.
+ * Raffles Boston Residences design system.
+ * Matched to rafflesresidencesboston.com / raffles.com/boston:
+ * warm greige paper, espresso ink, Raffles champagne gold.
+ * Light transitional serif display + wide-tracked humanist sans.
  */
 
 @theme inline {
