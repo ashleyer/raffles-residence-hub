@@ -23,7 +23,7 @@ let failed = 0;
 
 function record(stage, name, ok, detail) {
   results.push({ stage, name, ok, detail });
-  if (!ok) failed += 1;
+  if (ok === false) failed += 1;
   const mark = ok === true ? "PASS" : ok === null ? "SKIP" : "FAIL";
   console.log(`  [${mark}] ${name}${detail ? ` — ${detail}` : ""}`);
 }
