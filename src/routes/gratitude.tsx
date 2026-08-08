@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
@@ -12,6 +13,8 @@ import { SEED_THANK_YOU_NOTES, THANKABLE_STAFF, type ThankYouNote } from "@/lib/
 import { usePortal } from "@/lib/portal-store";
 
 export const Route = createFileRoute("/gratitude")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Thank You Notes — Raffles Boston Residences" },

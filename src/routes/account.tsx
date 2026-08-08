@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { BUILDING_MARKET_FACTS, unitMarketSnapshot } from "@/lib/market-data";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
@@ -10,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/account")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "House Account & Condominium Fees — Raffles Boston Residences" },
