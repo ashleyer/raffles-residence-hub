@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { SocialFeed } from "@/components/SocialFeed";
+import { ThankYouCarousel } from "@/components/ThankYouCarousel";
+import { SEED_THANK_YOU_NOTES } from "@/lib/gratitude-data";
 import { ForYou } from "@/components/ForYou";
 import { RequireSession } from "@/components/RequireSession";
 import { usePortal } from "@/lib/portal-store";
@@ -36,10 +38,25 @@ function CommunityPage() {
       title="Community & interest groups"
       intro="A place for neighbours to talk. Join the circles that interest you and follow only those conversations."
     >
+      <section aria-labelledby="thanks-heading" className="mt-12">
+        <p className="eyebrow">Notes of thanks</p>
+        <h2 id="thanks-heading" className="mt-3 text-2xl">
+          Residents thanking the house team
+        </h2>
+        <div className="gold-rule mt-4" />
+        <div className="mt-6">
+          <ThankYouCarousel notes={SEED_THANK_YOU_NOTES} />
+        </div>
+        <Link to="/gratitude" className="btn-outline mt-6 inline-flex min-h-11 items-center">
+          Visit the thank you board
+        </Link>
+      </section>
+
       <RequireSession area="the member forum">
         <CommunityBody />
         <SocialFeed />
       </RequireSession>
+
     </PageShell>
   );
 }

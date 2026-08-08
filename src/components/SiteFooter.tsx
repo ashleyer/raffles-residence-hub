@@ -78,6 +78,35 @@ export function SiteFooter() {
           >
             In the press
           </Link>
+          <Link
+            to="/about-raffles"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            About Raffles
+          </Link>
+          <Link
+            to="/sales-and-leasing"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Sales & leasing
+          </Link>
+          <Link
+            to="/gratitude"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Thank you notes
+          </Link>
+          <a
+            href="https://www.instagram.com/rafflesresidencesboston/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Instagram
+            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+
         </nav>
 
 

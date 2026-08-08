@@ -11,6 +11,7 @@ import {
   VENUES,
   type Booking,
 } from "@/lib/intranet-data";
+import { HOUSE_AMENITIES } from "@/lib/venue-extras";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
@@ -360,7 +361,72 @@ function AmenitiesPage() {
           </ul>
         </section>
 
+        <section aria-labelledby="house-amenities-heading" className="mt-20 border-t border-border pt-14">
+          <p className="eyebrow">Open daily</p>
+          <h2 id="house-amenities-heading" className="mt-3 text-3xl">
+            House amenities
+          </h2>
+          <div className="gold-rule mt-4" />
+          <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            These spaces are open to residents without a reservation. The concierge can arrange registrations,
+            training and celebration orders where noted.
+          </p>
+          <ul className="mt-8 grid gap-6 md:grid-cols-2">
+            {HOUSE_AMENITIES.map((a) => (
+              <li key={a.id}>
+                <article className="flex h-full flex-col border border-border bg-card">
+                  <img
+                    src={a.image}
+                    alt={a.name}
+                    width={1200}
+                    height={800}
+                    loading="lazy"
+                    className="aspect-[3/2] w-full object-cover"
+                  />
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="text-2xl">{a.name}</h3>
+                    <p className="mt-1 text-xs tracking-[0.16em] text-muted-foreground uppercase">{a.location}</p>
+                    <p className="mt-4 flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">
+                      {a.description}
+                    </p>
+                    <ul className="mt-4 space-y-1">
+                      {a.hours.map((h) => (
+                        <li key={h} className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Clock className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-3 flex gap-2 border-l-2 border-primary/50 pl-3 text-xs leading-relaxed text-muted-foreground">
+                      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                      {a.note}
+                    </p>
+                    {a.links && (
+                      <div className="mt-5 flex flex-wrap gap-3">
+                        {a.links.map((l) => (
+                          <a
+                            key={l.href}
+                            href={l.href}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            className="btn-outline inline-flex min-h-11 items-center gap-2"
+                          >
+                            {l.label}
+                            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                            <span className="sr-only">(opens in a new tab)</span>
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <ForYou variant="inline" area="amenities" />
+
 
       </main>
       <SiteFooter />

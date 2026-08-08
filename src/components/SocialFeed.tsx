@@ -6,6 +6,8 @@ import social4 from "@/assets/social/social-4.jpg";
 import social5 from "@/assets/social/social-5.jpg";
 import social6 from "@/assets/social/social-6.jpg";
 
+const IG_PROFILE = "https://www.instagram.com/rafflesresidencesboston/";
+
 type Post = {
   id: number;
   image: string;
@@ -86,32 +88,45 @@ export function SocialFeed() {
             The latest from the building's social channels. In this demo the posts are illustrative rather than live.
           </p>
         </div>
-        <p className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Instagram className="h-4 w-4 text-primary" aria-hidden="true" />
-          <span>@rafflesresidencesboston</span>
-        </p>
+        <a
+          href={IG_PROFILE}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="btn-outline inline-flex min-h-11 items-center gap-2"
+        >
+          <Instagram className="h-4 w-4 shrink-0" aria-hidden="true" />
+          @rafflesresidencesboston
+          <span className="sr-only">on Instagram (opens in a new tab)</span>
+        </a>
       </div>
 
       <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {POSTS.map((p) => (
           <li key={p.id} className="border border-border bg-card">
-            <img
-              src={p.image}
-              alt={p.alt}
-              width={512}
-              height={512}
-              loading="lazy"
-              className="aspect-square w-full object-cover"
-            />
-            <div className="p-5">
-              <p className="text-sm leading-relaxed">{p.caption}</p>
-              <p className="mt-3 text-xs tracking-[0.16em] text-muted-foreground uppercase">
-                {p.posted} · {p.likes.toLocaleString("en-US")} likes · {p.comments} comments
-              </p>
-            </div>
+            <a href={IG_PROFILE} target="_blank" rel="noreferrer noopener" className="group block">
+              <img
+                src={p.image}
+                alt={p.alt}
+                width={512}
+                height={512}
+                loading="lazy"
+                className="aspect-square w-full object-cover transition-opacity group-hover:opacity-90"
+              />
+              <div className="p-5">
+                <p className="text-sm leading-relaxed">{p.caption}</p>
+                <p className="mt-3 text-xs tracking-[0.16em] text-muted-foreground uppercase">
+                  {p.posted} · {p.likes.toLocaleString("en-US")} likes · {p.comments} comments
+                </p>
+                <p className="mt-3 inline-flex items-center gap-2 text-xs tracking-[0.16em] text-primary uppercase">
+                  View on Instagram
+                  <span className="sr-only">(opens in a new tab)</span>
+                </p>
+              </div>
+            </a>
           </li>
         ))}
       </ul>
+
     </section>
   );
 }

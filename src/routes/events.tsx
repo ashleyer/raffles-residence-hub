@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { usePortal } from "@/lib/portal-store";
 import { ForYou } from "@/components/ForYou";
+import { PastEventsCarousel } from "@/components/PastEventsCarousel";
+import { SocialFeed } from "@/components/SocialFeed";
 
 export const Route = createFileRoute("/events")({
   head: () => ({
@@ -275,7 +277,12 @@ function EventsPage() {
           </aside>
         </section>
 
+        <PastEventsCarousel />
+
+        <SocialFeed />
+
         <ForYou variant="inline" area="events" />
+
       </main>
       <SiteFooter />
     </div>

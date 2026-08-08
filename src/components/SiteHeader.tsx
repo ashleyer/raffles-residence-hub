@@ -15,6 +15,7 @@ const NAV_GROUPS = [
       { label: "Events", to: "/events" },
       { label: "Concierge", to: "/concierge" },
       { label: "In the press", to: "/press" },
+      { label: "About Raffles", to: "/about-raffles" },
     ],
   },
   {
@@ -24,16 +25,19 @@ const NAV_GROUPS = [
       { label: "House account", to: "/account" },
       { label: "Directory", to: "/directory" },
       { label: "Messages", to: "/messages" },
+      { label: "Sales & leasing", to: "/sales-and-leasing" },
     ],
   },
   {
     heading: "Community",
     items: [
       { label: "Community", to: "/community" },
+      { label: "Thank you notes", to: "/gratitude" },
       { label: "Marketplace", to: "/marketplace" },
       { label: "Proposals", to: "/proposals" },
     ],
   },
+
   {
     heading: "Governance",
     items: [
