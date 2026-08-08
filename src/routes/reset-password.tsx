@@ -371,11 +371,18 @@ function ResetPasswordPage() {
             </p>
             <Button
               type="submit"
-              disabled={!canSubmit}
+              disabled={!canSubmit || busy}
               aria-describedby="reset-submit-hint"
               className="min-h-11 w-full tracking-[0.18em] uppercase"
             >
-              Change my password
+              {pending === "reset" ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                  Changing password…
+                </>
+              ) : (
+                "Change my password"
+              )}
             </Button>
             <div
               id="reset-submit-hint"
@@ -388,7 +395,9 @@ function ResetPasswordPage() {
                   : "border-border bg-muted/40 text-muted-foreground",
               )}
             >
-              {canSubmit ? (
+              {busy ? (
+                <p>Working on your request — please wait.</p>
+              ) : canSubmit ? (
                 <p>All required fields are valid — you can submit this form.</p>
               ) : blockingIssues.length === 0 ? (
                 <p>Complete all three fields to enable “Change my password”.</p>
@@ -412,12 +421,22 @@ function ResetPasswordPage() {
             <Button
               type="button"
               variant="outline"
-              disabled={cooldown > 0}
-              onClick={() => issueCode(true)}
+              disabled={cooldown > 0 || busy}
+              onClick={() => void issueCode(true)}
               className="min-h-11 w-full tracking-[0.18em] uppercase"
             >
-              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
+              {pending === "resend" ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                  Sending new code…
+                </>
+              ) : cooldown > 0 ? (
+                `Resend code in ${cooldown}s`
+              ) : (
+                "Resend code"
+              )}
             </Button>
+
           </form>
         )}
 
