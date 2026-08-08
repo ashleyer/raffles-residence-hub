@@ -340,20 +340,43 @@ function ResetPasswordPage() {
             <Button
               type="submit"
               disabled={!canSubmit}
-              aria-describedby={canSubmit ? undefined : "reset-submit-hint"}
+              aria-describedby="reset-submit-hint"
               className="min-h-11 w-full tracking-[0.18em] uppercase"
             >
               Change my password
             </Button>
-            {canSubmit ? null : (
-              <p id="reset-submit-hint" className="text-sm text-muted-foreground">
-                {blockingIssues.length === 0
-                  ? "Complete all three fields to continue."
-                  : `Still to fix — ${blockingIssues
-                      .map((issue) => `${issue.label}: ${issue.message}`)
-                      .join(" ")}`}
-              </p>
-            )}
+            <div
+              id="reset-submit-hint"
+              role="status"
+              aria-live="polite"
+              className={cn(
+                "border p-3 text-sm",
+                canSubmit
+                  ? "border-primary/30 bg-primary/5 text-foreground"
+                  : "border-border bg-muted/40 text-muted-foreground",
+              )}
+            >
+              {canSubmit ? (
+                <p>All required fields are valid — you can submit this form.</p>
+              ) : blockingIssues.length === 0 ? (
+                <p>Complete all three fields to enable “Change my password”.</p>
+              ) : (
+                <>
+                  <p className="font-medium text-foreground">
+                    {blockingIssues.length} field
+                    {blockingIssues.length > 1 ? "s" : ""} still to fix before you can submit:
+                  </p>
+                  <ul className="mt-1.5 list-disc space-y-1 pl-5">
+                    {blockingIssues.map((issue) => (
+                      <li key={issue.field}>
+                        <span className="font-medium">{issue.label}:</span> {issue.message}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </div>
+
             <Button
               type="button"
               variant="outline"
