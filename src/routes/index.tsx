@@ -106,7 +106,7 @@ function Index() {
             </h1>
             <p className="mt-5 text-[0.7rem] tracking-[0.34em] uppercase sm:text-xs">Cultivated around the world</p>
             <p className="measure mx-auto mt-8 text-sm leading-relaxed text-muted-foreground sm:text-base">
-              The private residents' portal for forty Trinity Place.
+              The Secure Intra-Resident Portal for Raffles Residences Boston at Forty Trinity Place
             </p>
 
           </Reveal>
