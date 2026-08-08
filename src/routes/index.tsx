@@ -15,7 +15,6 @@ import { HouseDirectory } from "@/components/HouseDirectory";
 import { AccountAccess } from "@/components/AccountAccess";
 import { RouteErrorFallback, RouteNotFound } from "@/components/RouteErrorFallback";
 
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -83,7 +82,6 @@ const PATHS = [
   },
 ] as const;
 
-
 function Index() {
   return (
     <div className="relative flex min-h-dvh flex-col bg-background">
@@ -107,11 +105,12 @@ function Index() {
             <h1 className="font-display text-[clamp(2rem,6.4vw,5rem)] leading-[1.06] font-light tracking-[0.06em] uppercase">
               For Your Home in Boston
             </h1>
-            <p className="mt-5 text-[0.7rem] tracking-[0.34em] uppercase sm:text-xs">Cultivated around the world</p>
+            <p className="mt-5 text-[0.7rem] tracking-[0.34em] uppercase sm:text-xs">
+              Cultivated around the world
+            </p>
             <p className="measure mx-auto mt-8 text-sm leading-relaxed text-muted-foreground sm:text-base">
               The Secure Intra-Resident Portal for Raffles Residences Boston at Forty Trinity Place
             </p>
-
           </Reveal>
         </div>
 
@@ -149,7 +148,9 @@ function Index() {
             <div className="panel-scrim absolute inset-0 -z-10" />
 
             <div className="mx-auto w-full max-w-7xl px-5 pt-24 pb-14 sm:px-8 sm:pb-20">
-              <Reveal className={i % 2 === 1 ? "sm:ml-auto sm:max-w-xl sm:text-right" : "sm:max-w-xl"}>
+              <Reveal
+                className={i % 2 === 1 ? "sm:ml-auto sm:max-w-xl sm:text-right" : "sm:max-w-xl"}
+              >
                 <p className="eyebrow">{p.eyebrow}</p>
                 <h3 id={`panel-${p.to.slice(1)}`} className="display-section mt-4">
                   {p.title}
@@ -166,8 +167,6 @@ function Index() {
         </section>
 
         <AccountAccess />
-
-
 
         <section
           aria-label="Contact the residences team"
@@ -199,7 +198,6 @@ function Index() {
             </div>
           </div>
 
-
           <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10 md:col-span-2">
             <p className="eyebrow">Resident benefit</p>
             <h2 id="accor-loyalty" className="mt-3 text-balance text-xl sm:text-2xl">
@@ -207,8 +205,8 @@ function Index() {
             </h2>
             <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
               Live a rewarding life while exploring the world. Residents may enrol in Accor&rsquo;s
-              loyalty programme for points, member rates and recognition across Raffles and the wider
-              Accor collection.
+              loyalty programme for points, member rates and recognition across Raffles and the
+              wider Accor collection.
             </p>
             <a
               href="https://all.accor.com/loyalty-program/index.en.shtml"
@@ -230,4 +228,3 @@ function Index() {
     </div>
   );
 }
-

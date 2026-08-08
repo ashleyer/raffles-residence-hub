@@ -16,7 +16,8 @@ export const Route = createFileRoute("/about-raffles")({
       { property: "og:title", content: "About Raffles — Heritage, Houses & Openings" },
       {
         property: "og:description",
-        content: "A short history of the Raffles brand and the latest openings across its hotels and residences.",
+        content:
+          "A short history of the Raffles brand and the latest openings across its hotels and residences.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -54,11 +55,16 @@ function AboutRafflesPage() {
         <div className="gold-rule mt-4" />
         <ol className="mt-8 space-y-6">
           {RAFFLES_STORY.map((m) => (
-            <li key={m.year} className="grid gap-3 border-b border-border pb-6 sm:grid-cols-[8rem_1fr] sm:gap-8">
+            <li
+              key={m.year}
+              className="grid gap-3 border-b border-border pb-6 sm:grid-cols-[8rem_1fr] sm:gap-8"
+            >
               <p className="font-display text-3xl text-primary">{m.year}</p>
               <div>
                 <h3 className="text-xl">{m.title}</h3>
-                <p className="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">{m.detail}</p>
+                <p className="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">
+                  {m.detail}
+                </p>
               </div>
             </li>
           ))}
@@ -78,7 +84,9 @@ function AboutRafflesPage() {
                 {n.where} · {n.when}
               </p>
               <h3 className="mt-3 text-balance text-xl leading-snug">{n.headline}</h3>
-              <p className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">{n.detail}</p>
+              <p className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">
+                {n.detail}
+              </p>
               <a
                 href={n.href}
                 target="_blank"

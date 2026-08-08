@@ -72,7 +72,6 @@ export type EventIdea = {
   interest: number;
 };
 
-
 export type ConciergeReply = {
   id: number;
   body: string;
@@ -264,12 +263,19 @@ export const VENUES: Venue[] = [
     location: "Perched above Back Bay · Raffles Boston",
     description:
       "All-day dining with New England classics — lobster rolls, oysters on the half shell — legendary Raffles cocktails including the Singapore Sling and Boston Sling, and afternoon tea Thursday to Sunday, 2:00–4:30 PM.",
-    hours: ["Monday – Friday · 6:30 AM – 12:00 AM", "Saturday & Sunday · 7:00 AM – 12:00 AM", "Food served until 11:00 PM"],
+    hours: [
+      "Monday – Friday · 6:30 AM – 12:00 AM",
+      "Saturday & Sunday · 7:00 AM – 12:00 AM",
+      "Food served until 11:00 PM",
+    ],
     note: "The Long Bar cannot be reserved in its entirety. Tables are booked through the hotel.",
     image: longBarImg,
     links: [
       { label: "View menus", href: "https://www.raffles.com/boston/dining/long-bar-and-terrace/" },
-      { label: "Book a table", href: "https://www.sevenrooms.com/explore/longbarandterrace/reservations/create/search/" },
+      {
+        label: "Book a table",
+        href: "https://www.sevenrooms.com/explore/longbarandterrace/reservations/create/search/",
+      },
     ],
   },
   {
@@ -292,7 +298,11 @@ export const VENUES: Venue[] = [
     location: "Floors 17 & 18 · Raffles Boston",
     description:
       "Boston in a tall glass: a seasonal cocktail programme with barrel-aged spirits, handcrafted signatures such as the Soufflé Espresso Martini and Midnight Garden, and low- and non-alcoholic pours.",
-    hours: ["Tuesday – Thursday · 5:00 PM – 1:00 AM", "Friday & Saturday · 5:00 PM – 2:00 AM", "Sunday & Monday · Closed"],
+    hours: [
+      "Tuesday – Thursday · 5:00 PM – 1:00 AM",
+      "Friday & Saturday · 5:00 PM – 2:00 AM",
+      "Sunday & Monday · Closed",
+    ],
     note: "The room cannot be reserved in its entirety.",
     image: blindDuckImg,
     links: [
@@ -334,10 +344,30 @@ export const IN_RESIDENCE_MENU: MenuSection[] = [
     label: "Breakfast",
     hours: "6:30 AM – 11:00 AM",
     items: [
-      { id: "continental", name: "Continental Breakfast", detail: "Viennoiserie, seasonal fruit, yoghurt, juice and coffee", price: 42 },
-      { id: "eggs", name: "Eggs Any Style", detail: "Two eggs, breakfast potatoes, choice of bacon or chicken sausage", price: 34 },
-      { id: "avocado-toast", name: "Avocado Toast", detail: "Sourdough, soft-poached egg, chilli, lemon", price: 28 },
-      { id: "oatmeal", name: "Steel-Cut Oats", detail: "Brown sugar, toasted almond, berries", price: 22 },
+      {
+        id: "continental",
+        name: "Continental Breakfast",
+        detail: "Viennoiserie, seasonal fruit, yoghurt, juice and coffee",
+        price: 42,
+      },
+      {
+        id: "eggs",
+        name: "Eggs Any Style",
+        detail: "Two eggs, breakfast potatoes, choice of bacon or chicken sausage",
+        price: 34,
+      },
+      {
+        id: "avocado-toast",
+        name: "Avocado Toast",
+        detail: "Sourdough, soft-poached egg, chilli, lemon",
+        price: 28,
+      },
+      {
+        id: "oatmeal",
+        name: "Steel-Cut Oats",
+        detail: "Brown sugar, toasted almond, berries",
+        price: 22,
+      },
     ],
   },
   {
@@ -345,12 +375,42 @@ export const IN_RESIDENCE_MENU: MenuSection[] = [
     label: "All Day",
     hours: "11:00 AM – 11:00 PM",
     items: [
-      { id: "lobster-roll", name: "Maine Lobster Roll", detail: "Butter-poached lobster, split-top brioche, house fries", price: 46 },
-      { id: "oysters", name: "Oysters on the Half Shell", detail: "Half dozen, mignonette, lemon", price: 32 },
-      { id: "clam-chowder", name: "New England Clam Chowder", detail: "Cream, potato, oyster crackers", price: 24 },
-      { id: "raffles-burger", name: "Raffles Burger", detail: "Aged cheddar, caramelised onion, house pickle, fries", price: 36 },
-      { id: "little-gem", name: "Little Gem Salad", detail: "Green goddess, radish, herbs, pecorino", price: 26 },
-      { id: "cacio-e-pepe", name: "Cacio e Pepe", detail: "Tonnarelli, pecorino romano, black pepper", price: 34 },
+      {
+        id: "lobster-roll",
+        name: "Maine Lobster Roll",
+        detail: "Butter-poached lobster, split-top brioche, house fries",
+        price: 46,
+      },
+      {
+        id: "oysters",
+        name: "Oysters on the Half Shell",
+        detail: "Half dozen, mignonette, lemon",
+        price: 32,
+      },
+      {
+        id: "clam-chowder",
+        name: "New England Clam Chowder",
+        detail: "Cream, potato, oyster crackers",
+        price: 24,
+      },
+      {
+        id: "raffles-burger",
+        name: "Raffles Burger",
+        detail: "Aged cheddar, caramelised onion, house pickle, fries",
+        price: 36,
+      },
+      {
+        id: "little-gem",
+        name: "Little Gem Salad",
+        detail: "Green goddess, radish, herbs, pecorino",
+        price: 26,
+      },
+      {
+        id: "cacio-e-pepe",
+        name: "Cacio e Pepe",
+        detail: "Tonnarelli, pecorino romano, black pepper",
+        price: 34,
+      },
       { id: "branzino", name: "Roasted Branzino", detail: "Fennel, olive, salsa verde", price: 52 },
     ],
   },
@@ -359,9 +419,24 @@ export const IN_RESIDENCE_MENU: MenuSection[] = [
     label: "Overnight",
     hours: "11:00 PM – 6:30 AM",
     items: [
-      { id: "cheese-board", name: "Artisan Cheese Board", detail: "Three cheeses, honeycomb, crackers", price: 30 },
-      { id: "club", name: "Raffles Club Sandwich", detail: "Roast chicken, bacon, tomato, fries", price: 32 },
-      { id: "crudites", name: "Crudités & Dips", detail: "Market vegetables, hummus, herb ranch", price: 22 },
+      {
+        id: "cheese-board",
+        name: "Artisan Cheese Board",
+        detail: "Three cheeses, honeycomb, crackers",
+        price: 30,
+      },
+      {
+        id: "club",
+        name: "Raffles Club Sandwich",
+        detail: "Roast chicken, bacon, tomato, fries",
+        price: 32,
+      },
+      {
+        id: "crudites",
+        name: "Crudités & Dips",
+        detail: "Market vegetables, hummus, herb ranch",
+        price: 22,
+      },
     ],
   },
   {
@@ -369,9 +444,19 @@ export const IN_RESIDENCE_MENU: MenuSection[] = [
     label: "From the Cellar",
     hours: "Available 24 hours",
     items: [
-      { id: "champagne", name: "Champagne, Brut NV", detail: "Bottle, chilled, served with glassware", price: 165 },
+      {
+        id: "champagne",
+        name: "Champagne, Brut NV",
+        detail: "Bottle, chilled, served with glassware",
+        price: 165,
+      },
       { id: "barolo", name: "Barolo, Piedmont", detail: "Bottle, decanted on arrival", price: 190 },
-      { id: "sling", name: "Boston Sling", detail: "Two servings, batched and delivered on ice", price: 44 },
+      {
+        id: "sling",
+        name: "Boston Sling",
+        detail: "Two servings, batched and delivered on ice",
+        price: 44,
+      },
       { id: "tea", name: "Raffles Tea Service", detail: "Pot for two, house blend", price: 18 },
     ],
   },
@@ -437,7 +522,8 @@ export const SEED_EVENTS: ResidentEvent[] = [
   {
     id: 2,
     title: "Chef's Table — Late Summer Menu",
-    detail: "Five courses composed by the La Padrona kitchen, served at the private table for residences.",
+    detail:
+      "Five courses composed by the La Padrona kitchen, served at the private table for residences.",
     location: "La Padrona",
     date: "August 22, 2026",
     time: "7:00 PM",
@@ -448,7 +534,8 @@ export const SEED_EVENTS: ResidentEvent[] = [
   {
     id: 3,
     title: "Wellness Morning & Lap Swim",
-    detail: "Reserved pool hour followed by breathwork in the spa suite and a light breakfast in the lounge.",
+    detail:
+      "Reserved pool hour followed by breathwork in the spa suite and a light breakfast in the lounge.",
     location: "Guerlain Spa",
     date: "September 5, 2026",
     time: "8:00 AM",
@@ -475,8 +562,6 @@ export const SEED_EVENT_IDEAS: EventIdea[] = [
     interest: 12,
   },
 ];
-
-
 
 export const CONCIERGE_SERVICES = [
   "Housekeeping",
@@ -557,8 +642,18 @@ export const MEASURES: GovernanceMeasure[] = [
 ];
 
 export const GOVERNANCE_DOCUMENTS: GovernanceDocument[] = [
-  { id: 1, title: "Declaration of Trust & House Rules", kind: "Governing instrument", issued: "Revised January 2026" },
+  {
+    id: 1,
+    title: "Declaration of Trust & House Rules",
+    kind: "Governing instrument",
+    issued: "Revised January 2026",
+  },
   { id: 2, title: "Operating Budget & Reserve Study", kind: "Financial", issued: "February 2026" },
   { id: 3, title: "Minutes — February Trustee Sitting", kind: "Minutes", issued: "March 1, 2026" },
-  { id: 4, title: "Proxy Instrument for the Annual Assembly", kind: "Form", issued: "March 1, 2026" },
+  {
+    id: 4,
+    title: "Proxy Instrument for the Annual Assembly",
+    kind: "Form",
+    issued: "March 1, 2026",
+  },
 ];

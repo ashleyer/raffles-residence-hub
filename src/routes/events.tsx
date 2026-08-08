@@ -2,7 +2,12 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, Clock, MapPin, Sparkles, ThumbsUp, Users } from "lucide-react";
 import { toast } from "sonner";
-import { SEED_EVENTS, SEED_EVENT_IDEAS, type EventIdea, type ResidentEvent } from "@/lib/intranet-data";
+import {
+  SEED_EVENTS,
+  SEED_EVENT_IDEAS,
+  type EventIdea,
+  type ResidentEvent,
+} from "@/lib/intranet-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
@@ -26,7 +31,8 @@ export const Route = createFileRoute("/events")({
       { property: "og:title", content: "Resident Events & RSVP — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "RSVP to residents' events and propose gatherings of your own on Floor 21 and beyond.",
+        content:
+          "RSVP to residents' events and propose gatherings of your own on Floor 21 and beyond.",
       },
     ],
   }),
@@ -50,7 +56,9 @@ function EventsPage() {
     const party = Math.max(1, Number(guestCount) || 1);
     if (rsvped[event.id]) {
       setEvents((prev) =>
-        prev.map((e) => (e.id === event.id ? { ...e, attending: e.attending - rsvped[event.id]! } : e)),
+        prev.map((e) =>
+          e.id === event.id ? { ...e, attending: e.attending - rsvped[event.id]! } : e,
+        ),
       );
       setRsvped((prev) => {
         const next = { ...prev };
@@ -64,7 +72,9 @@ function EventsPage() {
       toast.error("That gathering is at capacity. The concierge keeps a waiting list.");
       return;
     }
-    setEvents((prev) => prev.map((e) => (e.id === event.id ? { ...e, attending: e.attending + party } : e)));
+    setEvents((prev) =>
+      prev.map((e) => (e.id === event.id ? { ...e, attending: e.attending + party } : e)),
+    );
     setRsvped((prev) => ({ ...prev, [event.id]: party }));
     logActivity({ kind: "rsvp", refId: String(event.id), label: event.title });
     toast.success(`Attending ${event.title} · party of ${party}.`);
@@ -109,13 +119,17 @@ function EventsPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20"
+      >
         <p className="eyebrow">Residents' Calendar</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Events & gatherings</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Gatherings hosted for deed-holders across the Residents' Lounge on Floor 21, La Padrona and the Guerlain
-          Spa. RSVP below, or propose an occasion of your own to the events committee.
+          Gatherings hosted for deed-holders across the Residents' Lounge on Floor 21, La Padrona
+          and the Guerlain Spa. RSVP below, or propose an occasion of your own to the events
+          committee.
         </p>
 
         <div className="mt-10 flex flex-wrap items-end gap-4">
@@ -196,7 +210,10 @@ function EventsPage() {
             <div className="gold-rule mt-4" />
             <ul className="mt-6 space-y-4">
               {ideas.map((i) => (
-                <li key={i.id} className="flex flex-wrap items-start justify-between gap-4 border border-border bg-card p-6">
+                <li
+                  key={i.id}
+                  className="flex flex-wrap items-start justify-between gap-4 border border-border bg-card p-6"
+                >
                   <div className="max-w-xl">
                     <h3 className="flex items-center gap-2 text-xl leading-snug">
                       <Sparkles className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -282,7 +299,6 @@ function EventsPage() {
         <SocialFeed />
 
         <ForYou variant="inline" area="events" />
-
       </main>
       <SiteFooter />
     </div>

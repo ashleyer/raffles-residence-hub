@@ -9,7 +9,13 @@ import { usePortal } from "@/lib/portal-store";
  * assigns, or changes the status of one of their requests.
  */
 export function NotificationBell() {
-  const { currentUser, notifications, unreadNotifications, markNotificationsRead, dismissNotification } = usePortal();
+  const {
+    currentUser,
+    notifications,
+    unreadNotifications,
+    markNotificationsRead,
+    dismissNotification,
+  } = usePortal();
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const lastSeenId = useRef<number | null>(null);
@@ -92,9 +98,13 @@ export function NotificationBell() {
               {notifications.map((n) => (
                 <li key={n.id} className="border-b border-border pb-3 last:border-0 last:pb-0">
                   <p className="text-sm">{n.title}</p>
-                  <p className="mt-1 text-pretty text-xs leading-relaxed text-muted-foreground">{n.body}</p>
+                  <p className="mt-1 text-pretty text-xs leading-relaxed text-muted-foreground">
+                    {n.body}
+                  </p>
                   <div className="mt-2 flex items-center justify-between gap-3">
-                    <span className="text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">{n.at}</span>
+                    <span className="text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">
+                      {n.at}
+                    </span>
                     <button
                       type="button"
                       onClick={() => dismissNotification(n.id)}

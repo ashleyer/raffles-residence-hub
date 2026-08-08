@@ -13,8 +13,8 @@ if (!("IntersectionObserver" in globalThis)) {
     rootMargin = "";
     thresholds = [];
   }
-  // @ts-expect-error test shim
-  globalThis.IntersectionObserver = MockIntersectionObserver;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).IntersectionObserver = MockIntersectionObserver;
 }
 
 if (!globalThis.matchMedia) {

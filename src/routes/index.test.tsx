@@ -22,7 +22,9 @@ function renderIndexRoute() {
 
   const rootRoute = createRootRoute({
     component: () => (
-      <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+      <QueryClientProvider
+        client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+      >
         <PortalProvider>
           <Outlet />
         </PortalProvider>
@@ -81,8 +83,9 @@ describe("Index route", () => {
   it("links both cards to the login route with the right mode", async () => {
     renderIndexRoute();
 
-    const section = (await screen.findByRole("heading", { name: /resident account access/i }))
-      .closest("section")!;
+    const section = (
+      await screen.findByRole("heading", { name: /resident account access/i })
+    ).closest("section")!;
     const within = (name: RegExp) =>
       Array.from(section.querySelectorAll("a")).find((a) => name.test(a.textContent ?? ""))!;
     const signUpLink = within(/^sign up$/i);

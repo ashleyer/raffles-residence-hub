@@ -1,6 +1,15 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { CalendarCheck, Clock, ExternalLink, Info, MapPin, Minus, Plus, UtensilsCrossed } from "lucide-react";
+import {
+  CalendarCheck,
+  Clock,
+  ExternalLink,
+  Info,
+  MapPin,
+  Minus,
+  Plus,
+  UtensilsCrossed,
+} from "lucide-react";
 import { toast } from "sonner";
 import {
   AMENITIES,
@@ -52,7 +61,10 @@ function AmenitiesPage() {
   const [catering, setCatering] = useState<string>(CATERING_OPTIONS[0]);
   const [notes, setNotes] = useState("");
 
-  const amenity = useMemo(() => AMENITIES.find((a) => a.id === amenityId) ?? AMENITIES[0]!, [amenityId]);
+  const amenity = useMemo(
+    () => AMENITIES.find((a) => a.id === amenityId) ?? AMENITIES[0]!,
+    [amenityId],
+  );
 
   const selectAmenity = (id: string) => {
     const next = AMENITIES.find((a) => a.id === id) ?? AMENITIES[0]!;
@@ -99,14 +111,18 @@ function AmenitiesPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20"
+      >
         <p className="eyebrow">Residents' Booking Desk</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Reservation requests</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          The Residents' Lounge on Floor 21 and its amenity rooms — the Nantucket Kitchen, Secret Garden Room, sports
-          simulator and sports lounge — along with the Emerald Lounge may be reserved here, with catering supplied by
-          the hotel kitchen. Hotel venues below are open to residents but are not reservable through this desk.
+          The Residents' Lounge on Floor 21 and its amenity rooms — the Nantucket Kitchen, Secret
+          Garden Room, sports simulator and sports lounge — along with the Emerald Lounge may be
+          reserved here, with catering supplied by the hotel kitchen. Hotel venues below are open to
+          residents but are not reservable through this desk.
         </p>
 
         <div className="mt-12 grid gap-10 md:gap-12 lg:grid-cols-[1.5fr_1fr]">
@@ -120,7 +136,9 @@ function AmenitiesPage() {
                 <li key={a.id}>
                   <article
                     className={`flex h-full flex-col border transition-colors ${
-                      a.id === amenityId ? "border-primary bg-card" : "border-border bg-card hover:border-primary/50"
+                      a.id === amenityId
+                        ? "border-primary bg-card"
+                        : "border-border bg-card hover:border-primary/50"
                     }`}
                   >
                     <img
@@ -137,14 +155,19 @@ function AmenitiesPage() {
                         <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                         {a.location}
                       </p>
-                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a.description}</p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                        {a.description}
+                      </p>
                       <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                         <Clock className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                         {a.hours}
                       </p>
                       {a.service && (
                         <p className="mt-3 flex gap-2 border-l-2 border-primary/50 pl-3 text-xs leading-relaxed text-muted-foreground">
-                          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                          <Info
+                            className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"
+                            aria-hidden="true"
+                          />
                           {a.service}
                         </p>
                       )}
@@ -181,9 +204,15 @@ function AmenitiesPage() {
                       <UtensilsCrossed className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                       {b.catering}
                     </p>
-                    {b.notes && <p className="mt-1 text-xs text-muted-foreground italic">{b.notes}</p>}
+                    {b.notes && (
+                      <p className="mt-1 text-xs text-muted-foreground italic">{b.notes}</p>
+                    )}
                   </div>
-                  <Button variant="ghost" onClick={() => release(b.id)} className="tracking-[0.18em] uppercase">
+                  <Button
+                    variant="ghost"
+                    onClick={() => release(b.id)}
+                    className="tracking-[0.18em] uppercase"
+                  >
                     Release
                   </Button>
                 </li>
@@ -221,7 +250,12 @@ function AmenitiesPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="date">Date</Label>
-                  <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                  <Input
+                    id="date"
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -306,8 +340,8 @@ function AmenitiesPage() {
           </h2>
           <div className="gold-rule mt-4" />
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            These rooms belong to the hotel and are not reservable in their entirety through the residences desk. Menus
-            and booking are held by each venue.
+            These rooms belong to the hotel and are not reservable in their entirety through the
+            residences desk. Menus and booking are held by each venue.
           </p>
           <ul className="mt-6 grid gap-6 sm:grid-cols-2">
             {VENUES.map((v) => (
@@ -327,17 +361,25 @@ function AmenitiesPage() {
                       <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                       {v.location}
                     </p>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{v.description}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {v.description}
+                    </p>
                     <ul className="mt-4 space-y-1">
                       {v.hours.map((h) => (
-                        <li key={h} className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <li
+                          key={h}
+                          className="flex items-center gap-2 text-xs text-muted-foreground"
+                        >
                           <Clock className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
                           {h}
                         </li>
                       ))}
                     </ul>
                     <p className="mt-3 flex gap-2 border-l-2 border-primary/50 pl-3 text-xs leading-relaxed text-muted-foreground">
-                      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                      <Info
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"
+                        aria-hidden="true"
+                      />
                       {v.note}
                     </p>
                     <div className="mt-5 flex flex-wrap gap-3">
@@ -361,15 +403,18 @@ function AmenitiesPage() {
           </ul>
         </section>
 
-        <section aria-labelledby="house-amenities-heading" className="mt-20 border-t border-border pt-14">
+        <section
+          aria-labelledby="house-amenities-heading"
+          className="mt-20 border-t border-border pt-14"
+        >
           <p className="eyebrow">Open daily</p>
           <h2 id="house-amenities-heading" className="mt-3 text-3xl">
             House amenities
           </h2>
           <div className="gold-rule mt-4" />
           <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            These spaces are open to residents without a reservation. The concierge can arrange registrations,
-            training and celebration orders where noted.
+            These spaces are open to residents without a reservation. The concierge can arrange
+            registrations, training and celebration orders where noted.
           </p>
           <ul className="mt-8 grid gap-6 md:grid-cols-2">
             {HOUSE_AMENITIES.map((a) => (
@@ -385,20 +430,28 @@ function AmenitiesPage() {
                   />
                   <div className="flex flex-1 flex-col p-6">
                     <h3 className="text-2xl">{a.name}</h3>
-                    <p className="mt-1 text-xs tracking-[0.16em] text-muted-foreground uppercase">{a.location}</p>
+                    <p className="mt-1 text-xs tracking-[0.16em] text-muted-foreground uppercase">
+                      {a.location}
+                    </p>
                     <p className="mt-4 flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">
                       {a.description}
                     </p>
                     <ul className="mt-4 space-y-1">
                       {a.hours.map((h) => (
-                        <li key={h} className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <li
+                          key={h}
+                          className="flex items-center gap-2 text-xs text-muted-foreground"
+                        >
                           <Clock className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
                           {h}
                         </li>
                       ))}
                     </ul>
                     <p className="mt-3 flex gap-2 border-l-2 border-primary/50 pl-3 text-xs leading-relaxed text-muted-foreground">
-                      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                      <Info
+                        className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary"
+                        aria-hidden="true"
+                      />
                       {a.note}
                     </p>
                     {a.links && (
@@ -426,8 +479,6 @@ function AmenitiesPage() {
         </section>
 
         <ForYou variant="inline" area="amenities" />
-
-
       </main>
       <SiteFooter />
     </div>
@@ -440,7 +491,9 @@ function InResidenceDining() {
   const [unit, setUnit] = useState("");
   const [when, setWhen] = useState("As soon as possible");
   const [notes, setNotes] = useState("");
-  const [placed, setPlaced] = useState<{ id: number; when: string; total: number; lines: string[] }[]>([]);
+  const [placed, setPlaced] = useState<
+    { id: number; when: string; total: number; lines: string[] }[]
+  >([]);
 
   const lines = useMemo(
     () =>
@@ -506,14 +559,21 @@ function InResidenceDining() {
             <div key={section.id} className="border border-border bg-card p-5 sm:p-6">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-xl">{section.label}</h3>
-                <p className="text-xs tracking-wider text-muted-foreground uppercase">{section.hours}</p>
+                <p className="text-xs tracking-wider text-muted-foreground uppercase">
+                  {section.hours}
+                </p>
               </div>
               <ul className="mt-4 divide-y divide-border">
                 {section.items.map((item) => (
-                  <li key={item.id} className="flex flex-wrap items-start justify-between gap-4 py-4">
+                  <li
+                    key={item.id}
+                    className="flex flex-wrap items-start justify-between gap-4 py-4"
+                  >
                     <div className="min-w-[12rem] flex-1">
                       <p className="text-base">{item.name}</p>
-                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.detail}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                        {item.detail}
+                      </p>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-sm text-muted-foreground">${item.price}</span>
@@ -565,7 +625,9 @@ function InResidenceDining() {
                   <span>${l.qty * l.price}</span>
                 </li>
               ))}
-              {lines.length === 0 && <li className="text-sm text-muted-foreground">No dishes selected yet.</li>}
+              {lines.length === 0 && (
+                <li className="text-sm text-muted-foreground">No dishes selected yet.</li>
+              )}
             </ul>
             <p className="mt-4 flex justify-between border-t border-border pt-3 text-sm">
               <span className="tracking-wider uppercase">Subtotal</span>
@@ -581,7 +643,13 @@ function InResidenceDining() {
                   onChange={(e) => setWhen(e.target.value)}
                   className="h-11 w-full border border-input bg-transparent px-3 text-sm"
                 >
-                  {["As soon as possible", "In 30 minutes", "In 1 hour", "This evening", "Tomorrow morning"].map((w) => (
+                  {[
+                    "As soon as possible",
+                    "In 30 minutes",
+                    "In 1 hour",
+                    "This evening",
+                    "Tomorrow morning",
+                  ].map((w) => (
                     <option key={w} value={w} className="bg-card">
                       {w}
                     </option>

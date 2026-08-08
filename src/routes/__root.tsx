@@ -18,8 +18,6 @@ import { SurveyPrompt } from "@/components/SurveyPrompt";
 import { AppErrorBoundary } from "@/components/AppErrorBoundary";
 import { RuntimeErrorReporter } from "@/components/RuntimeErrorReporter";
 
-
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-dvh items-center justify-center bg-background px-4">
@@ -151,5 +149,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-
-

@@ -51,7 +51,8 @@ export const SEED_GALLERY_POSTS: GalleryPost[] = [
     id: 2,
     image: pastOne,
     alt: "Residents seated at a candlelit table during a wine salon",
-    caption: "The Burgundy salon in the Secret Garden Room — twelve of us, three hours, no one wanted to leave.",
+    caption:
+      "The Burgundy salon in the Secret Garden Room — twelve of us, three hours, no one wanted to leave.",
     place: "Secret Garden Room",
     author: "Residence 18C",
     at: "Last week",
@@ -61,7 +62,8 @@ export const SEED_GALLERY_POSTS: GalleryPost[] = [
     id: 3,
     image: patisserie,
     alt: "Pastries and coffee on a marble counter",
-    caption: "Saturday ritual: two croissants and a cortado downstairs before anyone else in the house is awake.",
+    caption:
+      "Saturday ritual: two croissants and a cortado downstairs before anyone else in the house is awake.",
     place: "The Patisserie",
     author: "Anonymous resident",
     at: "Last week",

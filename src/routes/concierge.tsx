@@ -73,13 +73,16 @@ function ConciergePage() {
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20"
+      >
         <p className="eyebrow">Raffles Concierge</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Concierge requests</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Every residence is attended around the clock. Requests lodged here reach the concierge desk immediately and
-          are acknowledged within fifteen minutes.
+          Every residence is attended around the clock. Requests lodged here reach the concierge
+          desk immediately and are acknowledged within fifteen minutes.
         </p>
         <p className="mt-4 text-xs tracking-wider text-muted-foreground uppercase">
           Residences team ·{" "}
@@ -118,7 +121,9 @@ function ConciergePage() {
                     <div className="flex flex-wrap items-start justify-between gap-4">
                       <div>
                         <p className="eyebrow">{r.service}</p>
-                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{r.detail}</p>
+                        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                          {r.detail}
+                        </p>
                         <p className="mt-3 text-xs tracking-wider text-muted-foreground uppercase">
                           {r.unit} · {r.priority} · {r.placedAt}
                           {r.assignedTo ? ` · ${r.assignedTo}` : ""}
@@ -130,7 +135,9 @@ function ConciergePage() {
                                 <p className="text-xs tracking-wider text-primary uppercase">
                                   {reply.author} · {reply.at}
                                 </p>
-                                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{reply.body}</p>
+                                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                                  {reply.body}
+                                </p>
                               </li>
                             ))}
                           </ul>
@@ -209,7 +216,6 @@ function ConciergePage() {
                     </p>
                   )}
                 </div>
-
 
                 <div className="space-y-2">
                   <Label htmlFor="cunit">Residence number</Label>

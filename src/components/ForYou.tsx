@@ -2,7 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import { usePortal } from "@/lib/portal-store";
-import { buildRecommendations, type Recommendation, type RecommendationArea } from "@/lib/recommendations";
+import {
+  buildRecommendations,
+  type Recommendation,
+  type RecommendationArea,
+} from "@/lib/recommendations";
 import { polishRecommendations } from "@/lib/recommendations.functions";
 
 export function useRecommendations() {
@@ -31,7 +35,17 @@ export function useRecommendations() {
       parcelsWaiting: parcels.filter((p) => p.status === "Awaiting collection").length,
       hasAnsweredSurvey,
     });
-  }, [currentUser, activity, joined, listings, topics, statements, maintenance, parcels, hasAnsweredSurvey]);
+  }, [
+    currentUser,
+    activity,
+    joined,
+    listings,
+    topics,
+    statements,
+    maintenance,
+    parcels,
+    hasAnsweredSurvey,
+  ]);
 }
 
 /**
@@ -109,7 +123,10 @@ function Card({
       {showSignals && item.signals.length > 0 && (
         <ul className="mt-4 flex flex-wrap gap-2" aria-label="Why you are seeing this">
           {item.signals.map((s) => (
-            <li key={s} className="border border-border px-2 py-1 text-[0.66rem] tracking-wide text-muted-foreground">
+            <li
+              key={s}
+              className="border border-border px-2 py-1 text-[0.66rem] tracking-wide text-muted-foreground"
+            >
               {s}
             </li>
           ))}
@@ -189,14 +206,22 @@ export function ForYou({
             className="inline-flex min-h-11 min-w-11 items-center justify-center border border-border px-3 text-primary"
             aria-label="Refresh suggestions"
           >
-            <RefreshCw className={`h-4 w-4 ${state === "loading" ? "animate-spin" : ""}`} aria-hidden="true" />
+            <RefreshCw
+              className={`h-4 w-4 ${state === "loading" ? "animate-spin" : ""}`}
+              aria-hidden="true"
+            />
           </button>
         </div>
       </div>
 
       <ul className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <Card key={item.id} item={item} reason={reasons[item.id] ?? item.reason} showSignals={showSignals} />
+          <Card
+            key={item.id}
+            item={item}
+            reason={reasons[item.id] ?? item.reason}
+            showSignals={showSignals}
+          />
         ))}
       </ul>
 

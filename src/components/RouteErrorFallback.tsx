@@ -8,11 +8,13 @@ export function RouteErrorFallback({ error, reset }: Partial<ErrorComponentProps
 
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-2xl flex-col justify-center px-6 py-20 text-center">
-      <p className="text-xs tracking-[0.28em] uppercase text-muted-foreground">Raffles Residences Boston</p>
+      <p className="text-xs tracking-[0.28em] uppercase text-muted-foreground">
+        Raffles Residences Boston
+      </p>
       <h1 className="mt-4 text-3xl leading-tight">This page could not be displayed</h1>
       <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-        Something interrupted the page while it was loading. Your details are safe. Please try again, or return to the
-        entrance and continue from there.
+        Something interrupted the page while it was loading. Your details are safe. Please try
+        again, or return to the entrance and continue from there.
       </p>
       {message ? (
         <p className="mx-auto mt-6 max-w-xl border border-border bg-muted/40 p-4 text-left font-mono text-xs break-words text-muted-foreground">
@@ -44,7 +46,9 @@ export function RouteErrorFallback({ error, reset }: Partial<ErrorComponentProps
 export function RouteNotFound() {
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-2xl flex-col justify-center px-6 py-20 text-center">
-      <p className="text-xs tracking-[0.28em] uppercase text-muted-foreground">Raffles Residences Boston</p>
+      <p className="text-xs tracking-[0.28em] uppercase text-muted-foreground">
+        Raffles Residences Boston
+      </p>
       <h1 className="mt-4 text-3xl leading-tight">We could not find that page</h1>
       <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
         The page you asked for is not part of the residents' portal.

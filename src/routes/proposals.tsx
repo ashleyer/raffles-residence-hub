@@ -22,7 +22,10 @@ export const Route = createFileRoute("/proposals")({
           "Proposed requests from residents of The Raffles Residences Boston, where neighbours vote for or against before the Board takes them up.",
       },
       { property: "og:title", content: "Resident Proposals — Raffles Boston Residences" },
-      { property: "og:description", content: "Up and down voting on resident requests before they reach the Board." },
+      {
+        property: "og:description",
+        content: "Up and down voting on resident requests before they reach the Board.",
+      },
     ],
   }),
   component: ProposalsPage,
@@ -118,7 +121,9 @@ function ProposalsBody() {
                   <div>
                     <p className="eyebrow">{p.category}</p>
                     <h3 className="mt-2 text-2xl leading-snug">{p.title}</h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                      {p.body}
+                    </p>
                     <p className="mt-3 text-xs tracking-wider text-muted-foreground uppercase">
                       {p.author} · {p.at} · net support {p.up - p.down}
                     </p>
@@ -159,7 +164,12 @@ function ProposalsBody() {
           <div className="mt-6 space-y-5">
             <div className="space-y-2">
               <Label htmlFor="p-title">Title</Label>
-              <Input id="p-title" value={title} onChange={(e) => setTitle(e.target.value)} className="min-h-11" />
+              <Input
+                id="p-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="min-h-11"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="p-category">Category</Label>
@@ -176,7 +186,12 @@ function ProposalsBody() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="p-body">Details</Label>
-              <Textarea id="p-body" rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
+              <Textarea
+                id="p-body"
+                rows={4}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+              />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
               <Label htmlFor="p-anon" className="text-sm font-normal">

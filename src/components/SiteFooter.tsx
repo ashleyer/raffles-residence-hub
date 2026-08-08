@@ -5,13 +5,7 @@ import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
 import { NotifySecurity } from "@/components/NotifySecurity";
 
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export function SiteFooter() {
   const [devOpen, setDevOpen] = useState(false);
@@ -51,11 +45,7 @@ export function SiteFooter() {
 
         <NotifySecurity className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto" />
 
-
-        <nav
-          aria-label="Raffles websites and resident pages"
-          className="mx-auto mt-10 max-w-xl"
-        >
+        <nav aria-label="Raffles websites and resident pages" className="mx-auto mt-10 max-w-xl">
           <ul className="grid grid-cols-1 gap-y-1 divide-y divide-border/60 border-y border-border/60 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-8 sm:gap-y-3 sm:divide-y-0 sm:border-0">
             <li className="w-full sm:w-auto">
               <a
@@ -148,9 +138,9 @@ export function SiteFooter() {
           </ul>
         </nav>
 
-
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
-          Preview environment — resident data shown here is illustrative and resets when the page reloads.
+          Preview environment — resident data shown here is illustrative and resets when the page
+          reloads.
         </p>
 
         <nav aria-label="Legal" className="mx-auto mt-6 border-t border-border pt-5">
@@ -183,12 +173,15 @@ export function SiteFooter() {
           </ul>
         </nav>
 
-
-
-
-        <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
-          className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
-          built with <span role="img" aria-label="white heart">🤍</span> in Raffles Residences Boston, Unit 22H by{" "}
+        <p
+          style={{ fontFamily: "'Courier New', Courier, monospace" }}
+          className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]"
+        >
+          built with{" "}
+          <span role="img" aria-label="white heart">
+            🤍
+          </span>{" "}
+          in Raffles Residences Boston, Unit 22H by{" "}
           <button
             type="button"
             onClick={() => setDevOpen(true)}
@@ -197,7 +190,6 @@ export function SiteFooter() {
             aria-label="Ashley Romano — contact the developer"
             className="inline-flex min-h-11 items-center underline underline-offset-4 hover:no-underline"
           >
-
             Ashley Romano
           </button>
         </p>
@@ -258,7 +250,6 @@ export function SiteFooter() {
               </button>
             </li>
           </ul>
-
         </DialogContent>
       </Dialog>
     </footer>

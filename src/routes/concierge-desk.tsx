@@ -23,7 +23,8 @@ export const Route = createFileRoute("/concierge-desk")({
       { property: "og:title", content: "Concierge Desk Queue — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "Staff-only triage board for resident concierge requests at Raffles Boston Residences.",
+        content:
+          "Staff-only triage board for resident concierge requests at Raffles Boston Residences.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -70,7 +71,8 @@ function DeskGate() {
       </div>
       <h2 className="mt-4 text-2xl">Desk sign-in</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        This queue holds residence details, so it is open to the residences team only. Enter the staff access code.
+        This queue holds residence details, so it is open to the residences team only. Enter the
+        staff access code.
       </p>
       <form
         className="mt-6 space-y-3"
@@ -114,7 +116,8 @@ function DeskGate() {
 }
 
 function DeskQueue() {
-  const { conciergeRequests, setConciergeStatus, assignConciergeRequest, replyToConciergeRequest } = usePortal();
+  const { conciergeRequests, setConciergeStatus, assignConciergeRequest, replyToConciergeRequest } =
+    usePortal();
 
   const [category, setCategory] = useState<"All" | string>("All");
   const [status, setStatus] = useState<"All" | ConciergeRequest["status"]>("All");
@@ -157,14 +160,19 @@ function DeskQueue() {
   }, [conciergeRequests, category, status, priorityOnly, query]);
 
   const open = conciergeRequests.filter((r) => r.status !== "Completed").length;
-  const urgent = conciergeRequests.filter((r) => r.status !== "Completed" && r.priority === "Priority").length;
+  const urgent = conciergeRequests.filter(
+    (r) => r.status !== "Completed" && r.priority === "Priority",
+  ).length;
 
   return (
     <div className="mt-12">
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Open in queue" value={open} />
         <Stat label="Priority waiting" value={urgent} />
-        <Stat label="Closed today" value={conciergeRequests.filter((r) => r.status === "Completed").length} />
+        <Stat
+          label="Closed today"
+          value={conciergeRequests.filter((r) => r.status === "Completed").length}
+        />
       </div>
 
       <section aria-labelledby="filters" className="mt-10 border border-border bg-card p-6">
@@ -295,7 +303,9 @@ function QueueCard({
             {request.service}
             {request.service === "Other" ? " · needs routing" : ""}
           </p>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{request.detail}</p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {request.detail}
+          </p>
           <p className="mt-3 text-xs tracking-wider text-muted-foreground uppercase">
             {request.unit} · {request.priority} · {request.placedAt}
             {request.assignedTo ? ` · ${request.assignedTo}` : " · unassigned"}

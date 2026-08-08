@@ -4,7 +4,11 @@ import { toast } from "sonner";
 import { PageShell, TabBar, TabPanel } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
 import { usePortal } from "@/lib/portal-store";
-import { MAINTENANCE_CATEGORIES, type MaintenanceTicket, type ValetRequest } from "@/lib/portal-data";
+import {
+  MAINTENANCE_CATEGORIES,
+  type MaintenanceTicket,
+  type ValetRequest,
+} from "@/lib/portal-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -118,7 +122,12 @@ function ValetSection() {
             toast.error("Tell us the vehicle and the time.");
             return;
           }
-          addValet({ kind, vehicle: vehicle.trim(), when: when.trim(), ...(notes.trim() ? { notes: notes.trim() } : {}) });
+          addValet({
+            kind,
+            vehicle: vehicle.trim(),
+            when: when.trim(),
+            ...(notes.trim() ? { notes: notes.trim() } : {}),
+          });
           setVehicle("");
           setWhen("");
           setNotes("");
@@ -142,7 +151,12 @@ function ValetSection() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="valet-vehicle">Vehicle or guest</Label>
-            <Input id="valet-vehicle" value={vehicle} onChange={(e) => setVehicle(e.target.value)} className="min-h-11" />
+            <Input
+              id="valet-vehicle"
+              value={vehicle}
+              onChange={(e) => setVehicle(e.target.value)}
+              className="min-h-11"
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="valet-when">When</Label>
@@ -156,7 +170,12 @@ function ValetSection() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="valet-notes">Notes for the attendant (optional)</Label>
-            <Textarea id="valet-notes" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
+            <Textarea
+              id="valet-notes"
+              rows={3}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
           </div>
           <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
             Send to valet
@@ -187,7 +206,9 @@ function MaintenanceSection() {
               <h3 className="mt-2 text-xl leading-snug">{t.detail}</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 {t.unit} · {t.urgency} · reported {t.reportedAt} ·{" "}
-                {t.permissionToEnter ? "Entry permitted in your absence" : "Entry only when at home"}
+                {t.permissionToEnter
+                  ? "Entry permitted in your absence"
+                  : "Entry only when at home"}
               </p>
               <span className="mt-4 inline-block border border-primary px-3 py-1 text-xs tracking-[0.16em] text-primary uppercase">
                 {t.status}
@@ -233,7 +254,12 @@ function MaintenanceSection() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="m-detail">What needs attention?</Label>
-            <Textarea id="m-detail" rows={4} value={detail} onChange={(e) => setDetail(e.target.value)} />
+            <Textarea
+              id="m-detail"
+              rows={4}
+              value={detail}
+              onChange={(e) => setDetail(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="m-urgency">Urgency</Label>
@@ -272,12 +298,15 @@ function MailSection() {
         Mail & package notifications
       </h2>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        Deliveries are received at the concierge desk and appear here as soon as they are logged. Request delivery to
-        your residence or collect at your convenience.
+        Deliveries are received at the concierge desk and appear here as soon as they are logged.
+        Request delivery to your residence or collect at your convenience.
       </p>
       <ul className="mt-8 space-y-4" aria-live="polite">
         {parcels.map((p) => (
-          <li key={p.id} className="flex flex-wrap items-center justify-between gap-4 border border-border bg-card p-6">
+          <li
+            key={p.id}
+            className="flex flex-wrap items-center justify-between gap-4 border border-border bg-card p-6"
+          >
             <div>
               <p className="eyebrow">{p.carrier}</p>
               <h3 className="mt-2 text-xl">{p.description}</h3>
@@ -332,7 +361,9 @@ function LostFoundSection() {
                 {i.location} · {i.when} · {i.contact}
               </p>
               <div className="mt-4 flex flex-wrap items-center gap-4">
-                <span className="border border-border px-3 py-1 text-xs tracking-[0.16em] uppercase">{i.status}</span>
+                <span className="border border-border px-3 py-1 text-xs tracking-[0.16em] uppercase">
+                  {i.status}
+                </span>
                 {i.status === "Open" && (
                   <button
                     type="button"
@@ -364,7 +395,8 @@ function LostFoundSection() {
             item: item.trim(),
             location: location.trim(),
             when: when.trim() || "Today",
-            contact: kind === "Found" ? "Held at the concierge desk" : (currentUser?.unit ?? "Residence"),
+            contact:
+              kind === "Found" ? "Held at the concierge desk" : (currentUser?.unit ?? "Residence"),
           });
           setItem("");
           setLocation("");
@@ -384,7 +416,9 @@ function LostFoundSection() {
                   aria-pressed={kind === k}
                   onClick={() => setKind(k)}
                   className={`min-h-11 flex-1 border px-4 text-xs tracking-[0.16em] uppercase ${
-                    kind === k ? "border-primary bg-primary text-primary-foreground" : "border-border text-muted-foreground"
+                    kind === k
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border text-muted-foreground"
                   }`}
                 >
                   {k} something
@@ -394,15 +428,30 @@ function LostFoundSection() {
           </fieldset>
           <div className="space-y-2">
             <Label htmlFor="lf-item">Item</Label>
-            <Input id="lf-item" value={item} onChange={(e) => setItem(e.target.value)} className="min-h-11" />
+            <Input
+              id="lf-item"
+              value={item}
+              onChange={(e) => setItem(e.target.value)}
+              className="min-h-11"
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="lf-location">Where</Label>
-            <Input id="lf-location" value={location} onChange={(e) => setLocation(e.target.value)} className="min-h-11" />
+            <Input
+              id="lf-location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="min-h-11"
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="lf-when">When (optional)</Label>
-            <Input id="lf-when" value={when} onChange={(e) => setWhen(e.target.value)} className="min-h-11" />
+            <Input
+              id="lf-when"
+              value={when}
+              onChange={(e) => setWhen(e.target.value)}
+              className="min-h-11"
+            />
           </div>
           <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
             Log with the concierge

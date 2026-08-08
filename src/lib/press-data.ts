@@ -160,8 +160,7 @@ export const PRESS_ITEMS: PressItem[] = [
   },
   {
     outlet: "Hemispheres",
-    title:
-      "Boston Cream: Get the Best of Beantown at these Brand-New Luxury Developments",
+    title: "Boston Cream: Get the Best of Beantown at these Brand-New Luxury Developments",
     date: "2023-07-01",
     dateLabel: "July 1, 2023",
     url: `${HOST}/site/assets/files/1389/the-raffles-residences-boston-1688184000_0001.pdf`,

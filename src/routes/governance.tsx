@@ -53,19 +53,24 @@ function GovernancePage() {
           : x,
       ),
     );
-    toast.success(`Ballot recorded — ${choice === "for" ? "in favour" : "against"} ${m.reference}.`);
+    toast.success(
+      `Ballot recorded — ${choice === "for" ? "in favour" : "against"} ${m.reference}.`,
+    );
   };
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20"
+      >
         <p className="eyebrow">Board of Trustees</p>
         <h1 className="mt-3 text-4xl md:text-5xl">Governance & ballots</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Measures before the residence, the standing of each ballot, and the instruments by which the association is
-          governed. One ballot is held per registered residence.
+          Measures before the residence, the standing of each ballot, and the instruments by which
+          the association is governed. One ballot is held per registered residence.
         </p>
 
         <div className="mt-12 grid gap-10 md:gap-12 lg:grid-cols-[1.6fr_1fr]">
@@ -90,7 +95,9 @@ function GovernancePage() {
                       </span>
                     </div>
                     <h3 className="mt-4 text-2xl leading-snug">{m.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{m.summary}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {m.summary}
+                    </p>
 
                     <div className="mt-6">
                       <div className="h-1.5 w-full bg-secondary">
@@ -131,7 +138,10 @@ function GovernancePage() {
               <div className="gold-rule mt-4" />
               <ul className="mt-6 space-y-4">
                 {GOVERNANCE_DOCUMENTS.map((d) => (
-                  <li key={d.id} className="flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0">
+                  <li
+                    key={d.id}
+                    className="flex gap-3 border-b border-border pb-4 last:border-0 last:pb-0"
+                  >
                     <FileText className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                     <div>
                       <p className="text-sm leading-snug">{d.title}</p>
@@ -147,8 +157,9 @@ function GovernancePage() {
             <div className="border border-border bg-secondary/40 p-7">
               <p className="eyebrow">Quorum</p>
               <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                A measure carries on a simple majority of ballots cast, provided sixty per cent of registered
-                residences have voted. Proxy instruments may be lodged with the concierge desk.
+                A measure carries on a simple majority of ballots cast, provided sixty per cent of
+                registered residences have voted. Proxy instruments may be lodged with the concierge
+                desk.
               </p>
             </div>
           </aside>

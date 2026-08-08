@@ -30,7 +30,8 @@ export const Route = createFileRoute("/sales-and-leasing")({
   component: SalesAndLeasingPage,
 });
 
-const money = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+const money = (n: number) =>
+  n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 const TABS = [
   { id: "sales", label: "For sale & sold" },
@@ -75,10 +76,18 @@ function SalesAndLeasingPage() {
             <caption className="sr-only">Parking spaces available for sale or lease</caption>
             <thead>
               <tr className="border-b border-border text-left text-xs tracking-[0.16em] text-muted-foreground uppercase">
-                <th scope="col" className="p-4">Space</th>
-                <th scope="col" className="p-4">Offering</th>
-                <th scope="col" className="p-4">Status</th>
-                <th scope="col" className="p-4 text-right">Price</th>
+                <th scope="col" className="p-4">
+                  Space
+                </th>
+                <th scope="col" className="p-4">
+                  Offering
+                </th>
+                <th scope="col" className="p-4">
+                  Status
+                </th>
+                <th scope="col" className="p-4 text-right">
+                  Price
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -89,7 +98,9 @@ function SalesAndLeasingPage() {
                     <span className="block text-xs text-muted-foreground">{p.level}</span>
                   </td>
                   <td className="p-4">
-                    <span className="block">{p.kind === "Sale" ? "Deeded sale" : "Monthly licence"}</span>
+                    <span className="block">
+                      {p.kind === "Sale" ? "Deeded sale" : "Monthly licence"}
+                    </span>
                     <span className="block text-xs text-muted-foreground">{p.note}</span>
                   </td>
                   <td className="p-4">
@@ -97,7 +108,9 @@ function SalesAndLeasingPage() {
                   </td>
                   <td className="p-4 text-right whitespace-nowrap">
                     {money(p.price)}
-                    {p.kind === "Lease" && <span className="text-xs text-muted-foreground"> / month</span>}
+                    {p.kind === "Lease" && (
+                      <span className="text-xs text-muted-foreground"> / month</span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -107,8 +120,8 @@ function SalesAndLeasingPage() {
       </TabPanel>
 
       <p className="mt-12 border border-dashed border-border p-6 text-sm leading-relaxed text-muted-foreground">
-        Enquiries and private viewings are arranged through the residences office. Every transfer, lease and parking
-        licence is subject to board review under the condominium documents.
+        Enquiries and private viewings are arranged through the residences office. Every transfer,
+        lease and parking licence is subject to board review under the condominium documents.
       </p>
     </PageShell>
   );
@@ -116,7 +129,8 @@ function SalesAndLeasingPage() {
 
 function StatusChip({ status }: { status: string }) {
   const closed = status === "Sold" || status === "Leased" || status === "Recently sold";
-  const pending = status === "Pending" || status === "Under agreement" || status === "Application pending";
+  const pending =
+    status === "Pending" || status === "Under agreement" || status === "Application pending";
   return (
     <span
       className={`inline-block border px-2.5 py-1 text-[0.65rem] tracking-[0.16em] uppercase ${
@@ -171,8 +185,12 @@ function SaleCard({ listing }: { listing: SaleListing }) {
             </span>
           )}
         </p>
-        <p className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">{listing.note}</p>
-        <p className="mt-4 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">{listing.listed}</p>
+        <p className="mt-3 flex-1 text-pretty text-sm leading-relaxed text-muted-foreground">
+          {listing.note}
+        </p>
+        <p className="mt-4 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
+          {listing.listed}
+        </p>
       </div>
     </article>
   );
@@ -204,7 +222,9 @@ function LeaseCard({ listing }: { listing: LeaseListing }) {
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
           {listing.furnished} · {listing.term}
         </p>
-        <p className="mt-4 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">{listing.available}</p>
+        <p className="mt-4 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
+          {listing.available}
+        </p>
       </div>
     </article>
   );

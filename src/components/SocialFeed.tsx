@@ -85,7 +85,8 @@ export function SocialFeed() {
             From the residences
           </h2>
           <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
-            The latest from the building's social channels. In this demo the posts are illustrative rather than live.
+            The latest from the building's social channels. In this demo the posts are illustrative
+            rather than live.
           </p>
         </div>
         <a
@@ -126,7 +127,6 @@ export function SocialFeed() {
           </li>
         ))}
       </ul>
-
     </section>
   );
 }

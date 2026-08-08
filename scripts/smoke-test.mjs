@@ -14,7 +14,10 @@
  * Exit code 0 = safe to deploy. Non-zero = at least one check failed.
  */
 
-const BASE = (process.argv[2] || process.env.SMOKE_BASE_URL || "http://localhost:8080").replace(/\/$/, "");
+const BASE = (process.argv[2] || process.env.SMOKE_BASE_URL || "http://localhost:8080").replace(
+  /\/$/,
+  "",
+);
 const PASSCODE = process.env.SMOKE_PASSCODE || "raffles2026";
 const EMAIL = process.env.SMOKE_EMAIL || "smoke.test@raffles-boston.demo";
 
@@ -78,7 +81,12 @@ async function stageHealth() {
   try {
     const { status, body } = await get("/health");
     const payload = JSON.parse(body);
-    record("health", "GET /health", status === 200 && payload.status === "ok", `status=${payload.status}`);
+    record(
+      "health",
+      "GET /health",
+      status === 200 && payload.status === "ok",
+      `status=${payload.status}`,
+    );
   } catch (error) {
     record("health", "GET /health", false, error.message);
   }
@@ -100,7 +108,8 @@ async function stageHealth() {
     }
     const names = (payload.checks ?? []).map((c) => c.name);
     for (const required of ["api", "database", "graphql"]) {
-      if (!names.includes(required)) record("health", `dependency: ${required}`, false, "check missing from probe");
+      if (!names.includes(required))
+        record("health", `dependency: ${required}`, false, "check missing from probe");
     }
   } catch (error) {
     record("health", "GET /health/ready", false, error.message);
@@ -137,10 +146,17 @@ async function stageBrowser() {
     browser = await chromium.launch({
       headless: true,
       // Optional escape hatch for CI images that already ship a Chromium build.
-      ...(process.env.SMOKE_CHROMIUM_PATH ? { executablePath: process.env.SMOKE_CHROMIUM_PATH } : {}),
+      ...(process.env.SMOKE_CHROMIUM_PATH
+        ? { executablePath: process.env.SMOKE_CHROMIUM_PATH }
+        : {}),
     });
   } catch (error) {
-    record("browser", "browser stage", null, `chromium unavailable — ${error.message.split("\n")[0]}`);
+    record(
+      "browser",
+      "browser stage",
+      null,
+      `chromium unavailable — ${error.message.split("\n")[0]}`,
+    );
     return;
   }
   const page = await browser.newPage({ viewport: { width: 1280, height: 1000 } });
@@ -154,7 +170,11 @@ async function stageBrowser() {
   async function navigateTo(label) {
     await page.getByRole("button", { name: /^menu$/i }).click();
     await page.waitForTimeout(400);
-    await page.locator("#primary-navigation").getByRole("link", { name: new RegExp(`^${label}$`, "i") }).first().click();
+    await page
+      .locator("#primary-navigation")
+      .getByRole("link", { name: new RegExp(`^${label}$`, "i") })
+      .first()
+      .click();
     await page.waitForTimeout(900);
   }
 
@@ -170,33 +190,62 @@ async function stageBrowser() {
     await page.waitForTimeout(1500);
 
     const signedIn = !page.url().endsWith("/login");
-    record("browser", "sign in with demo passcode", signedIn, signedIn ? `landed on ${page.url().replace(BASE, "")}` : "still on the sign-in form");
+    record(
+      "browser",
+      "sign in with demo passcode",
+      signedIn,
+      signedIn ? `landed on ${page.url().replace(BASE, "")}` : "still on the sign-in form",
+    );
 
     if (!signedIn) return;
 
     for (const target of GATED_PAGES) {
       await navigateTo(target.label);
-      const locked = await page.getByText(/residents only/i).isVisible().catch(() => false);
+      const locked = await page
+        .getByText(/residents only/i)
+        .isVisible()
+        .catch(() => false);
       const onPath = page.url().endsWith(target.path);
       record(
         "browser",
         `resident area unlocks: ${target.path}`,
         onPath && !locked,
-        !onPath ? `landed on ${page.url().replace(BASE, "")}` : locked ? "still showing the sign-in gate" : "",
+        !onPath
+          ? `landed on ${page.url().replace(BASE, "")}`
+          : locked
+            ? "still showing the sign-in gate"
+            : "",
       );
     }
 
     for (const label of ["Amenities", "Events", "Services", "Community", "Residence"]) {
       await navigateTo(label);
-      const hasMain = await page.locator("main, #main").first().isVisible().catch(() => false);
-      record("browser", `navigates to ${label}`, hasMain, hasMain ? page.url().replace(BASE, "") : "main content not rendered");
+      const hasMain = await page
+        .locator("main, #main")
+        .first()
+        .isVisible()
+        .catch(() => false);
+      record(
+        "browser",
+        `navigates to ${label}`,
+        hasMain,
+        hasMain ? page.url().replace(BASE, "") : "main content not rendered",
+      );
     }
 
     // A fresh page load has no session, so the gate must come back.
     await page.goto(`${BASE}/account`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(1200);
-    const relocked = await page.getByText(/residents only/i).isVisible().catch(() => false);
-    record("browser", "resident areas re-lock without a session", relocked, relocked ? "" : "gate did not return");
+    const relocked = await page
+      .getByText(/residents only/i)
+      .isVisible()
+      .catch(() => false);
+    record(
+      "browser",
+      "resident areas re-lock without a session",
+      relocked,
+      relocked ? "" : "gate did not return",
+    );
 
     record(
       "browser",

@@ -16,7 +16,8 @@ export const Route = createFileRoute("/for-you")({
       { property: "og:title", content: "Chosen for You | Raffles Residences Boston" },
       {
         property: "og:description",
-        content: "Suggestions tailored to each resident from reservations, RSVPs, circles and account activity.",
+        content:
+          "Suggestions tailored to each resident from reservations, RSVPs, circles and account activity.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
