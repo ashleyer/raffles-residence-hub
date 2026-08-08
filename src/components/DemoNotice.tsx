@@ -48,9 +48,7 @@ export function DemoBanner() {
       </div>
     </div>
   );
-
 }
-
 
 export function DemoModal() {
   const [open, setOpen] = useState(false);

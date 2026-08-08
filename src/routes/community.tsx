@@ -25,7 +25,10 @@ export const Route = createFileRoute("/community")({
           "Discuss community topics and join interest groups — wine, dogs, books, wellness and families — at The Raffles Residences Boston.",
       },
       { property: "og:title", content: "Member Forum — Raffles Boston Residences" },
-      { property: "og:description", content: "Resident discussion and sub-communities built around shared interests." },
+      {
+        property: "og:description",
+        content: "Resident discussion and sub-communities built around shared interests.",
+      },
     ],
   }),
   component: CommunityPage,
@@ -56,7 +59,6 @@ function CommunityPage() {
         <CommunityBody />
         <SocialFeed />
       </RequireSession>
-
     </PageShell>
   );
 }
@@ -71,7 +73,9 @@ function CommunityBody() {
   const [replyDrafts, setReplyDrafts] = useState<Record<number, string>>({});
 
   const visible = topics.filter((t) => filter === "all" || t.community === filter);
-  const author = anonymous ? "Anonymous deed-holder" : `${currentUser?.name} · ${currentUser?.unit}`;
+  const author = anonymous
+    ? "Anonymous deed-holder"
+    : `${currentUser?.name} · ${currentUser?.unit}`;
 
   return (
     <div className="mt-12 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
@@ -141,11 +145,17 @@ function CommunityBody() {
                     <Input
                       id={`reply-${t.id}`}
                       value={replyDrafts[t.id] ?? ""}
-                      onChange={(e) => setReplyDrafts((prev) => ({ ...prev, [t.id]: e.target.value }))}
+                      onChange={(e) =>
+                        setReplyDrafts((prev) => ({ ...prev, [t.id]: e.target.value }))
+                      }
                       className="min-h-11"
                     />
                   </div>
-                  <Button type="submit" variant="outline" className="min-h-11 tracking-[0.16em] uppercase">
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    className="min-h-11 tracking-[0.16em] uppercase"
+                  >
                     Post reply
                   </Button>
                 </form>
@@ -172,7 +182,9 @@ function CommunityBody() {
                 <li key={c.id} className="border-t border-border pt-4">
                   <h3 className="text-lg">{c.name}</h3>
                   <p className="text-sm text-muted-foreground">{c.description}</p>
-                  <p className="mt-1 text-xs tracking-wider text-muted-foreground uppercase">{c.members} members</p>
+                  <p className="mt-1 text-xs tracking-wider text-muted-foreground uppercase">
+                    {c.members} members
+                  </p>
                   <Button
                     variant={isMember ? "default" : "outline"}
                     className="mt-3 min-h-11 tracking-[0.16em] uppercase"
@@ -223,11 +235,21 @@ function CommunityBody() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="t-title">Title</Label>
-              <Input id="t-title" value={title} onChange={(e) => setTitle(e.target.value)} className="min-h-11" />
+              <Input
+                id="t-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="min-h-11"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="t-body">Message</Label>
-              <Textarea id="t-body" rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
+              <Textarea
+                id="t-body"
+                rows={4}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+              />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
               <Label htmlFor="t-anon" className="text-sm font-normal">

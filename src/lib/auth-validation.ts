@@ -40,7 +40,10 @@ export const signUpSchema = z
       .string()
       .trim()
       .min(1, "Enter a contact number for your household profile.")
-      .refine((v) => v.replace(/\D/g, "").length >= 7, "Enter a contact number of at least seven digits.")
+      .refine(
+        (v) => v.replace(/\D/g, "").length >= 7,
+        "Enter a contact number of at least seven digits.",
+      )
       .refine((v) => v.replace(/\D/g, "").length <= 15, "That contact number is too long."),
     password: z
       .string()

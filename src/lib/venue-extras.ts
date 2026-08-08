@@ -41,7 +41,9 @@ export const HOUSE_AMENITIES: HouseAmenity[] = [
     hours: ["Daily · 6:00 AM – 10:00 PM", "Residents' quiet swim · 6:00 – 8:00 AM"],
     note: "No reservation required. Children under sixteen must be accompanied.",
     image: poolImg,
-    links: [{ label: "Wellness at Raffles Boston", href: "https://www.raffles.com/boston/wellness/" }],
+    links: [
+      { label: "Wellness at Raffles Boston", href: "https://www.raffles.com/boston/wellness/" },
+    ],
   },
   {
     id: "fitness",
@@ -52,7 +54,9 @@ export const HOUSE_AMENITIES: HouseAmenity[] = [
     hours: ["Open 24 hours to deed-holders"],
     note: "Personal training and class bookings are arranged through the spa desk.",
     image: fitnessImg,
-    links: [{ label: "Wellness at Raffles Boston", href: "https://www.raffles.com/boston/wellness/" }],
+    links: [
+      { label: "Wellness at Raffles Boston", href: "https://www.raffles.com/boston/wellness/" },
+    ],
   },
   {
     id: "dog-run",

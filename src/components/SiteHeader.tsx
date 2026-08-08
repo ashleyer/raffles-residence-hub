@@ -78,90 +78,96 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
 
   return (
     <>
-    <header
-      className={
-        overlay
-          ? "chrome-dark absolute inset-x-0 top-0 z-40 bg-transparent"
-          : "sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm"
-      }
-    >
+      <header
+        className={
+          overlay
+            ? "chrome-dark absolute inset-x-0 top-0 z-40 bg-transparent"
+            : "sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm"
+        }
+      >
+        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-4 sm:px-8 md:py-6">
+          <div className="flex min-w-0 items-center">
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-expanded={open}
+              aria-controls="primary-navigation"
+              className="nav-link inline-flex min-h-11 items-center gap-3"
+            >
+              <span aria-hidden="true" className="flex flex-col gap-[5px]">
+                <span className="block h-px w-6 bg-current" />
+                <span className="block h-px w-6 bg-current" />
+                <span className="block h-px w-6 bg-current" />
+              </span>
+              <span className="hidden sm:inline">Menu</span>
+              <span className="sr-only sm:hidden">Open navigation menu</span>
+            </button>
+          </div>
 
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-4 sm:px-8 md:py-6">
-        <div className="flex min-w-0 items-center">
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-expanded={open}
-            aria-controls="primary-navigation"
-            className="nav-link inline-flex min-h-11 items-center gap-3"
+          <Link
+            to="/"
+            className="justify-self-center"
+            aria-label="The Raffles Residences Boston — home"
           >
-            <span aria-hidden="true" className="flex flex-col gap-[5px]">
-              <span className="block h-px w-6 bg-current" />
-              <span className="block h-px w-6 bg-current" />
-              <span className="block h-px w-6 bg-current" />
-            </span>
-            <span className="hidden sm:inline">Menu</span>
-            <span className="sr-only sm:hidden">Open navigation menu</span>
-          </button>
-        </div>
+            <img
+              src={rafflesLogo}
+              alt="The Raffles Residences Boston"
+              width={1200}
+              height={896}
+              className={`h-12 w-auto sm:h-14 md:h-16 ${overlay ? "brightness-0 invert" : ""}`}
+            />
+          </Link>
 
-        <Link to="/" className="justify-self-center" aria-label="The Raffles Residences Boston — home">
-          <img
-            src={rafflesLogo}
-            alt="The Raffles Residences Boston"
-            width={1200}
-            height={896}
-            className={`h-12 w-auto sm:h-14 md:h-16 ${overlay ? "brightness-0 invert" : ""}`}
-          />
-        </Link>
-
-        <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-4">
-          {currentUser ? (
-            <>
-              <Link to="/directory" hash="my-profile" className="nav-link hidden min-h-11 items-center sm:inline-flex">
-                {currentUser.unit}
-              </Link>
-              <NotificationBell />
-
-              <button
-                type="button"
-                onClick={() => {
-                  signOut();
-                  toast.success("Signed out. Your details are saved — just sign in next time.");
-                }}
-                className="btn-outline"
-              >
-                Sign out
-              </button>
-            </>
-          ) : (
-            <Link to="/login" className="btn-outline">
-              Sign in
-            </Link>
-          )}
-        </div>
-      </div>
-
-      {/* Slim desktop rail of primary destinations */}
-      {!overlay && (
-        <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
-          <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
-            {PRIMARY.map((item) => (
-              <li key={item.to}>
+          <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-4">
+            {currentUser ? (
+              <>
                 <Link
-                  to={item.to}
-                  activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
-                  className="nav-link inline-flex min-h-11 items-center"
+                  to="/directory"
+                  hash="my-profile"
+                  className="nav-link hidden min-h-11 items-center sm:inline-flex"
                 >
-                  {item.label}
+                  {currentUser.unit}
                 </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+                <NotificationBell />
 
-    </header>
+                <button
+                  type="button"
+                  onClick={() => {
+                    signOut();
+                    toast.success("Signed out. Your details are saved — just sign in next time.");
+                  }}
+                  className="btn-outline"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="btn-outline">
+                Sign in
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* Slim desktop rail of primary destinations */}
+        {!overlay && (
+          <nav aria-label="Featured sections" className="hidden border-t border-border lg:block">
+            <ul className="mx-auto flex max-w-7xl items-center justify-center gap-10 px-8 py-3">
+              {PRIMARY.map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    activeProps={{ className: "nav-link is-active", "aria-current": "page" }}
+                    className="nav-link inline-flex min-h-11 items-center"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </header>
 
       {/* Full-screen navigation overlay */}
       <div

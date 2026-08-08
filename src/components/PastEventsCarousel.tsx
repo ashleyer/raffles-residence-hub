@@ -1,4 +1,10 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { PAST_EVENT_PHOTOS } from "@/lib/venue-extras";
 
 /** Photographs from gatherings already held in the residences. */
@@ -11,11 +17,15 @@ export function PastEventsCarousel() {
       </h2>
       <div className="gold-rule mt-4" />
       <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-        A season of evenings across Floor 21, the arrival lobby and the terrace. Images are illustrative in this
-        demonstration.
+        A season of evenings across Floor 21, the arrival lobby and the terrace. Images are
+        illustrative in this demonstration.
       </p>
 
-      <Carousel opts={{ align: "start", loop: true }} aria-label="Photographs from past resident events" className="mt-8">
+      <Carousel
+        opts={{ align: "start", loop: true }}
+        aria-label="Photographs from past resident events"
+        className="mt-8"
+      >
         <CarouselContent className="-ml-4">
           {PAST_EVENT_PHOTOS.map((photo) => (
             <CarouselItem key={photo.id} className="pl-4 sm:basis-1/2 lg:basis-1/3">
@@ -30,8 +40,12 @@ export function PastEventsCarousel() {
                 />
                 <figcaption className="p-5">
                   <p className="text-lg">{photo.title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{photo.caption}</p>
-                  <p className="mt-3 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">{photo.when}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {photo.caption}
+                  </p>
+                  <p className="mt-3 text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">
+                    {photo.when}
+                  </p>
                 </figcaption>
               </figure>
             </CarouselItem>

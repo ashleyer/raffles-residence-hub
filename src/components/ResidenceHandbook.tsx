@@ -14,8 +14,8 @@ export function ResidenceHandbook({ headingId = "handbook-heading" }: { headingI
       <div className="flex items-start gap-3 border border-border bg-secondary/40 p-4">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Demo document: this handbook is invented for demonstration and is not the governing instrument of any real
-          building.
+          Demo document: this handbook is invented for demonstration and is not the governing
+          instrument of any real building.
         </p>
       </div>
 
@@ -28,11 +28,13 @@ export function ResidenceHandbook({ headingId = "handbook-heading" }: { headingI
           <h2 id={headingId} className="mt-3 text-2xl">
             {HANDBOOK_TITLE}
           </h2>
-          <p className="mt-2 text-xs tracking-[0.18em] text-muted-foreground uppercase">{HANDBOOK_EDITION}</p>
+          <p className="mt-2 text-xs tracking-[0.18em] text-muted-foreground uppercase">
+            {HANDBOOK_EDITION}
+          </p>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-          The house rules as adopted by the Board of Trustees: arrival and access, life in residence, the amenity
-          floors, common charges, safety and governance.
+          The house rules as adopted by the Board of Trustees: arrival and access, life in
+          residence, the amenity floors, common charges, safety and governance.
         </p>
       </div>
       <div className="gold-rule mt-5" />
@@ -52,8 +54,12 @@ export function ResidenceHandbook({ headingId = "handbook-heading" }: { headingI
                 >
                   <span>
                     <span className="eyebrow block text-[0.6rem]">{chapter.article}</span>
-                    <span className="mt-2 block font-display text-xl leading-snug font-light">{chapter.title}</span>
-                    <span className="mt-1 block text-sm text-muted-foreground">{chapter.summary}</span>
+                    <span className="mt-2 block font-display text-xl leading-snug font-light">
+                      {chapter.title}
+                    </span>
+                    <span className="mt-1 block text-sm text-muted-foreground">
+                      {chapter.summary}
+                    </span>
                   </span>
                   <ChevronDown
                     aria-hidden="true"
@@ -61,14 +67,20 @@ export function ResidenceHandbook({ headingId = "handbook-heading" }: { headingI
                   />
                 </button>
               </h3>
-              <div id={`handbook-panel-${chapter.id}`} hidden={!expanded} className="border-t border-border px-6 pb-6">
+              <div
+                id={`handbook-panel-${chapter.id}`}
+                hidden={!expanded}
+                className="border-t border-border px-6 pb-6"
+              >
                 <dl className="mt-5 space-y-5">
                   {chapter.clauses.map((clause) => (
                     <div key={clause.id}>
                       <dt className="text-sm">
                         <span className="text-primary">{clause.number}</span> {clause.title}
                       </dt>
-                      <dd className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted-foreground">{clause.body}</dd>
+                      <dd className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                        {clause.body}
+                      </dd>
                     </div>
                   ))}
                 </dl>

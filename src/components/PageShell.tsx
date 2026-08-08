@@ -16,12 +16,19 @@ export function PageShell({
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <SiteHeader />
-      <main id="main-content" className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-5 py-14 sm:px-8 md:py-20"
+      >
         <header className="text-center sm:text-left">
           <p className="eyebrow">{eyebrow}</p>
           <h1 className="display-section mt-4">{title}</h1>
           <div className="gold-rule mt-5 mx-auto sm:mx-0" />
-          {intro && <p className="measure mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">{intro}</p>}
+          {intro && (
+            <p className="measure mt-6 text-sm leading-relaxed text-muted-foreground sm:text-base">
+              {intro}
+            </p>
+          )}
         </header>
         {children}
       </main>
@@ -42,12 +49,17 @@ export function SectionCard({
   id?: string;
 }) {
   return (
-    <section id={id} className="border border-border bg-card p-5 sm:p-7" aria-labelledby={`${id ?? title}-heading`}>
+    <section
+      id={id}
+      className="border border-border bg-card p-5 sm:p-7"
+      aria-labelledby={`${id ?? title}-heading`}
+    >
       <h2 id={`${id ?? title}-heading`} className="text-xl sm:text-2xl">
-
         {title}
       </h2>
-      {description && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>}
+      {description && (
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
+      )}
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -71,7 +83,6 @@ export function TabBar({
       aria-label={label}
       className="-mx-5 mt-10 flex snap-x gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
     >
-
       {tabs.map((t) => {
         const selected = t.id === active;
         return (
@@ -88,7 +99,8 @@ export function TabBar({
               const i = tabs.findIndex((x) => x.id === active);
               if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
                 e.preventDefault();
-                const next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+                const next =
+                  tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
                 if (next) {
                   onChange(next.id);
                   document.getElementById(`tab-${next.id}`)?.focus();
@@ -100,7 +112,6 @@ export function TabBar({
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-border text-muted-foreground hover:border-primary hover:text-primary"
             }`}
-
           >
             {t.label}
           </button>
@@ -121,7 +132,13 @@ export function TabPanel({
 }) {
   if (id !== active) return null;
   return (
-    <div role="tabpanel" id={`panel-${id}`} aria-labelledby={`tab-${id}`} tabIndex={0} className="mt-10 focus:outline-none">
+    <div
+      role="tabpanel"
+      id={`panel-${id}`}
+      aria-labelledby={`tab-${id}`}
+      tabIndex={0}
+      className="mt-10 focus:outline-none"
+    >
       {children}
     </div>
   );

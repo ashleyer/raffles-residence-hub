@@ -18,7 +18,8 @@ export function AccountAccess() {
           <p className="eyebrow">New here</p>
           <h3 className="mt-3 text-balance text-xl sm:text-2xl">Create your account</h3>
           <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
-            Register your residence, build your household profile, and choose what neighbours can see.
+            Register your residence, build your household profile, and choose what neighbours can
+            see.
           </p>
           <Link
             to="/login"

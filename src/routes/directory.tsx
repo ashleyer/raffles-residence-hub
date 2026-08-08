@@ -23,7 +23,10 @@ export const Route = createFileRoute("/directory")({
           "Opt-in residents' directory and household profiles for The Raffles Residences Boston: share as much or as little as you wish.",
       },
       { property: "og:title", content: "Residents' Directory — Raffles Boston Residences" },
-      { property: "og:description", content: "An opt-in register of neighbours at 40 Trinity Place." },
+      {
+        property: "og:description",
+        content: "An opt-in register of neighbours at 40 Trinity Place.",
+      },
     ],
   }),
   component: DirectoryPage,
@@ -51,7 +54,9 @@ function DirectoryBody() {
     (r) =>
       r.visibleInDirectory &&
       (query.trim() === "" ||
-        `${r.name} ${r.unit} ${r.interests.join(" ")} ${(r.members ?? []).map((m) => m.name).join(" ")} ${(r.pets ?? [])
+        `${r.name} ${r.unit} ${r.interests.join(" ")} ${(r.members ?? []).map((m) => m.name).join(" ")} ${(
+          r.pets ?? []
+        )
           .map((p) => p.name)
           .join(" ")}`
           .toLowerCase()
@@ -66,8 +71,9 @@ function DirectoryBody() {
       >
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
         <span>
-          <span className="text-foreground">These are not real residents.</span> Every household, contact detail and pet
-          shown here is fictional and provided for demonstration purposes only.
+          <span className="text-foreground">These are not real residents.</span> Every household,
+          contact detail and pet shown here is fictional and provided for demonstration purposes
+          only.
         </span>
       </p>
 
@@ -98,10 +104,15 @@ function DirectoryBody() {
               <li key={r.id} className="border border-border bg-card p-6">
                 <p className="eyebrow">{r.unit}</p>
                 <h3 className="mt-2 text-2xl">{r.name}</h3>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">{r.bio}</p>
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  {r.bio}
+                </p>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {r.interests.map((i) => (
-                    <li key={i} className="border border-border px-3 py-1 text-xs tracking-[0.14em] uppercase">
+                    <li
+                      key={i}
+                      className="border border-border px-3 py-1 text-xs tracking-[0.14em] uppercase"
+                    >
                       {i}
                     </li>
                   ))}
@@ -120,7 +131,10 @@ function DirectoryBody() {
                           {r.contactOptIn && (m.email || m.phone) && (
                             <span className="mt-0.5 block text-xs">
                               {m.email && (
-                                <a className="text-primary underline underline-offset-4" href={`mailto:${m.email}`}>
+                                <a
+                                  className="text-primary underline underline-offset-4"
+                                  href={`mailto:${m.email}`}
+                                >
                                   {m.email}
                                 </a>
                               )}
@@ -162,7 +176,10 @@ function DirectoryBody() {
                   {r.contactOptIn ? (
                     <>
                       <span className="text-muted-foreground">Household contact · </span>
-                      <a className="text-primary underline underline-offset-4" href={`mailto:${r.email}`}>
+                      <a
+                        className="text-primary underline underline-offset-4"
+                        href={`mailto:${r.email}`}
+                      >
                         {r.email}
                       </a>
                       {r.phone && (
@@ -179,7 +196,8 @@ function DirectoryBody() {
                     </>
                   ) : (
                     <span className="text-muted-foreground">
-                      Listed but not accepting direct contact — reach them through the concierge desk.
+                      Listed but not accepting direct contact — reach them through the concierge
+                      desk.
                     </span>
                   )}
                 </p>
@@ -219,7 +237,11 @@ function DirectoryBody() {
                     checked={currentUser.visibleInDirectory}
                     onCheckedChange={(v) => {
                       updateProfile({ visibleInDirectory: v });
-                      toast.success(v ? "Your household is now listed." : "Your household has been removed from the directory.");
+                      toast.success(
+                        v
+                          ? "Your household is now listed."
+                          : "Your household has been removed from the directory.",
+                      );
                     }}
                   />
                 </div>
@@ -232,7 +254,11 @@ function DirectoryBody() {
                     checked={currentUser.contactOptIn}
                     onCheckedChange={(v) => {
                       updateProfile({ contactOptIn: v });
-                      toast.success(v ? "Contact details are now shown to listed neighbours." : "Contact details are now hidden.");
+                      toast.success(
+                        v
+                          ? "Contact details are now shown to listed neighbours."
+                          : "Contact details are now hidden.",
+                      );
                     }}
                   />
                 </div>
@@ -374,8 +400,6 @@ function HouseholdProfile() {
 
       <SavedDetailsControl />
 
-
-
       {/* --- residents ----------------------------------------------------- */}
       <div className="mt-8 border-t border-border pt-6">
         <h3 className="flex items-center gap-2 text-lg">
@@ -384,11 +408,16 @@ function HouseholdProfile() {
         </h3>
         <ul className="mt-4 space-y-3" aria-live="polite">
           {members.map((m) => (
-            <li key={m.id} className="flex items-start justify-between gap-3 border border-border p-3">
+            <li
+              key={m.id}
+              className="flex items-start justify-between gap-3 border border-border p-3"
+            >
               <span className="text-sm text-muted-foreground">
                 <span className="text-foreground">{m.name}</span> · {m.relation}
                 {(m.email || m.phone) && (
-                  <span className="mt-0.5 block text-xs">{[m.email, m.phone].filter(Boolean).join(" · ")}</span>
+                  <span className="mt-0.5 block text-xs">
+                    {[m.email, m.phone].filter(Boolean).join(" · ")}
+                  </span>
                 )}
               </span>
               <Button
@@ -452,7 +481,11 @@ function HouseholdProfile() {
               />
             </div>
           </div>
-          <Button type="submit" variant="outline" className="min-h-11 w-full tracking-[0.16em] uppercase">
+          <Button
+            type="submit"
+            variant="outline"
+            className="min-h-11 w-full tracking-[0.16em] uppercase"
+          >
             <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
             Add resident
           </Button>
@@ -467,7 +500,10 @@ function HouseholdProfile() {
         </h3>
         <ul className="mt-4 space-y-3" aria-live="polite">
           {pets.map((p) => (
-            <li key={p.id} className="flex items-start justify-between gap-3 border border-border p-3">
+            <li
+              key={p.id}
+              className="flex items-start justify-between gap-3 border border-border p-3"
+            >
               <span className="text-sm text-muted-foreground">
                 <span className="text-foreground">{p.name}</span> · {p.kind}
                 {p.note && <span className="mt-0.5 block text-xs">{p.note}</span>}
@@ -523,7 +559,11 @@ function HouseholdProfile() {
               onChange={(e) => setPet({ ...pet, note: e.target.value })}
             />
           </div>
-          <Button type="submit" variant="outline" className="min-h-11 w-full tracking-[0.16em] uppercase">
+          <Button
+            type="submit"
+            variant="outline"
+            className="min-h-11 w-full tracking-[0.16em] uppercase"
+          >
             <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
             Add pet
           </Button>

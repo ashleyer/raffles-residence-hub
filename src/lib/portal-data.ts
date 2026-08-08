@@ -52,10 +52,28 @@ export const RESIDENTS: Resident[] = [
     visibleInDirectory: true,
     contactOptIn: true,
     members: [
-      { id: "m-34b-1", name: "Eleanor Vance", relation: "Owner", email: "e.vance@residents.raffles-boston.test", phone: "(617) 555-0134" },
-      { id: "m-34b-2", name: "Robert Vance", relation: "Spouse", email: "r.vance@residents.raffles-boston.test" },
+      {
+        id: "m-34b-1",
+        name: "Eleanor Vance",
+        relation: "Owner",
+        email: "e.vance@residents.raffles-boston.test",
+        phone: "(617) 555-0134",
+      },
+      {
+        id: "m-34b-2",
+        name: "Robert Vance",
+        relation: "Spouse",
+        email: "r.vance@residents.raffles-boston.test",
+      },
     ],
-    pets: [{ id: "p-34b-1", name: "Bartholomew", kind: "Cat", note: "Indoor only — please do not hold the lift door open on 34." }],
+    pets: [
+      {
+        id: "p-34b-1",
+        name: "Bartholomew",
+        kind: "Cat",
+        note: "Indoor only — please do not hold the lift door open on 34.",
+      },
+    ],
   },
   {
     id: "r-21a",
@@ -67,9 +85,22 @@ export const RESIDENTS: Resident[] = [
     interests: ["Running", "Dogs", "Technology"],
     visibleInDirectory: true,
     contactOptIn: true,
-    members: [{ id: "m-21a-1", name: "Marcus Chen", relation: "Owner", email: "m.chen@residents.raffles-boston.test", phone: "(617) 555-0121" }],
+    members: [
+      {
+        id: "m-21a-1",
+        name: "Marcus Chen",
+        relation: "Owner",
+        email: "m.chen@residents.raffles-boston.test",
+        phone: "(617) 555-0121",
+      },
+    ],
     pets: [
-      { id: "p-21a-1", name: "Atlas", kind: "Dog · Bernese Mountain", note: "Walks at 6:30 AM through the Trinity Place door." },
+      {
+        id: "p-21a-1",
+        name: "Atlas",
+        kind: "Dog · Bernese Mountain",
+        note: "Walks at 6:30 AM through the Trinity Place door.",
+      },
       { id: "p-21a-2", name: "Juno", kind: "Dog · Bernese Mountain" },
     ],
   },
@@ -95,8 +126,19 @@ export const RESIDENTS: Resident[] = [
     visibleInDirectory: true,
     contactOptIn: true,
     members: [
-      { id: "m-41c-1", name: "James Whitfield", relation: "Owner", email: "j.whitfield@residents.raffles-boston.test", phone: "(617) 555-0141" },
-      { id: "m-41c-2", name: "Odile Whitfield", relation: "Owner", email: "o.whitfield@residents.raffles-boston.test" },
+      {
+        id: "m-41c-1",
+        name: "James Whitfield",
+        relation: "Owner",
+        email: "j.whitfield@residents.raffles-boston.test",
+        phone: "(617) 555-0141",
+      },
+      {
+        id: "m-41c-2",
+        name: "Odile Whitfield",
+        relation: "Owner",
+        email: "o.whitfield@residents.raffles-boston.test",
+      },
       { id: "m-41c-3", name: "Colette", relation: "Child" },
       { id: "m-41c-4", name: "Hugo", relation: "Child" },
     ],
@@ -123,11 +165,18 @@ export const RESIDENTS: Resident[] = [
     interests: ["Design", "Technology", "Community"],
     visibleInDirectory: true,
     contactOptIn: true,
-    members: [{ id: "m-22h-1", name: "Ashley Romano", relation: "Owner", email: "ashleye.romano@gmail.com", phone: "(978) 857-5775" }],
+    members: [
+      {
+        id: "m-22h-1",
+        name: "Ashley Romano",
+        relation: "Owner",
+        email: "ashleye.romano@gmail.com",
+        phone: "(978) 857-5775",
+      },
+    ],
     pets: [],
   },
 ];
-
 
 /** Demo credentials — passcode is the same for every account in this preview. */
 export const DEMO_PASSCODE = "raffles2026";
@@ -531,11 +580,36 @@ export type SubCommunity = {
 };
 
 export const SUB_COMMUNITIES: SubCommunity[] = [
-  { id: "wine", name: "Wine & Spirits Circle", description: "Tastings, cellar swaps and the annual Piedmont trip.", members: 34 },
-  { id: "dogs", name: "Residences Dog Owners", description: "Walks, sitters and the Trinity Place green.", members: 22 },
-  { id: "books", name: "Floor 21 Book Club", description: "Second Tuesday of the month in the lounge.", members: 18 },
-  { id: "wellness", name: "Wellness & Lap Swim", description: "Early swims, breathwork and spa allocations.", members: 27 },
-  { id: "families", name: "Families at Trinity Place", description: "Playdates, schools and holiday afternoons.", members: 15 },
+  {
+    id: "wine",
+    name: "Wine & Spirits Circle",
+    description: "Tastings, cellar swaps and the annual Piedmont trip.",
+    members: 34,
+  },
+  {
+    id: "dogs",
+    name: "Residences Dog Owners",
+    description: "Walks, sitters and the Trinity Place green.",
+    members: 22,
+  },
+  {
+    id: "books",
+    name: "Floor 21 Book Club",
+    description: "Second Tuesday of the month in the lounge.",
+    members: 18,
+  },
+  {
+    id: "wellness",
+    name: "Wellness & Lap Swim",
+    description: "Early swims, breathwork and spa allocations.",
+    members: 27,
+  },
+  {
+    id: "families",
+    name: "Families at Trinity Place",
+    description: "Playdates, schools and holiday afternoons.",
+    members: 15,
+  },
 ];
 
 export type ForumReply = { id: number; author: string; body: string; at: string };
@@ -559,7 +633,12 @@ export const SEED_TOPICS: ForumTopic[] = [
     author: "Eleanor Vance · Residence 34B",
     at: "August 2",
     replies: [
-      { id: 1, author: "Marcus Chen · Residence 21A", body: "Count me in — I can bring glassware for twenty.", at: "August 2" },
+      {
+        id: 1,
+        author: "Marcus Chen · Residence 21A",
+        body: "Count me in — I can bring glassware for twenty.",
+        at: "August 2",
+      },
     ],
   },
   {
@@ -579,7 +658,12 @@ export const SEED_TOPICS: ForumTopic[] = [
     author: "James & Odile Whitfield · Residence 41C",
     at: "July 24",
     replies: [
-      { id: 1, author: "Priya Raman · Residence 28D", body: "Happy to help with the reading corner.", at: "July 25" },
+      {
+        id: 1,
+        author: "Priya Raman · Residence 28D",
+        body: "Happy to help with the reading corner.",
+        at: "July 25",
+      },
     ],
   },
 ];
@@ -711,8 +795,18 @@ export const SEED_THREADS: Thread[] = [
     name: "Floor 21 Book Club",
     participants: ["Eleanor Vance", "Priya Raman", "Marcus Chen"],
     messages: [
-      { id: 1, author: "Priya Raman", body: "September's title is settled — we're reading the Ferrante.", at: "August 2, 4:12 PM" },
-      { id: 2, author: "Eleanor Vance", body: "Wonderful. I'll ask the lounge to hold the fireside corner.", at: "August 2, 4:20 PM" },
+      {
+        id: 1,
+        author: "Priya Raman",
+        body: "September's title is settled — we're reading the Ferrante.",
+        at: "August 2, 4:12 PM",
+      },
+      {
+        id: 2,
+        author: "Eleanor Vance",
+        body: "Wonderful. I'll ask the lounge to hold the fireside corner.",
+        at: "August 2, 4:20 PM",
+      },
     ],
   },
   {
@@ -721,7 +815,12 @@ export const SEED_THREADS: Thread[] = [
     name: "Marcus Chen · Residence 21A",
     participants: ["Marcus Chen"],
     messages: [
-      { id: 1, author: "Marcus Chen", body: "Thank you for the sitter recommendation — she starts on the 9th.", at: "August 3, 9:05 AM" },
+      {
+        id: 1,
+        author: "Marcus Chen",
+        body: "Thank you for the sitter recommendation — she starts on the 9th.",
+        at: "August 3, 9:05 AM",
+      },
     ],
   },
   {
@@ -730,7 +829,12 @@ export const SEED_THREADS: Thread[] = [
     name: "Wine & Spirits Circle",
     participants: ["Eleanor Vance", "Marcus Chen", "Sofia Marchetti"],
     messages: [
-      { id: 1, author: "Eleanor Vance", body: "Terrace is back — shall we hold the September tasting outdoors?", at: "August 1, 6:40 PM" },
+      {
+        id: 1,
+        author: "Eleanor Vance",
+        body: "Terrace is back — shall we hold the September tasting outdoors?",
+        at: "August 1, 6:40 PM",
+      },
     ],
   },
 ];

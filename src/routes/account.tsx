@@ -19,7 +19,10 @@ export const Route = createFileRoute("/account")({
           "View statements, house account charges and condominium fees for your residence at 40 Trinity Place, and settle balances online.",
       },
       { property: "og:title", content: "House Account — Raffles Boston Residences" },
-      { property: "og:description", content: "Statements, condominium fees and payments for your residence." },
+      {
+        property: "og:description",
+        content: "Statements, condominium fees and payments for your residence.",
+      },
     ],
   }),
   component: AccountPage,
@@ -46,7 +49,9 @@ function AccountBody() {
   const [method, setMethod] = useState(PAYMENT_METHODS[0]!.id);
   const [openId, setOpenId] = useState<number | null>(statements[0]?.id ?? null);
 
-  const balance = statements.filter((s) => s.status !== "Paid").reduce((sum, s) => sum + s.amount, 0);
+  const balance = statements
+    .filter((s) => s.status !== "Paid")
+    .reduce((sum, s) => sum + s.amount, 0);
 
   return (
     <div className="mt-12 space-y-10">
@@ -106,19 +111,22 @@ function AccountBody() {
                       <span className="font-display text-xl sm:text-2xl">{money(s.amount)}</span>
                       <span
                         className={`border px-2.5 py-1 text-[0.65rem] tracking-[0.16em] uppercase sm:px-3 sm:text-xs ${
-                          s.status === "Paid" ? "border-primary text-primary" : "border-destructive text-destructive"
+                          s.status === "Paid"
+                            ? "border-primary text-primary"
+                            : "border-destructive text-destructive"
                         }`}
                       >
                         {s.status}
                       </span>
                     </span>
-
                   </button>
                 </h3>
                 {open && (
-                  <div id={`statement-${s.id}`} className="border-t border-border px-5 pt-5 pb-6 sm:px-6">
+                  <div
+                    id={`statement-${s.id}`}
+                    className="border-t border-border px-5 pt-5 pb-6 sm:px-6"
+                  >
                     <table className="w-full text-sm">
-
                       <caption className="sr-only">Charges for {s.period}</caption>
                       <thead>
                         <tr className="text-left text-xs tracking-[0.16em] text-muted-foreground uppercase">
@@ -148,7 +156,10 @@ function AccountBody() {
                       <Button
                         className="mt-5 min-h-11 tracking-[0.18em] uppercase"
                         onClick={() => {
-                          payStatement(s.id, PAYMENT_METHODS.find((m) => m.id === method)?.label ?? method);
+                          payStatement(
+                            s.id,
+                            PAYMENT_METHODS.find((m) => m.id === method)?.label ?? method,
+                          );
                           toast.success(`${s.period} settled.`);
                         }}
                       >
@@ -197,12 +208,16 @@ function MarketSnapshot({ unit }: { unit: string }) {
       </h2>
       <div className="gold-rule mt-4" />
       <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-        Illustrative valuation for {unit} based on recent activity in the building. Demonstration figures only — not an
-        appraisal.
+        Illustrative valuation for {unit} based on recent activity in the building. Demonstration
+        figures only — not an appraisal.
       </p>
 
       <dl className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Estimated value" value={money(snap.estimate)} note={`${snap.sqft.toLocaleString("en-US")} sq ft`} />
+        <Stat
+          label="Estimated value"
+          value={money(snap.estimate)}
+          note={`${snap.sqft.toLocaleString("en-US")} sq ft`}
+        />
         <Stat label="Purchase price" value={money(snap.purchase)} note="Recorded at closing" />
         <Stat
           label="Unrealised gain"
@@ -218,10 +233,26 @@ function MarketSnapshot({ unit }: { unit: string }) {
 
       <h3 className="mt-10 text-xl">The building</h3>
       <dl className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat label="Median price / sq ft" value={money(facts.medianPricePerSqft)} note={`${facts.yearOverYear}% year on year`} />
-        <Stat label="Days on market" value={`${facts.daysOnMarket}`} note={`${facts.askingToClose}% asking to close`} />
-        <Stat label="Active listings" value={`${facts.activeListings}`} note={`${facts.soldTrailingYear} sold in twelve months`} />
-        <Stat label="Leased occupancy" value={`${facts.leaseOccupancy}%`} note={`Median lease ${money(facts.medianLease)}`} />
+        <Stat
+          label="Median price / sq ft"
+          value={money(facts.medianPricePerSqft)}
+          note={`${facts.yearOverYear}% year on year`}
+        />
+        <Stat
+          label="Days on market"
+          value={`${facts.daysOnMarket}`}
+          note={`${facts.askingToClose}% asking to close`}
+        />
+        <Stat
+          label="Active listings"
+          value={`${facts.activeListings}`}
+          note={`${facts.soldTrailingYear} sold in twelve months`}
+        />
+        <Stat
+          label="Leased occupancy"
+          value={`${facts.leaseOccupancy}%`}
+          note={`Median lease ${money(facts.medianLease)}`}
+        />
       </dl>
 
       <Link to="/sales-and-leasing" className="btn-outline mt-8 inline-flex min-h-11 items-center">

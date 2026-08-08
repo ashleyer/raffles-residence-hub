@@ -22,7 +22,10 @@ export const Route = createFileRoute("/marketplace")({
           "Ask neighbours for service recommendations — dog sitters, cleaners, tutors — and buy, sell or give away household items.",
       },
       { property: "og:title", content: "Residents' Marketplace — Raffles Boston Residences" },
-      { property: "og:description", content: "Service recommendations and resident-to-resident listings at 40 Trinity Place." },
+      {
+        property: "og:description",
+        content: "Service recommendations and resident-to-resident listings at 40 Trinity Place.",
+      },
     ],
   }),
   component: MarketplacePage,
@@ -88,7 +91,11 @@ function MarketplaceBody() {
                 <p className="eyebrow">{l.kind}</p>
                 {typeof l.price === "number" && (
                   <p className="font-display text-2xl">
-                    {l.price.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })}
+                    {l.price.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      maximumFractionDigits: 0,
+                    })}
                   </p>
                 )}
               </div>
@@ -133,7 +140,11 @@ function MarketplaceBody() {
                     className="min-h-11"
                   />
                 </div>
-                <Button type="submit" variant="outline" className="min-h-11 tracking-[0.16em] uppercase">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="min-h-11 tracking-[0.16em] uppercase"
+                >
                   Reply
                 </Button>
               </form>
@@ -156,8 +167,12 @@ function MarketplaceBody() {
               kind,
               title: title.trim(),
               body: body.trim(),
-              ...(kind === "For sale" && price.trim() && !Number.isNaN(parsed) ? { price: parsed } : {}),
-              author: anonymous ? "Anonymous deed-holder" : `${currentUser?.name} · ${currentUser?.unit}`,
+              ...(kind === "For sale" && price.trim() && !Number.isNaN(parsed)
+                ? { price: parsed }
+                : {}),
+              author: anonymous
+                ? "Anonymous deed-holder"
+                : `${currentUser?.name} · ${currentUser?.unit}`,
             });
             setTitle("");
             setBody("");
@@ -182,11 +197,21 @@ function MarketplaceBody() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="l-title">Title</Label>
-              <Input id="l-title" value={title} onChange={(e) => setTitle(e.target.value)} className="min-h-11" />
+              <Input
+                id="l-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="min-h-11"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="l-body">Details</Label>
-              <Textarea id="l-body" rows={4} value={body} onChange={(e) => setBody(e.target.value)} />
+              <Textarea
+                id="l-body"
+                rows={4}
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+              />
             </div>
             {kind === "For sale" && (
               <div className="space-y-2">

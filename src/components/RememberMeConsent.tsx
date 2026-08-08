@@ -61,23 +61,27 @@ export function RememberMeConsent({ id, checked, onChange }: Props) {
             <AlertDialogDescription asChild>
               <div className="space-y-3 text-left">
                 <p>
-                  Nothing is sent anywhere. Everything below is written only to this browser, on this
-                  device, and can be removed at any time by switching “Remember me” off.
+                  Nothing is sent anywhere. Everything below is written only to this browser, on
+                  this device, and can be removed at any time by switching “Remember me” off.
                 </p>
                 <ul className="space-y-2">
                   <li>
-                    <strong className="text-foreground">Your email address and residence number</strong> —
-                    used to pre-fill the sign-in form. Kept for up to 30 days, then deleted automatically.
+                    <strong className="text-foreground">
+                      Your email address and residence number
+                    </strong>{" "}
+                    — used to pre-fill the sign-in form. Kept for up to 30 days, then deleted
+                    automatically.
                   </li>
                   <li>
-                    <strong className="text-foreground">Your signed-in session</strong> — so you are not
-                    asked to sign in again on every visit. It lapses after 12 hours without activity, and
-                    the stored record is deleted the moment it lapses.
+                    <strong className="text-foreground">Your signed-in session</strong> — so you are
+                    not asked to sign in again on every visit. It lapses after 12 hours without
+                    activity, and the stored record is deleted the moment it lapses.
                   </li>
                 </ul>
                 <p>
-                  Your password is never stored. Signing out ends the session immediately; your email and
-                  residence remain only so you can sign back in rather than register again.
+                  Your password is never stored. Signing out ends the session immediately; your
+                  email and residence remain only so you can sign back in rather than register
+                  again.
                 </p>
               </div>
             </AlertDialogDescription>

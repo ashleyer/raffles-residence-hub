@@ -34,10 +34,7 @@ import {
   type ForumTopic,
   type ValetRequest,
 } from "./portal-data";
-import {
-  SEED_REQUESTS,
-  type ConciergeRequest,
-} from "./intranet-data";
+import { SEED_REQUESTS, type ConciergeRequest } from "./intranet-data";
 import type { ActivityEvent } from "./recommendations";
 
 type Vote = "up" | "down";
@@ -63,12 +60,10 @@ type PortalValue = {
   signOut: () => void;
   /* Demo password reset: a code is issued in the browser, then redeemed. */
   requestPasswordReset: (email: string) => { ok: boolean; code?: string; error?: string };
-  resetPassword: (input: {
-    email: string;
-    code: string;
-    password: string;
-    confirm: string;
-  }) => { ok: boolean; error?: string };
+  resetPassword: (input: { email: string; code: string; password: string; confirm: string }) => {
+    ok: boolean;
+    error?: string;
+  };
   /* Erase the remembered residence and contact details kept in this browser. */
   clearSavedDetails: () => void;
   rememberedEmail: string | null;
@@ -127,7 +122,9 @@ type PortalValue = {
 
   /* concierge desk — shared between residents and staff */
   conciergeRequests: ConciergeRequest[];
-  addConciergeRequest: (r: Omit<ConciergeRequest, "id" | "status" | "placedAt" | "replies">) => void;
+  addConciergeRequest: (
+    r: Omit<ConciergeRequest, "id" | "status" | "placedAt" | "replies">,
+  ) => void;
   setConciergeStatus: (id: number, status: ConciergeRequest["status"]) => void;
   assignConciergeRequest: (id: number, staff: string) => void;
   replyToConciergeRequest: (id: number, body: string, author: string) => void;
@@ -157,8 +154,6 @@ export type PortalNotification = {
   read: boolean;
 };
 
-
-
 /** "22h" / "unit 22H" -> "Residence 22H" */
 export function formatUnit(raw: string): string {
   const value = raw.trim().replace(/^(residence|unit|apt\.?|apartment)\s+/i, "");
@@ -166,7 +161,11 @@ export function formatUnit(raw: string): string {
   return `Residence ${value.toUpperCase()}`;
 }
 
-const unitKey = (u: string) => u.replace(/^(residence|unit|apt\.?|apartment)\s+/i, "").replace(/\s+/g, "").toUpperCase();
+const unitKey = (u: string) =>
+  u
+    .replace(/^(residence|unit|apt\.?|apartment)\s+/i, "")
+    .replace(/\s+/g, "")
+    .toUpperCase();
 
 /** A real residence number, as opposed to a placeholder. */
 function isKnownUnit(u: string): boolean {
@@ -243,7 +242,12 @@ function writeExpiring(key: string, value: unknown, ttl: number) {
    in the older un-stamped shape is treated as expired and removed. */
 function readExpiring<T>(key: string): T | null {
   const raw = readStore<Expiring<T> | null>(key, null);
-  if (!raw || typeof raw !== "object" || !("expiresAt" in raw) || typeof raw.expiresAt !== "number") {
+  if (
+    !raw ||
+    typeof raw !== "object" ||
+    !("expiresAt" in raw) ||
+    typeof raw.expiresAt !== "number"
+  ) {
     if (raw) clearStore(key);
     return null;
   }
@@ -253,7 +257,6 @@ function readExpiring<T>(key: string): T | null {
   }
   return raw.value;
 }
-
 
 export function PortalProvider({ children }: { children: ReactNode }) {
   const [residents, setResidents] = useState<Resident[]>(RESIDENTS);
@@ -326,7 +329,6 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     if (hydrated) writeStore(NOTIFICATIONS_KEY, notifications);
   }, [notifications, hydrated]);
 
-
   useEffect(() => {
     if (hydrated) writeStore(ACCOUNTS_KEY, accounts);
   }, [accounts, hydrated]);
@@ -353,7 +355,11 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       /* Keep the residence and contact details on this device, but only until
          the remembered-identity window lapses. */
       writeExpiring(LAST_USER_KEY, { email: resident.email, unit: resident.unit }, REMEMBER_TTL_MS);
-      writeExpiring(SESSION_KEY, { residentId: resident.id, email: resident.email }, SESSION_TTL_MS);
+      writeExpiring(
+        SESSION_KEY,
+        { residentId: resident.id, email: resident.email },
+        SESSION_TTL_MS,
+      );
     } else {
       clearStore(LAST_USER_KEY);
       clearStore(SESSION_KEY);
@@ -396,15 +402,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     return () => window.clearInterval(timer);
   }, [hydrated]);
 
-
-
   const signIn = useCallback(
     (email: string, passcode: string, remember = true, unit?: string) => {
       const address = email.trim().toLowerCase();
       const residence = formatUnit(unit ?? "");
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
       if (!residence) return { ok: false, error: "Enter your residence number." };
-      if (!passcode.trim()) return { ok: false, error: "Enter your password or the residence passcode." };
+      if (!passcode.trim())
+        return { ok: false, error: "Enter your password or the residence passcode." };
 
       const unitMatches = (resident: Resident) =>
         !isKnownUnit(resident.unit) || sameUnit(resident.unit, residence);
@@ -412,14 +417,18 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       // 1. An account created through sign up.
       const account = accounts.find((a) => a.email === address);
       if (account) {
-        if (account.password !== passcode) return { ok: false, error: "That password is not correct." };
+        if (account.password !== passcode)
+          return { ok: false, error: "That password is not correct." };
         const resident = residents.find((r) => r.id === account.residentId);
-        if (!resident) return { ok: false, error: "That account could not be found. Please register again." };
+        if (!resident)
+          return { ok: false, error: "That account could not be found. Please register again." };
         if (!unitMatches(resident)) {
           return { ok: false, error: "That residence number does not match the address on file." };
         }
         if (!isKnownUnit(resident.unit)) {
-          setResidents((prev) => prev.map((r) => (r.id === resident.id ? { ...r, unit: residence } : r)));
+          setResidents((prev) =>
+            prev.map((r) => (r.id === resident.id ? { ...r, unit: residence } : r)),
+          );
         }
         rememberSession(resident, remember);
         return { ok: true };
@@ -427,7 +436,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
       // 2. A seeded residence, admitted with the shared preview passcode.
       if (passcode.trim() !== DEMO_PASSCODE) {
-        return { ok: false, error: "No account found for that address. Create one, or use the preview passcode." };
+        return {
+          ok: false,
+          error: "No account found for that address. Create one, or use the preview passcode.",
+        };
       }
       const match = residents.find((r) => r.email.toLowerCase() === address);
       if (match) {
@@ -473,32 +485,34 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (!residence) return { ok: false, error: "Enter your residence number." };
       if (!phone || phone.replace(/\D/g, "").length < 7)
         return { ok: false, error: "Enter a contact number for your household profile." };
-      if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
+      if (password.length < 8)
+        return { ok: false, error: "Choose a password of at least eight characters." };
       if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
       if (accounts.some((a) => a.email === address)) {
         return { ok: false, error: "An account already exists for that address. Please sign in." };
       }
 
       const existing = residents.find((r) => r.email.toLowerCase() === address);
-      const resident: Resident =
-        existing ?? {
-          id: `res-${Date.now()}`,
-          name: name.trim(),
-          unit: residence,
-          email: address,
-          phone: phone.trim(),
-          bio: "",
-          interests: [],
-          visibleInDirectory: false,
-          contactOptIn: false,
-          members: [],
-          pets: [],
-        };
+      const resident: Resident = existing ?? {
+        id: `res-${Date.now()}`,
+        name: name.trim(),
+        unit: residence,
+        email: address,
+        phone: phone.trim(),
+        bio: "",
+        interests: [],
+        visibleInDirectory: false,
+        contactOptIn: false,
+        members: [],
+        pets: [],
+      };
 
       if (existing) {
         setResidents((prev) =>
           prev.map((r) =>
-            r.id === existing.id ? { ...r, name: name.trim(), unit: residence, phone: phone.trim() } : r,
+            r.id === existing.id
+              ? { ...r, name: name.trim(), unit: residence, phone: phone.trim() }
+              : r,
           ),
         );
       } else {
@@ -537,8 +551,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (!issued || issued.expiresAt < Date.now()) {
         return { ok: false, error: "That reset code has lapsed. Please request a new one." };
       }
-      if (issued.code !== code.trim()) return { ok: false, error: "That reset code is not correct." };
-      if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
+      if (issued.code !== code.trim())
+        return { ok: false, error: "That reset code is not correct." };
+      if (password.length < 8)
+        return { ok: false, error: "Choose a password of at least eight characters." };
       if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
       setAccounts((prev) => prev.map((a) => (a.email === address ? { ...a, password } : a)));
       delete resetCodes.current[address];
@@ -547,15 +563,18 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-
-
   /* Raise an alert for one residence; the desk is the only source of these. */
   const raiseNotification = useCallback((n: Omit<PortalNotification, "id" | "at" | "read">) => {
-    setNotifications((prev) => [{ ...n, id: nextId(), at: "Just now", read: false }, ...prev].slice(0, 60));
+    setNotifications((prev) =>
+      [{ ...n, id: nextId(), at: "Just now", read: false }, ...prev].slice(0, 60),
+    );
   }, []);
 
   const myNotifications = useMemo(
-    () => (currentUser?.unit ? notifications.filter((n) => unitKey(n.unit) === unitKey(currentUser.unit!)) : []),
+    () =>
+      currentUser?.unit
+        ? notifications.filter((n) => unitKey(n.unit) === unitKey(currentUser.unit!))
+        : [],
     [notifications, currentUser],
   );
 
@@ -607,8 +626,6 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         }
       },
 
-
-
       residents,
       updateProfile: (patch) =>
         setResidents((prev) => prev.map((r) => (r.id === currentUserId ? { ...r, ...patch } : r))),
@@ -643,7 +660,13 @@ export function PortalProvider({ children }: { children: ReactNode }) {
           prev.map((s) => (s.id === statementId ? { ...s, status: "Paid" } : s)),
         );
         setPayments((prev) => [
-          { id: nextId(), statementPeriod: statement.period, amount: statement.amount, method, at: "Just now" },
+          {
+            id: nextId(),
+            statementPeriod: statement.period,
+            amount: statement.amount,
+            method,
+            at: "Just now",
+          },
           ...prev,
         ]);
       },
@@ -663,12 +686,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
           prev.map((p) => (p.id === id ? { ...p, status: "Concierge delivery requested" } : p)),
         ),
       lostFound,
-      addLostFound: (i) => setLostFound((prev) => [{ ...i, id: nextId(), status: "Open" }, ...prev]),
+      addLostFound: (i) =>
+        setLostFound((prev) => [{ ...i, id: nextId(), status: "Open" }, ...prev]),
       resolveLostFound: (id) =>
         setLostFound((prev) => prev.map((i) => (i.id === id ? { ...i, status: "Reunited" } : i))),
 
       topics,
-      addTopic: (t) => setTopics((prev) => [{ ...t, id: nextId(), at: "Just now", replies: [] }, ...prev]),
+      addTopic: (t) =>
+        setTopics((prev) => [{ ...t, id: nextId(), at: "Just now", replies: [] }, ...prev]),
       addReply: (topicId, body, author) =>
         setTopics((prev) =>
           prev.map((t) =>
@@ -680,11 +705,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       joined,
       toggleJoin: (communityId) =>
         setJoined((prev) =>
-          prev.includes(communityId) ? prev.filter((c) => c !== communityId) : [...prev, communityId],
+          prev.includes(communityId)
+            ? prev.filter((c) => c !== communityId)
+            : [...prev, communityId],
         ),
 
       listings,
-      addListing: (l) => setListings((prev) => [{ ...l, id: nextId(), at: "Just now", replies: [] }, ...prev]),
+      addListing: (l) =>
+        setListings((prev) => [{ ...l, id: nextId(), at: "Just now", replies: [] }, ...prev]),
       addListingReply: (listingId, body, author) =>
         setListings((prev) =>
           prev.map((l) =>
@@ -722,8 +750,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         setProposals((prev) => [{ ...p, id: nextId(), at: "Just now", up: 1, down: 0 }, ...prev]),
 
       activity,
-      logActivity: (e) =>
-        setActivity((prev) => [{ ...e, id: nextId(), at: "Just now" }, ...prev]),
+      logActivity: (e) => setActivity((prev) => [{ ...e, id: nextId(), at: "Just now" }, ...prev]),
       /* Concierge desk queue: residents lodge, staff triage and reply. */
       conciergeRequests,
       addConciergeRequest: (r) =>
@@ -749,7 +776,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       assignConciergeRequest: (id, staff) => {
         const target = conciergeRequests.find((r) => r.id === id);
         if (!target || target.assignedTo === staff) return;
-        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r)));
+        setConciergeRequests((prev) =>
+          prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r)),
+        );
         raiseNotification({
           unit: target.unit,
           requestId: id,
@@ -783,17 +812,17 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         }
       },
 
-
       notifications: myNotifications,
       unreadNotifications: myNotifications.filter((n) => !n.read).length,
       markNotificationsRead: () =>
         setNotifications((prev) =>
           prev.map((n) =>
-            currentUser?.unit && unitKey(n.unit) === unitKey(currentUser.unit) ? { ...n, read: true } : n,
+            currentUser?.unit && unitKey(n.unit) === unitKey(currentUser.unit)
+              ? { ...n, read: true }
+              : n,
           ),
         ),
       dismissNotification: (id) => setNotifications((prev) => prev.filter((n) => n.id !== id)),
-
 
       surveyResponses,
 

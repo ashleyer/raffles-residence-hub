@@ -21,7 +21,6 @@ function FieldError({ id, message }: { id: string; message?: string | undefined 
   );
 }
 
-
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
@@ -32,13 +31,16 @@ export const Route = createFileRoute("/login")({
           "Sign in or register for the private residents' portal of The Raffles Residences Boston at 40 Trinity Place.",
       },
       { property: "og:title", content: "Resident Sign In — Raffles Boston Residences" },
-      { property: "og:description", content: "Private portal access for registered residences at 40 Trinity Place." },
+      {
+        property: "og:description",
+        content: "Private portal access for registered residences at 40 Trinity Place.",
+      },
     ],
   }),
   validateSearch: (search: Record<string, unknown>): { mode?: "signin" | "signup" } =>
-    search['mode'] === "signup"
+    search["mode"] === "signup"
       ? { mode: "signup" }
-      : search['mode'] === "signin"
+      : search["mode"] === "signin"
         ? { mode: "signin" }
         : {},
   component: LoginPage,
@@ -52,7 +54,13 @@ function LoginPage() {
   return (
     <PageShell
       eyebrow="Private Access"
-      title={currentUser ? "Your account" : mode === "signin" ? "Resident sign in" : "Create your account"}
+      title={
+        currentUser
+          ? "Your account"
+          : mode === "signin"
+            ? "Resident sign in"
+            : "Create your account"
+      }
       intro="Registered deed-holders and leaseholders sign in with their residence address. New visitors may register an account or explore with the shared preview passcode. Accounts are kept in this browser only."
     >
       {currentUser ? (
@@ -92,8 +100,9 @@ function LoginPage() {
               <p className="eyebrow">Demonstration accounts</p>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              This preview keeps everything in your browser. Any residence below may be used with the preview passcode,
-              or register your own account — it will be remembered on this device until you sign out.
+              This preview keeps everything in your browser. Any residence below may be used with
+              the preview passcode, or register your own account — it will be remembered on this
+              device until you sign out.
             </p>
             <ul className="mt-6 space-y-4">
               {RESIDENTS.slice(0, 4).map((r) => (
@@ -175,7 +184,9 @@ function SignInForm() {
     setTouched({ email: true, unit: true, password: true });
     if (Object.keys(found).length > 0) {
       setError(null);
-      const first = document.getElementById(Object.keys(found)[0] === "unit" ? "signin-unit" : Object.keys(found)[0]!);
+      const first = document.getElementById(
+        Object.keys(found)[0] === "unit" ? "signin-unit" : Object.keys(found)[0]!,
+      );
       first?.focus();
       return;
     }
@@ -209,7 +220,12 @@ function SignInForm() {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              if (touched['email']) setFieldErrors((p) => ({ ...p, email: validate(signInSchema, { ...values, email: e.target.value })['email'] ?? "" }));
+              if (touched["email"])
+                setFieldErrors((p) => ({
+                  ...p,
+                  email:
+                    validate(signInSchema, { ...values, email: e.target.value })["email"] ?? "",
+                }));
             }}
             onBlur={() => check("email")}
             aria-describedby={errorFor("email") ? "email-error" : "email-hint"}
@@ -228,7 +244,11 @@ function SignInForm() {
             value={unit}
             onChange={(e) => {
               setUnit(e.target.value);
-              if (touched['unit']) setFieldErrors((p) => ({ ...p, unit: validate(signInSchema, { ...values, unit: e.target.value })['unit'] ?? "" }));
+              if (touched["unit"])
+                setFieldErrors((p) => ({
+                  ...p,
+                  unit: validate(signInSchema, { ...values, unit: e.target.value })["unit"] ?? "",
+                }));
             }}
             onBlur={() => check("unit")}
             placeholder="Residence 22H"
@@ -250,7 +270,13 @@ function SignInForm() {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              if (touched['password']) setFieldErrors((p) => ({ ...p, password: validate(signInSchema, { ...values, password: e.target.value })['password'] ?? "" }));
+              if (touched["password"])
+                setFieldErrors((p) => ({
+                  ...p,
+                  password:
+                    validate(signInSchema, { ...values, password: e.target.value })["password"] ??
+                    "",
+                }));
             }}
             onBlur={() => check("password")}
             aria-describedby={errorFor("password") ? "password-error" : "passcode-hint"}
@@ -270,11 +296,20 @@ function SignInForm() {
 
         <RememberMeConsent id="remember" checked={remember} onChange={setRemember} />
 
-        <p id="signin-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
+        <p
+          id="signin-error"
+          role="alert"
+          aria-live="polite"
+          className="min-h-5 text-sm text-destructive"
+        >
           {error}
         </p>
 
-        <Button type="submit" disabled={submitting} className="min-h-11 w-full tracking-[0.18em] uppercase">
+        <Button
+          type="submit"
+          disabled={submitting}
+          className="min-h-11 w-full tracking-[0.18em] uppercase"
+        >
           {submitting ? (
             <>
               <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
@@ -292,7 +327,14 @@ function SignInForm() {
 function SignUpForm() {
   const { signUp } = usePortal();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", unit: "", phone: "", password: "", confirm: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    unit: "",
+    phone: "",
+    password: "",
+    confirm: "",
+  });
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -304,7 +346,11 @@ function SignUpForm() {
     setForm(next);
     if (touched[key]) {
       const found = validate(signUpSchema, next);
-      setFieldErrors((prev) => ({ ...prev, [key]: found[key] ?? "", confirm: touched['confirm'] ? found['confirm'] ?? "" : prev['confirm'] ?? "" }));
+      setFieldErrors((prev) => ({
+        ...prev,
+        [key]: found[key] ?? "",
+        confirm: touched["confirm"] ? (found["confirm"] ?? "") : (prev["confirm"] ?? ""),
+      }));
     }
   };
 
@@ -314,7 +360,8 @@ function SignUpForm() {
     setFieldErrors((prev) => ({ ...prev, [key]: found[key] ?? "" }));
   };
 
-  const errorFor = (key: keyof typeof form) => (touched[key] && fieldErrors[key] ? fieldErrors[key] : undefined);
+  const errorFor = (key: keyof typeof form) =>
+    touched[key] && fieldErrors[key] ? fieldErrors[key] : undefined;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -347,7 +394,8 @@ function SignUpForm() {
     <form onSubmit={submit} className="max-w-xl border border-border bg-card p-8" noValidate>
       <h2 className="text-2xl">Create an account</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Registering creates your household profile with contact details, and keeps your directory profile, reservations and preferences on this device.
+        Registering creates your household profile with contact details, and keeps your directory
+        profile, reservations and preferences on this device.
       </p>
       <fieldset disabled={submitting} className="mt-6 space-y-5 disabled:opacity-70">
         <div className="space-y-2">
@@ -393,7 +441,8 @@ function SignUpForm() {
           />
           <FieldError id="su-unit-error" message={errorFor("unit")} />
           <p id="su-unit-hint" className="text-xs text-muted-foreground">
-            Residences are verified by the Residences Office before the directory listing is confirmed.
+            Residences are verified by the Residences Office before the directory listing is
+            confirmed.
           </p>
         </div>
         <div className="space-y-2">
@@ -412,8 +461,9 @@ function SignUpForm() {
           />
           <FieldError id="su-phone-error" message={errorFor("phone")} />
           <p id="su-phone-hint" className="text-xs text-muted-foreground">
-            Every household keeps a profile with contact details on file. Listing in the directory and letting
-            neighbours contact you both stay optional — you choose in your profile settings.
+            Every household keeps a profile with contact details on file. Listing in the directory
+            and letting neighbours contact you both stay optional — you choose in your profile
+            settings.
           </p>
         </div>
         <div className="space-y-2">
@@ -431,7 +481,8 @@ function SignUpForm() {
           />
           <FieldError id="su-password-error" message={errorFor("password")} />
           <p id="su-password-hint" className="text-xs text-muted-foreground">
-            At least eight characters. Never use a real password — this demo stores it in your browser.
+            At least eight characters. Never use a real password — this demo stores it in your
+            browser.
           </p>
         </div>
         <div className="space-y-2">
@@ -456,7 +507,11 @@ function SignUpForm() {
           {error}
         </p>
 
-        <Button type="submit" disabled={submitting} className="min-h-11 w-full tracking-[0.18em] uppercase">
+        <Button
+          type="submit"
+          disabled={submitting}
+          className="min-h-11 w-full tracking-[0.18em] uppercase"
+        >
           {submitting ? (
             <>
               <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
@@ -470,4 +525,3 @@ function SignUpForm() {
     </form>
   );
 }
-

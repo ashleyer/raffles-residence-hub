@@ -21,8 +21,13 @@ const REMEMBER_DAYS = Math.round(REMEMBER_TTL_MS / (24 * 60 * 60 * 1000));
 /** One-click removal of the residence and contact details kept in this browser
  *  by "Remember me", plus the privacy switch that stops it happening again. */
 export function SavedDetailsControl() {
-  const { rememberedEmail, rememberedUnit, clearSavedDetails, rememberEnabled, setRememberEnabled } =
-    usePortal();
+  const {
+    rememberedEmail,
+    rememberedUnit,
+    clearSavedDetails,
+    rememberEnabled,
+    setRememberEnabled,
+  } = usePortal();
   const hasSaved = Boolean(rememberedEmail || rememberedUnit);
 
   return (
@@ -58,11 +63,9 @@ export function SavedDetailsControl() {
       </div>
 
       <p className="mt-4 text-sm text-muted-foreground">
-
         {hasSaved ? (
           <>
-            This browser is remembering{" "}
-            <span className="text-foreground">{rememberedEmail}</span>
+            This browser is remembering <span className="text-foreground">{rememberedEmail}</span>
             {rememberedUnit ? (
               <>
                 {" "}
@@ -72,7 +75,10 @@ export function SavedDetailsControl() {
             for up to {REMEMBER_DAYS} days so sign-in is prefilled. You may remove it at any time.
           </>
         ) : rememberEnabled ? (
-          <>Nothing is saved on this browser. Enable “Remember me” at sign-in if you would like it prefilled.</>
+          <>
+            Nothing is saved on this browser. Enable “Remember me” at sign-in if you would like it
+            prefilled.
+          </>
         ) : (
           <>Nothing is saved, and nothing will be: persistence is switched off for this browser.</>
         )}

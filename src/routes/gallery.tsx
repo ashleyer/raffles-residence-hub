@@ -23,7 +23,8 @@ export const Route = createFileRoute("/gallery")({
       { property: "og:title", content: "Residence Gallery — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "Residents share photographs and notes from their days in the building. Sign in to post your own.",
+        content:
+          "Residents share photographs and notes from their days in the building. Sign in to post your own.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,7 +40,9 @@ function GalleryPage() {
   const toggleLike = (id: number) => {
     const isLiked = liked.includes(id);
     setLiked((prev) => (isLiked ? prev.filter((x) => x !== id) : [...prev, id]));
-    setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, likes: p.likes + (isLiked ? -1 : 1) } : p)));
+    setPosts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, likes: p.likes + (isLiked ? -1 : 1) } : p)),
+    );
   };
 
   return (
@@ -147,7 +150,10 @@ function PostForm({ onPost }: { onPost: (post: GalleryPost) => void }) {
   };
 
   return (
-    <section aria-labelledby="post-heading" className="mt-16 border border-border bg-card p-6 sm:p-8">
+    <section
+      aria-labelledby="post-heading"
+      className="mt-16 border border-border bg-card p-6 sm:p-8"
+    >
       <p className="eyebrow">Add to the gallery</p>
       <h2 id="post-heading" className="mt-3 text-2xl">
         Post a photograph
@@ -228,7 +234,12 @@ function PostForm({ onPost }: { onPost: (post: GalleryPost) => void }) {
               Your residence number is hidden from the gallery.
             </p>
           </div>
-          <Switch id="gal-anon" checked={anonymous} onCheckedChange={setAnonymous} aria-describedby="gal-anon-hint" />
+          <Switch
+            id="gal-anon"
+            checked={anonymous}
+            onCheckedChange={setAnonymous}
+            aria-describedby="gal-anon-hint"
+          />
         </div>
 
         <Button type="submit" className="min-h-12 w-full tracking-[0.18em] uppercase sm:w-auto">

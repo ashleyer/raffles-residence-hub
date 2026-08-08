@@ -9,10 +9,7 @@ type Receipt = { reference: string; at: string };
 
 function makeReceipt(): Receipt {
   const now = new Date();
-  const stamp = now
-    .toISOString()
-    .slice(2, 16)
-    .replace(/[-:T]/g, "");
+  const stamp = now.toISOString().slice(2, 16).replace(/[-:T]/g, "");
   return {
     reference: `SEC-${stamp}`,
     at: now.toLocaleString(undefined, {

@@ -23,7 +23,8 @@ export const Route = createFileRoute("/gratitude")({
       { property: "og:title", content: "Thank You Notes — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "Publicly thank the concierge, engineering, housekeeping and valet teams — anonymously if you prefer.",
+        content:
+          "Publicly thank the concierge, engineering, housekeeping and valet teams — anonymously if you prefer.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -91,7 +92,9 @@ function NoteForm({ onPost }: { onPost: (note: ThankYouNote) => void }) {
       recipient,
       role: recipient.split("—")[1]?.trim() ?? "House team",
       body: body.trim().slice(0, 600),
-      author: currentUser?.unit ? `Residence ${currentUser.unit}`.replace("Residence Residence", "Residence") : "A resident",
+      author: currentUser?.unit
+        ? `Residence ${currentUser.unit}`.replace("Residence Residence", "Residence")
+        : "A resident",
       anonymous,
       at: "Just now",
     });
@@ -100,7 +103,10 @@ function NoteForm({ onPost }: { onPost: (note: ThankYouNote) => void }) {
   };
 
   return (
-    <section aria-labelledby="post-heading" className="mt-16 border border-border bg-card p-6 sm:p-8">
+    <section
+      aria-labelledby="post-heading"
+      className="mt-16 border border-border bg-card p-6 sm:p-8"
+    >
       <p className="eyebrow">Add a note</p>
       <h2 id="post-heading" className="mt-3 text-2xl">
         Thank someone
@@ -142,10 +148,16 @@ function NoteForm({ onPost }: { onPost: (note: ThankYouNote) => void }) {
               Post anonymously
             </Label>
             <p id="ty-anon-hint" className="mt-1 text-pretty text-xs text-muted-foreground">
-              Your residence number is hidden from the board. Management still sees the note attributed.
+              Your residence number is hidden from the board. Management still sees the note
+              attributed.
             </p>
           </div>
-          <Switch id="ty-anon" checked={anonymous} onCheckedChange={setAnonymous} aria-describedby="ty-anon-hint" />
+          <Switch
+            id="ty-anon"
+            checked={anonymous}
+            onCheckedChange={setAnonymous}
+            aria-describedby="ty-anon-hint"
+          />
         </div>
 
         <Button type="submit" className="min-h-12 w-full tracking-[0.18em] uppercase sm:w-auto">

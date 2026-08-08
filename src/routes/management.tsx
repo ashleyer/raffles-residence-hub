@@ -42,7 +42,8 @@ export const Route = createFileRoute("/management")({
       { property: "og:title", content: "Management & Board — Raffles Boston Residences" },
       {
         property: "og:description",
-        content: "Board of Trustees, residences staff, announcements and the Monthly Residence Happiness Survey.",
+        content:
+          "Board of Trustees, residences staff, announcements and the Monthly Residence Happiness Survey.",
       },
     ],
   }),
@@ -56,7 +57,6 @@ const TABS = [
   { id: "handbook", label: "Residence handbook" },
   { id: "survey", label: "Happiness survey" },
 ];
-
 
 function ManagementPage() {
   const [tab, setTab] = useState("announcements");
@@ -93,7 +93,9 @@ function ManagementPage() {
                     </span>
                   )}
                 </h3>
-                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">{a.body}</p>
+                <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                  {a.body}
+                </p>
               </li>
             ))}
           </ul>
@@ -125,7 +127,6 @@ function ManagementPage() {
       </TabPanel>
 
       <TabPanel id="survey" active={tab}>
-
         <RequireSession area={SURVEY_NAME}>
           <SurveySection />
         </RequireSession>
@@ -157,8 +158,8 @@ function PersonaNotice({ active, storageKey }: { active: boolean; storageKey: st
           <DialogHeader>
             <DialogTitle className="text-2xl">These people are not real</DialogTitle>
             <DialogDescription>
-              Every name, title, biography and portrait on this page is invented for demonstration purposes only. No
-              actual trustee, employee or resident is represented.
+              Every name, title, biography and portrait on this page is invented for demonstration
+              purposes only. No actual trustee, employee or resident is represented.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
@@ -172,8 +173,8 @@ function PersonaNotice({ active, storageKey }: { active: boolean; storageKey: st
       <div className="mb-8 flex items-start gap-3 border border-border bg-secondary/40 p-4">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Demo personas: the people listed below are fictional, with placeholder portraits, and exist only to show how
-          this page works.
+          Demo personas: the people listed below are fictional, with placeholder portraits, and
+          exist only to show how this page works.
         </p>
       </div>
     </>
@@ -242,8 +243,9 @@ function SurveySection() {
           {SURVEY_NAME} — {month}
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Five questions, rated one (poor) to five (excellent). The survey opens automatically on the last day of each
-          month and keeps prompting until you complete it. Responses reach management without your name attached.
+          Five questions, rated one (poor) to five (excellent). The survey opens automatically on
+          the last day of each month and keeps prompting until you complete it. Responses reach
+          management without your name attached.
         </p>
 
         {hasAnsweredSurvey ? (
@@ -299,7 +301,12 @@ function SurveySection() {
 
             <div className="space-y-2">
               <Label htmlFor="survey-comment">Anything else for management? (optional)</Label>
-              <Textarea id="survey-comment" rows={4} value={comment} onChange={(e) => setComment(e.target.value)} />
+              <Textarea
+                id="survey-comment"
+                rows={4}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              />
             </div>
 
             <Button type="submit" className="min-h-11 tracking-[0.18em] uppercase">
@@ -368,8 +375,8 @@ function ManagementResults({
         </div>
         <h2 className="mt-4 text-2xl">Survey results</h2>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Responses are visible to the Residences Office only. Enter the management access code to open the dashboard
-          and dataset.
+          Responses are visible to the Residences Office only. Enter the management access code to
+          open the dashboard and dataset.
         </p>
         <form
           className="mt-6 space-y-3"
@@ -477,14 +484,21 @@ function ManagementResults({
           {monthly
             .filter((r) => r.comment)
             .map((r) => (
-              <li key={r.id} className="border-l-2 border-primary/60 pl-3 text-sm text-muted-foreground">
+              <li
+                key={r.id}
+                className="border-l-2 border-primary/60 pl-3 text-sm text-muted-foreground"
+              >
                 “{r.comment}”
               </li>
             ))}
         </ul>
       )}
 
-      <Button variant="outline" className="mt-6 min-h-11 w-full tracking-[0.18em] uppercase" onClick={downloadCsv}>
+      <Button
+        variant="outline"
+        className="mt-6 min-h-11 w-full tracking-[0.18em] uppercase"
+        onClick={downloadCsv}
+      >
         Download dataset (CSV)
       </Button>
     </aside>

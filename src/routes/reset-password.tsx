@@ -93,7 +93,12 @@ function ResetPasswordPage() {
                 className="min-h-11"
               />
             </div>
-            <p id="reset-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
+            <p
+              id="reset-error"
+              role="alert"
+              aria-live="polite"
+              className="min-h-5 text-sm text-destructive"
+            >
               {error}
             </p>
             <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
@@ -105,8 +110,8 @@ function ResetPasswordPage() {
             {issuedCode ? (
               <p className="border border-border bg-secondary/40 p-4 text-sm text-muted-foreground">
                 Demonstration only — your reset code is{" "}
-                <span className="text-foreground tracking-[0.2em]">{issuedCode}</span>. It lapses in fifteen
-                minutes.
+                <span className="text-foreground tracking-[0.2em]">{issuedCode}</span>. It lapses in
+                fifteen minutes.
               </p>
             ) : null}
             <div className="space-y-2">
@@ -146,7 +151,12 @@ function ResetPasswordPage() {
                 className="min-h-11"
               />
             </div>
-            <p id="reset-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
+            <p
+              id="reset-error"
+              role="alert"
+              aria-live="polite"
+              className="min-h-5 text-sm text-destructive"
+            >
               {error}
             </p>
             <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">

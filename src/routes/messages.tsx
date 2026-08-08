@@ -19,7 +19,10 @@ export const Route = createFileRoute("/messages")({
           "Private and group messaging between residences at The Raffles Residences Boston, including interest groups and committees.",
       },
       { property: "og:title", content: "Resident Messaging — Raffles Boston Residences" },
-      { property: "og:description", content: "Group and private conversations between neighbours at 40 Trinity Place." },
+      {
+        property: "og:description",
+        content: "Group and private conversations between neighbours at 40 Trinity Place.",
+      },
     ],
   }),
   component: MessagesPage,
@@ -65,7 +68,9 @@ function MessagesBody() {
                     : "border-transparent hover:border-primary"
                 }`}
               >
-                <span className="block text-[0.6rem] tracking-[0.2em] uppercase opacity-80">{t.kind}</span>
+                <span className="block text-[0.6rem] tracking-[0.2em] uppercase opacity-80">
+                  {t.kind}
+                </span>
                 {t.name}
               </button>
             </li>
@@ -100,11 +105,14 @@ function MessagesBody() {
             </select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="thread-name">
-              {newKind === "Group" ? "Group name" : "Recipient"}
-            </Label>
+            <Label htmlFor="thread-name">{newKind === "Group" ? "Group name" : "Recipient"}</Label>
             {newKind === "Group" ? (
-              <Input id="thread-name" value={newName} onChange={(e) => setNewName(e.target.value)} className="min-h-11" />
+              <Input
+                id="thread-name"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                className="min-h-11"
+              />
             ) : (
               <select
                 id="thread-name"
@@ -123,20 +131,28 @@ function MessagesBody() {
               </select>
             )}
           </div>
-          <Button type="submit" variant="outline" className="min-h-11 w-full tracking-[0.16em] uppercase">
+          <Button
+            type="submit"
+            variant="outline"
+            className="min-h-11 w-full tracking-[0.16em] uppercase"
+          >
             Create
           </Button>
         </form>
       </nav>
 
-      <section aria-labelledby="thread-heading" className="min-w-0 border border-border bg-card p-5 sm:p-7">
+      <section
+        aria-labelledby="thread-heading"
+        className="min-w-0 border border-border bg-card p-5 sm:p-7"
+      >
         {active ? (
           <>
             <h2 id="thread-heading" className="text-xl break-words sm:text-2xl">
               {active.name}
             </h2>
             <p className="text-sm text-muted-foreground">
-              {active.kind} · {active.participants.length ? active.participants.join(", ") : "Just you, for now"}
+              {active.kind} ·{" "}
+              {active.participants.length ? active.participants.join(", ") : "Just you, for now"}
             </p>
 
             <ul aria-live="polite" className="mt-6 space-y-4">
@@ -149,7 +165,9 @@ function MessagesBody() {
                 </li>
               ))}
               {active.messages.length === 0 && (
-                <li className="text-sm text-muted-foreground">No messages yet — open the conversation below.</li>
+                <li className="text-sm text-muted-foreground">
+                  No messages yet — open the conversation below.
+                </li>
               )}
             </ul>
 
@@ -166,7 +184,12 @@ function MessagesBody() {
               }}
             >
               <Label htmlFor="draft">Message</Label>
-              <Textarea id="draft" rows={3} value={draft} onChange={(e) => setDraft(e.target.value)} />
+              <Textarea
+                id="draft"
+                rows={3}
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+              />
               <Button type="submit" className="min-h-11 tracking-[0.18em] uppercase">
                 Send
               </Button>
