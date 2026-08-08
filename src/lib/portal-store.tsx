@@ -567,21 +567,68 @@ export function PortalProvider({ children }: { children: ReactNode }) {
           ...prev,
         ]),
       setConciergeStatus: (id, status) =>
-        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r))),
+        setConciergeRequests((prev) =>
+          prev.map((r) => {
+            if (r.id !== id || r.status === status) return r;
+            raiseNotification({
+              unit: r.unit,
+              requestId: r.id,
+              kind: "status",
+              title: `${r.service} — ${status.toLowerCase()}`,
+              body:
+                status === "Completed"
+                  ? "The concierge desk has marked your request complete."
+                  : "The concierge desk has updated the status of your request.",
+            });
+            return { ...r, status };
+          }),
+        ),
       assignConciergeRequest: (id, staff) =>
-        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r))),
+        setConciergeRequests((prev) =>
+          prev.map((r) => {
+            if (r.id !== id || r.assignedTo === staff) return r;
+            raiseNotification({
+              unit: r.unit,
+              requestId: r.id,
+              kind: "assigned",
+              title: `${r.service} — assigned`,
+              body: `${staff} is now looking after your request.`,
+            });
+            return { ...r, assignedTo: staff };
+          }),
+        ),
       replyToConciergeRequest: (id, body, author) =>
         setConciergeRequests((prev) =>
-          prev.map((r) =>
-            r.id === id
-              ? {
-                  ...r,
-                  status: r.status === "Lodged" ? "In progress" : r.status,
-                  replies: [...(r.replies ?? []), { id: nextId(), body, author, at: "Just now" }],
-                }
-              : r,
+          prev.map((r) => {
+            if (r.id !== id) return r;
+            /* Only desk replies alert the residence — not the resident's own. */
+            if (unitKey(author) !== unitKey(r.unit)) {
+              raiseNotification({
+                unit: r.unit,
+                requestId: r.id,
+                kind: "reply",
+                title: `${author} replied`,
+                body: body.slice(0, 160),
+              });
+            }
+            return {
+              ...r,
+              status: r.status === "Lodged" ? "In progress" : r.status,
+              replies: [...(r.replies ?? []), { id: nextId(), body, author, at: "Just now" }],
+            };
+          }),
+        ),
+
+      notifications: myNotifications,
+      unreadNotifications: myNotifications.filter((n) => !n.read).length,
+      markNotificationsRead: () =>
+        setNotifications((prev) =>
+          prev.map((n) =>
+            currentUser?.unit && unitKey(n.unit) === unitKey(currentUser.unit) ? { ...n, read: true } : n,
           ),
         ),
+      dismissNotification: (id) => setNotifications((prev) => prev.filter((n) => n.id !== id)),
+
 
       surveyResponses,
 
