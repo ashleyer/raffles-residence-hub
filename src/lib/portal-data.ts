@@ -7,6 +7,10 @@ export type HouseholdMember = {
   relation: string;
   email?: string;
   phone?: string;
+  /** Free text — dietary notes, arrival preferences, anything the desk should know. */
+  notes?: string;
+  /** Exactly one resident per residence is the main profile for the unit. */
+  primary?: boolean;
 };
 
 /** A pet registered to the residence — useful for the concierge and for neighbours. */

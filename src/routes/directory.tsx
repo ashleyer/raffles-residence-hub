@@ -282,12 +282,33 @@ function DirectoryBody() {
 
 function HouseholdProfile() {
   const { currentUser, updateProfile } = usePortal();
-  const [member, setMember] = useState({ name: "", relation: "", email: "", phone: "" });
+  const [member, setMember] = useState({
+    name: "",
+    relation: "",
+    email: "",
+    phone: "",
+    notes: "",
+  });
   const [pet, setPet] = useState({ name: "", kind: "", note: "" });
 
   if (!currentUser) return null;
   const members = currentUser.members ?? [];
   const pets = currentUser.pets ?? [];
+
+  /* A single nested profile is always the main one; otherwise the flag decides. */
+  const mainId = members.length === 1 ? members[0]!.id : members.find((m) => m.primary)?.id;
+
+  const setMain = (id: string) => {
+    updateProfile({ members: members.map((m) => ({ ...m, primary: m.id === id })) });
+    toast.success("Main residence profile updated.");
+  };
+
+  const removeMember = (id: string) => {
+    const rest = members.filter((x) => x.id !== id);
+    /* Never leave a residence without a main profile. */
+    if (rest.length > 0 && !rest.some((m) => m.primary)) rest[0] = { ...rest[0]!, primary: true };
+    updateProfile({ members: rest });
+  };
 
   const addMember = (e: React.FormEvent) => {
     e.preventDefault();
@@ -301,9 +322,12 @@ function HouseholdProfile() {
       relation: member.relation.trim(),
       ...(member.email.trim() ? { email: member.email.trim() } : {}),
       ...(member.phone.trim() ? { phone: member.phone.trim() } : {}),
+      ...(member.notes.trim() ? { notes: member.notes.trim() } : {}),
+      /* The first profile added becomes the main one automatically. */
+      primary: members.length === 0,
     };
     updateProfile({ members: [...members, next] });
-    setMember({ name: "", relation: "", email: "", phone: "" });
+    setMember({ name: "", relation: "", email: "", phone: "", notes: "" });
     toast.success(`${next.name} added to ${currentUser.unit}.`);
   };
 
@@ -404,45 +428,73 @@ function HouseholdProfile() {
       <div className="mt-8 border-t border-border pt-6">
         <h3 className="flex items-center gap-2 text-lg">
           <Users className="h-4 w-4 text-primary" aria-hidden="true" />
-          Residents of {currentUser.unit}
+          Resident profiles for {currentUser.unit}
         </h3>
-        <ul className="mt-4 space-y-3" aria-live="polite">
-          {members.map((m) => (
-            <li
-              key={m.id}
-              className="flex items-start justify-between gap-3 border border-border p-3"
-            >
-              <span className="text-sm text-muted-foreground">
-                <span className="text-foreground">{m.name}</span> · {m.relation}
-                {(m.email || m.phone) && (
-                  <span className="mt-0.5 block text-xs">
-                    {[m.email, m.phone].filter(Boolean).join(" · ")}
-                  </span>
-                )}
-              </span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-11 w-11 shrink-0"
-                aria-label={`Remove ${m.name}`}
-                onClick={() => updateProfile({ members: members.filter((x) => x.id !== m.id) })}
+        <p className="mt-2 text-sm text-muted-foreground">
+          Each resident of the unit may have their own nested profile. One is the main residence
+          profile — with a single profile on file, it is chosen for you.
+        </p>
+        <fieldset className="mt-4">
+          <legend className="sr-only">Main residence profile</legend>
+          <ul className="space-y-3" aria-live="polite">
+            {members.map((m) => (
+              <li
+                key={m.id}
+                className="flex items-start justify-between gap-3 border border-border p-3"
               >
-                <Trash2 className="h-4 w-4" aria-hidden="true" />
-              </Button>
-            </li>
-          ))}
-          {members.length === 0 && (
-            <li className="border border-dashed border-border p-4 text-xs text-muted-foreground">
-              No individual residents added yet.
-            </li>
-          )}
-        </ul>
+                <span className="min-w-0 text-sm text-muted-foreground">
+                  <span className="text-foreground">{m.name}</span> · {m.relation}
+                  {m.id === mainId && (
+                    <span className="ml-2 border border-primary/40 px-2 py-0.5 text-[0.625rem] tracking-[0.16em] text-primary uppercase">
+                      Main
+                    </span>
+                  )}
+                  {(m.email || m.phone) && (
+                    <span className="mt-0.5 block text-xs">
+                      {[m.email, m.phone].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
+                  {m.notes && <span className="mt-0.5 block text-xs">{m.notes}</span>}
+                  <span className="mt-2 flex items-center gap-2 text-xs">
+                    <input
+                      type="radio"
+                      name="main-resident"
+                      id={`main-${m.id}`}
+                      checked={m.id === mainId}
+                      disabled={members.length === 1}
+                      onChange={() => setMain(m.id)}
+                      className="h-4 w-4 accent-[var(--primary)]"
+                    />
+                    <Label htmlFor={`main-${m.id}`} className="text-xs font-normal">
+                      Main residence profile
+                    </Label>
+                  </span>
+                </span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="h-11 w-11 shrink-0"
+                  aria-label={`Remove ${m.name}`}
+                  onClick={() => removeMember(m.id)}
+                >
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
+                </Button>
+              </li>
+            ))}
+            {members.length === 0 && (
+              <li className="border border-dashed border-border p-4 text-xs text-muted-foreground">
+                No individual resident profiles yet. The first one added becomes the main residence
+                profile.
+              </li>
+            )}
+          </ul>
+        </fieldset>
 
         <form onSubmit={addMember} className="mt-5 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="member-name">Name</Label>
+              <Label htmlFor="member-name">Full name</Label>
               <Input
                 id="member-name"
                 value={member.name}
@@ -481,13 +533,23 @@ function HouseholdProfile() {
               />
             </div>
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="member-notes">Notes for the concierge (optional)</Label>
+            <Textarea
+              id="member-notes"
+              rows={2}
+              value={member.notes}
+              onChange={(e) => setMember({ ...member, notes: e.target.value })}
+              placeholder="Preferred name, arrival preferences, dietary notes…"
+            />
+          </div>
           <Button
             type="submit"
             variant="outline"
             className="min-h-11 w-full tracking-[0.16em] uppercase"
           >
             <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-            Add resident
+            Add resident profile
           </Button>
         </form>
       </div>

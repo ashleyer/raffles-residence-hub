@@ -442,7 +442,7 @@ function SignUpForm() {
       </p>
       <fieldset disabled={submitting} className="mt-6 space-y-5 disabled:opacity-70">
         <div className="space-y-2">
-          <Label htmlFor="su-name">Household or resident name</Label>
+          <Label htmlFor="su-name">Residence Unit&apos;s Surname</Label>
           <Input
             id="su-name"
             autoComplete="name"
