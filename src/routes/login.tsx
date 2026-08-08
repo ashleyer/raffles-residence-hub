@@ -223,7 +223,7 @@ function SignInForm() {
 function SignUpForm() {
   const { signUp } = usePortal();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", unit: "", password: "", confirm: "" });
+  const [form, setForm] = useState({ name: "", email: "", unit: "", phone: "", password: "", confirm: "" });
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -246,7 +246,7 @@ function SignUpForm() {
     <form onSubmit={submit} className="max-w-xl border border-border bg-card p-8" noValidate>
       <h2 className="text-2xl">Create an account</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Register your household to keep your directory profile, reservations and preferences on this device.
+        Registering creates your household profile with contact details, and keeps your directory profile, reservations and preferences on this device.
       </p>
       <div className="mt-6 space-y-5">
         <div className="space-y-2">
