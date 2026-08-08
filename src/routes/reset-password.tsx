@@ -48,6 +48,8 @@ function ResetPasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [announcement, setAnnouncement] = useState("");
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -75,12 +77,40 @@ function ResetPasswordPage() {
   };
 
   const strength = scorePassword(password);
-  const canSubmit =
-    Object.keys(validate(newPasswordSchema, { code, password, confirm })).length === 0 &&
-    strength.score >= MIN_STRENGTH_SCORE;
+  const liveIssues: FieldErrors = { ...validate(newPasswordSchema, { code, password, confirm }) };
+  if (!liveIssues["password"] && password && strength.score < MIN_STRENGTH_SCORE) {
+    liveIssues["password"] =
+      `Password strength is “${strength.label}”. Reach at least “Fair” to continue.`;
+  }
+  const canSubmit = Object.keys(liveIssues).length === 0;
+
+  /** Errors surfaced next to a field: after a submit attempt, or once the field has been used. */
+  const errorFor = (field: "code" | "password" | "confirm") =>
+    touched[field] ? (liveIssues[field] ?? fieldErrors[field]) : undefined;
+
+  const visibleIssues = (["code", "password", "confirm"] as const)
+    .map((field) => ({ field, message: errorFor(field) }))
+    .filter((entry): entry is { field: typeof entry.field; message: string } =>
+      Boolean(entry.message),
+    );
+
+  const summaryText = visibleIssues.length
+    ? `${visibleIssues.length} field${visibleIssues.length > 1 ? "s need" : " needs"} attention: ${visibleIssues
+        .map((issue) => issue.message)
+        .join(" ")}`
+    : "";
+
+  /* Debounced so a screen reader announces settled text rather than every keystroke. */
+  useEffect(() => {
+    if (step !== "reset") return;
+    const timer = window.setTimeout(() => setAnnouncement(summaryText), 700);
+    return () => window.clearTimeout(timer);
+  }, [summaryText, step]);
+
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched({ code: true, password: true, confirm: true });
     const issues = validate(newPasswordSchema, { code, password, confirm });
     setFieldErrors(issues);
     if (Object.keys(issues).length > 0) {
@@ -149,6 +179,14 @@ function ResetPasswordPage() {
                 fifteen minutes.
               </p>
             ) : null}
+            <div
+              id="reset-validation-summary"
+              role="status"
+              aria-live="polite"
+              className="sr-only"
+            >
+              {announcement}
+            </div>
             <div className="space-y-2">
               <Label htmlFor="reset-code">Reset code</Label>
               <Input
@@ -158,16 +196,18 @@ function ResetPasswordPage() {
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                aria-invalid={fieldErrors["code"] ? true : undefined}
-                aria-describedby={fieldErrors["code"] ? "reset-code-error" : undefined}
+                onBlur={() => setTouched((t) => ({ ...t, code: true }))}
+                aria-invalid={errorFor("code") ? true : undefined}
+                aria-describedby={errorFor("code") ? "reset-code-error" : undefined}
                 className="min-h-11"
               />
-              {fieldErrors["code"] ? (
-                <p id="reset-code-error" role="alert" className="text-sm text-destructive">
-                  {fieldErrors["code"]}
+              {errorFor("code") ? (
+                <p id="reset-code-error" className="text-sm text-destructive">
+                  {errorFor("code")}
                 </p>
               ) : null}
             </div>
+
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <Label htmlFor="reset-password">New password</Label>
@@ -192,14 +232,19 @@ function ResetPasswordPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                aria-invalid={fieldErrors["password"] ? true : undefined}
-                aria-describedby="reset-password-meter"
+                onBlur={() => setTouched((t) => ({ ...t, password: true }))}
+                aria-invalid={errorFor("password") ? true : undefined}
+                aria-describedby={
+                  errorFor("password")
+                    ? "reset-password-meter reset-password-error"
+                    : "reset-password-meter"
+                }
                 className="min-h-11"
               />
               <PasswordStrengthMeter id="reset-password-meter" value={password} />
-              {fieldErrors["password"] ? (
-                <p role="alert" className="text-sm text-destructive">
-                  {fieldErrors["password"]}
+              {errorFor("password") ? (
+                <p id="reset-password-error" className="text-sm text-destructive">
+                  {errorFor("password")}
                 </p>
               ) : null}
             </div>
@@ -212,16 +257,18 @@ function ResetPasswordPage() {
                 required
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                aria-invalid={fieldErrors["confirm"] ? true : undefined}
-                aria-describedby={fieldErrors["confirm"] ? "reset-confirm-error" : undefined}
+                onBlur={() => setTouched((t) => ({ ...t, confirm: true }))}
+                aria-invalid={errorFor("confirm") ? true : undefined}
+                aria-describedby={errorFor("confirm") ? "reset-confirm-error" : undefined}
                 className="min-h-11"
               />
-              {fieldErrors["confirm"] ? (
-                <p id="reset-confirm-error" role="alert" className="text-sm text-destructive">
-                  {fieldErrors["confirm"]}
+              {errorFor("confirm") ? (
+                <p id="reset-confirm-error" className="text-sm text-destructive">
+                  {errorFor("confirm")}
                 </p>
               ) : null}
             </div>
+
 
             <p
               id="reset-error"
