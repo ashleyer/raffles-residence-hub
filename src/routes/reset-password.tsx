@@ -94,6 +94,19 @@ function ResetPasswordPage() {
       Boolean(entry.message),
     );
 
+  const summaryText = visibleIssues.length
+    ? `${visibleIssues.length} field${visibleIssues.length > 1 ? "s need" : " needs"} attention: ${visibleIssues
+        .map((issue) => issue.message)
+        .join(" ")}`
+    : "";
+
+  /* Debounced so a screen reader announces settled text rather than every keystroke. */
+  useEffect(() => {
+    if (step !== "reset") return;
+    const timer = window.setTimeout(() => setAnnouncement(summaryText), 700);
+    return () => window.clearTimeout(timer);
+  }, [summaryText, step]);
+
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
