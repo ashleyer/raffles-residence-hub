@@ -120,7 +120,7 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
             />
           </Link>
 
-          <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-4">
+          <div className="flex min-w-0 shrink-0 items-center justify-end gap-2 sm:gap-4">
             {currentUser ? (
               <>
                 <Link
@@ -138,30 +138,33 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
                     signOut();
                     toast.success("Signed out. Your details are saved — just sign in next time.");
                   }}
-                  className="btn-outline"
+                  className="btn-outline shrink-0 whitespace-nowrap"
                 >
                   Sign out
                 </button>
               </>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col items-stretch gap-1.5 sm:flex-row sm:items-center sm:gap-2">
                 <Link
                   to="/login"
                   search={{ mode: "signin" }}
-                  className="btn-outline whitespace-nowrap"
+                  className="btn-outline shrink-0 justify-center text-center whitespace-nowrap"
                 >
-                  Resident sign in
+                  <span className="sm:hidden">Sign in</span>
+                  <span className="hidden sm:inline">Resident sign in</span>
                 </Link>
                 <Link
                   to="/login"
                   search={{ mode: "signup" }}
-                  className="btn-outline whitespace-nowrap"
+                  className="btn-outline shrink-0 justify-center text-center whitespace-nowrap"
                 >
-                  Resident sign up
+                  <span className="sm:hidden">Sign up</span>
+                  <span className="hidden sm:inline">Resident sign up</span>
                 </Link>
               </div>
             )}
           </div>
+
         </div>
 
         {/* Slim desktop rail of primary destinations */}
