@@ -8,7 +8,6 @@ import { DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { RememberMeConsent } from "@/components/RememberMeConsent";
 
 export const Route = createFileRoute("/login")({
@@ -134,7 +133,7 @@ function SignInForm() {
   const [email, setEmail] = useState("");
   const [unit, setUnit] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -229,7 +228,7 @@ function SignUpForm() {
   const { signUp } = usePortal();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", unit: "", phone: "", password: "", confirm: "" });
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
