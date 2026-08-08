@@ -86,7 +86,7 @@ function ResetPasswordPage() {
 
   /** Errors surfaced next to a field: after a submit attempt, or once the field has been used. */
   const errorFor = (field: "code" | "password" | "confirm") =>
-    fieldErrors[field] ?? (touched[field] ? liveIssues[field] : undefined);
+    touched[field] ? (liveIssues[field] ?? fieldErrors[field]) : undefined;
 
   const visibleIssues = (["code", "password", "confirm"] as const)
     .map((field) => ({ field, message: errorFor(field) }))
