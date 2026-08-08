@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { KeyRound } from "lucide-react";
@@ -39,18 +39,31 @@ function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState(0);
 
-  const request = (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = window.setTimeout(() => setCooldown((s) => s - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [cooldown]);
+
+  const issueCode = (silent = false) => {
     const result = requestPasswordReset(email);
     if (!result.ok) {
       setError(result.error ?? "That request could not be completed.");
-      return;
+      return false;
     }
     setError(null);
     setIssuedCode(result.code ?? null);
-    setStep("reset");
-    toast.success("Reset code issued.");
+    setCode("");
+    setCooldown(30);
+    toast.success(silent ? "New reset code issued." : "Reset code issued.");
+    return true;
+  };
+
+  const request = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (issueCode()) setStep("reset");
   };
 
   const complete = (e: React.FormEvent) => {
@@ -163,6 +176,15 @@ function ResetPasswordPage() {
             </p>
             <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
               Change my password
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={cooldown > 0}
+              onClick={() => issueCode(true)}
+              className="min-h-11 w-full tracking-[0.18em] uppercase"
+            >
+              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
             </Button>
           </form>
         )}
