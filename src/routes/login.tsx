@@ -132,6 +132,13 @@ function LoginPage() {
               the preview passcode, or register your own account — it will be remembered on this
               device until you sign out.
             </p>
+            <p className="mt-4 border border-border bg-background p-4 text-sm leading-relaxed">
+              Demo login — email{" "}
+              <span className="text-foreground">{DEMO_ACCOUNT.email}</span>, password{" "}
+              <span className="text-foreground">{DEMO_ACCOUNT.password}</span>. No residence number
+              required; not all features are available.
+            </p>
+
             <ul className="mt-6 space-y-4">
               {RESIDENTS.slice(0, 4).map((r) => (
                 <li key={r.id} className="border-t border-border pt-4 text-sm">
