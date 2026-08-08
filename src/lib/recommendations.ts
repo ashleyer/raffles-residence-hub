@@ -49,25 +49,25 @@ export type RecommendationInput = {
 
 /** Interest keywords mapped onto the things a resident can actually book. */
 const INTEREST_MAP: Record<string, { amenities: string[]; communities: string[] }> = {
-  wine: { amenities: ["long-bar", "la-padrona"], communities: ["wine"] },
-  cocktails: { amenities: ["long-bar", "blind-duck"], communities: ["wine"] },
-  dining: { amenities: ["la-padrona", "private-dining"], communities: ["wine"] },
-  food: { amenities: ["la-padrona", "private-dining"], communities: ["wine"] },
+  wine: { amenities: ["emerald-lounge", "nantucket-kitchen"], communities: ["wine"] },
+  cocktails: { amenities: ["emerald-lounge", "emerald-lounge"], communities: ["wine"] },
+  dining: { amenities: ["nantucket-kitchen", "private-dining"], communities: ["wine"] },
+  food: { amenities: ["nantucket-kitchen", "private-dining"], communities: ["wine"] },
   cooking: { amenities: ["private-dining"], communities: ["wine"] },
-  wellness: { amenities: ["guerlain-spa"], communities: ["wellness"] },
-  swimming: { amenities: ["guerlain-spa"], communities: ["wellness"] },
-  yoga: { amenities: ["guerlain-spa"], communities: ["wellness"] },
-  fitness: { amenities: ["guerlain-spa"], communities: ["wellness"] },
+  wellness: { amenities: ["secret-garden-room"], communities: ["wellness"] },
+  swimming: { amenities: ["secret-garden-room"], communities: ["wellness"] },
+  yoga: { amenities: ["secret-garden-room"], communities: ["wellness"] },
+  fitness: { amenities: ["secret-garden-room"], communities: ["wellness"] },
   reading: { amenities: ["residents-lounge"], communities: ["books"] },
   books: { amenities: ["residents-lounge"], communities: ["books"] },
   literature: { amenities: ["residents-lounge"], communities: ["books"] },
   art: { amenities: ["residents-lounge"], communities: ["books"] },
-  music: { amenities: ["long-bar"], communities: ["wine"] },
+  music: { amenities: ["emerald-lounge"], communities: ["wine"] },
   dogs: { amenities: [], communities: ["dogs"] },
   pets: { amenities: [], communities: ["dogs"] },
   family: { amenities: ["residents-lounge"], communities: ["families"] },
   children: { amenities: ["residents-lounge"], communities: ["families"] },
-  travel: { amenities: ["long-bar"], communities: ["wine"] },
+  travel: { amenities: ["emerald-lounge"], communities: ["wine"] },
   entertaining: { amenities: ["private-dining", "residents-lounge"], communities: ["wine"] },
 };
 
@@ -127,18 +127,18 @@ export function buildRecommendations(input: RecommendationInput): Recommendation
   /* --- booking history -------------------------------------------------- */
   for (const id of bookedAmenityIds) {
     bump(amenityScore, id, 2, "You have reserved this before");
-    if (id === "long-bar" || id === "la-padrona") bump(communityScore, "wine", 2, "Dining and bar reservations");
-    if (id === "guerlain-spa") bump(communityScore, "wellness", 2, "Spa reservations");
+    if (id === "emerald-lounge" || id === "nantucket-kitchen") bump(communityScore, "wine", 2, "Dining and bar reservations");
+    if (id === "secret-garden-room") bump(communityScore, "wellness", 2, "Quiet mornings on Floor 21");
     if (id === "residents-lounge") bump(communityScore, "books", 1, "Time in the Residents' Lounge");
   }
 
   /* --- community memberships ------------------------------------------- */
   for (const c of joined) {
     if (c === "wine") {
-      bump(amenityScore, "long-bar", 2, "Wine & Spirits Circle member");
-      bump(amenityScore, "la-padrona", 2, "Wine & Spirits Circle member");
+      bump(amenityScore, "emerald-lounge", 2, "Wine & Spirits Circle member");
+      bump(amenityScore, "nantucket-kitchen", 2, "Wine & Spirits Circle member");
     }
-    if (c === "wellness") bump(amenityScore, "guerlain-spa", 3, "Wellness & Lap Swim member");
+    if (c === "wellness") bump(amenityScore, "secret-garden-room", 3, "Wellness & Lap Swim member");
     if (c === "books") bump(amenityScore, "residents-lounge", 2, "Floor 21 Book Club member");
     if (c === "families") bump(amenityScore, "residents-lounge", 1, "Families at Trinity Place member");
   }
