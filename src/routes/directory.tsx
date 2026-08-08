@@ -371,6 +371,10 @@ function HouseholdProfile() {
         </Button>
       </form>
 
+      <SavedDetailsControl />
+
+
+
       {/* --- residents ----------------------------------------------------- */}
       <div className="mt-8 border-t border-border pt-6">
         <h3 className="flex items-center gap-2 text-lg">
