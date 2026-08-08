@@ -32,6 +32,7 @@ const NAV_GROUPS = [
     heading: "Community",
     items: [
       { label: "Community", to: "/community" },
+      { label: "Residence gallery", to: "/gallery" },
       { label: "Thank you notes", to: "/gratitude" },
       { label: "Marketplace", to: "/marketplace" },
       { label: "Proposals", to: "/proposals" },

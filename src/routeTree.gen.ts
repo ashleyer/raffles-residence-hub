@@ -19,6 +19,7 @@ import { Route as ConciergeDeskRouteImport } from './routes/concierge-desk'
 import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ForYouRouteImport } from './routes/for-you'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as GratitudeRouteImport } from './routes/gratitude'
 import { Route as HealthRouteImport } from './routes/health'
@@ -80,6 +81,11 @@ const EventsRoute = EventsRouteImport.update({
 const ForYouRoute = ForYouRouteImport.update({
   id: '/for-you',
   path: '/for-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GovernanceRoute = GovernanceRouteImport.update({
@@ -154,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
+  '/gallery': typeof GalleryRoute
   '/governance': typeof GovernanceRoute
   '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
+  '/gallery': typeof GalleryRoute
   '/governance': typeof GovernanceRoute
   '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
+  '/gallery': typeof GalleryRoute
   '/governance': typeof GovernanceRoute
   '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
@@ -229,6 +238,7 @@ export interface FileRouteTypes {
     | '/directory'
     | '/events'
     | '/for-you'
+    | '/gallery'
     | '/governance'
     | '/gratitude'
     | '/health'
@@ -253,6 +263,7 @@ export interface FileRouteTypes {
     | '/directory'
     | '/events'
     | '/for-you'
+    | '/gallery'
     | '/governance'
     | '/gratitude'
     | '/health'
@@ -277,6 +288,7 @@ export interface FileRouteTypes {
     | '/directory'
     | '/events'
     | '/for-you'
+    | '/gallery'
     | '/governance'
     | '/gratitude'
     | '/health'
@@ -302,6 +314,7 @@ export interface RootRouteChildren {
   DirectoryRoute: typeof DirectoryRoute
   EventsRoute: typeof EventsRoute
   ForYouRoute: typeof ForYouRoute
+  GalleryRoute: typeof GalleryRoute
   GovernanceRoute: typeof GovernanceRoute
   GratitudeRoute: typeof GratitudeRoute
   HealthRoute: typeof HealthRouteWithChildren
@@ -385,6 +398,13 @@ declare module '@tanstack/react-router' {
       path: '/for-you'
       fullPath: '/for-you'
       preLoaderRoute: typeof ForYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/governance': {
@@ -496,6 +516,7 @@ const rootRouteChildren: RootRouteChildren = {
   DirectoryRoute: DirectoryRoute,
   EventsRoute: EventsRoute,
   ForYouRoute: ForYouRoute,
+  GalleryRoute: GalleryRoute,
   GovernanceRoute: GovernanceRoute,
   GratitudeRoute: GratitudeRoute,
   HealthRoute: HealthRouteWithChildren,
