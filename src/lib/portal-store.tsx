@@ -302,8 +302,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       });
     }
     setAccounts(readStore<Account[]>(ACCOUNTS_KEY, []));
+    const prefOn = readStore<boolean>(REMEMBER_PREF_KEY, true);
+    setRememberEnabledState(prefOn);
     const session = readExpiring<{ residentId: string; email: string }>(SESSION_KEY);
-    const last = readExpiring<{ email: string; unit?: string }>(LAST_USER_KEY);
+    const last = prefOn ? readExpiring<{ email: string; unit?: string }>(LAST_USER_KEY) : null;
     if (last) {
       setRememberedEmail(last.email);
       setRememberedUnit(last.unit ?? null);
