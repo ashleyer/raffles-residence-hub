@@ -209,7 +209,7 @@ function Index() {
               wider Accor collection.
             </p>
             <a
-              href="https://all.accor.com/loyalty-program/index.en.shtml"
+              href="https://all.accor.com/a/en/loyalty-program/accor-live-limitless-hotel-loyalty-program.html"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline mt-6 w-full self-center sm:w-auto"
