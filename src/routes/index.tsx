@@ -10,7 +10,7 @@ import boardRoom from "@/assets/board-room.jpg";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { NotifySecurity } from "@/components/NotifySecurity";
+
 import { HouseDirectory } from "@/components/HouseDirectory";
 
 
@@ -165,7 +165,7 @@ function Index() {
           aria-label="Contact the residences team"
           className="mx-auto grid w-full max-w-7xl gap-6 px-5 pb-20 sm:px-8 md:grid-cols-2"
         >
-          <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10">
+          <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10 md:col-span-2">
             <p className="eyebrow">At your service</p>
             <h2 id="contact-concierge" className="mt-3 text-balance text-xl sm:text-2xl">
               Contact the concierge
@@ -173,35 +173,24 @@ function Index() {
             <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
               Reservations, deliveries, transport or anything else — the desk replies daily.
             </p>
-            <a
-              href="mailto:concierge@raffles-boston.demo?subject=Resident%20request"
-              className="btn-outline mt-6 w-full self-center sm:w-auto"
-              aria-label="Email the concierge at concierge at raffles-boston dot demo"
-            >
-              concierge@raffles-boston.demo
-            </a>
-            <p className="mt-3 text-xs text-muted-foreground">
-              Demo address — messages are not delivered.
-            </p>
+            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a
+                href="tel:+16175891480"
+                className="btn-outline w-full sm:w-auto"
+                aria-label="Call the concierge at 617-589-1480"
+              >
+                617-589-1480
+              </a>
+              <a
+                href="mailto:ResidencesConcierge.Boston@raffles.com?subject=Resident%20request"
+                className="btn-outline w-full sm:w-auto"
+                aria-label="Email the concierge at Residences Concierge dot Boston at raffles dot com"
+              >
+                ResidencesConcierge.Boston@raffles.com
+              </a>
+            </div>
           </div>
 
-          <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10">
-            <p className="eyebrow">Around the clock</p>
-            <h2 id="notify-security" className="mt-3 text-balance text-xl sm:text-2xl">
-              Notify security
-            </h2>
-            <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
-              Report a safety concern, suspicious activity or an incident in the building.
-            </p>
-            <NotifySecurity
-              label="security@raffles-boston.demo"
-              ariaLabel="Notify security by email at security at raffles-boston dot demo"
-            />
-
-            <p className="mt-3 text-xs text-muted-foreground">
-              Demo address — messages are not delivered. For emergencies, dial 911.
-            </p>
-          </div>
 
           <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10 md:col-span-2">
             <p className="eyebrow">Resident benefit</p>

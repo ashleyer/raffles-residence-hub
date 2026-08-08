@@ -31,6 +31,24 @@ export function SiteFooter() {
           40 Trinity Place · Back Bay · Boston, Massachusetts 02116
           <span className="mt-2 block">Private Residents' Portal</span>
         </p>
+
+        <div className="mx-auto mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-8">
+          <a
+            href="tel:+16175891480"
+            aria-label="Call the Concierge at 617-589-1480"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Concierge · 617-589-1480
+          </a>
+          <a
+            href="mailto:ResidencesConcierge.Boston@raffles.com"
+            aria-label="Email the Concierge at Residences Concierge dot Boston at raffles dot com"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            ResidencesConcierge.Boston@raffles.com
+          </a>
+        </div>
+
         <NotifySecurity className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto" />
 
 
@@ -44,7 +62,7 @@ export function SiteFooter() {
             rel="noopener noreferrer"
             className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
           >
-            Raffles Residences Boston
+            Raffles Residences Boston Public Site
             <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
             <span className="sr-only">(opens in a new tab)</span>
           </a>
