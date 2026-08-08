@@ -60,10 +60,15 @@ function ResetPasswordPage() {
     return () => window.clearTimeout(timer);
   }, [cooldown]);
 
-  const issueCode = (silent = false) => {
+  const issueCode = async (silent = false) => {
+    if (busy) return false;
+    setPending(silent ? "resend" : "request");
+    /* Simulated request latency so the loading state is observable. */
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     const result = requestPasswordReset(email);
     if (!result.ok) {
       setError(result.error ?? "That request could not be completed.");
+      setPending(null);
       return false;
     }
     setError(null);
@@ -71,13 +76,16 @@ function ResetPasswordPage() {
     setCode("");
     setCooldown(30);
     toast.success(silent ? "New reset code issued." : "Reset code issued.");
+    setPending(null);
     return true;
   };
 
-  const request = (e: React.FormEvent) => {
+  const request = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (issueCode()) setStep("reset");
+    if (busy) return;
+    if (await issueCode()) setStep("reset");
   };
+
 
   const strength = scorePassword(password);
   const liveIssues: FieldErrors = { ...validate(newPasswordSchema, { code, password, confirm }) };
