@@ -11,6 +11,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 import { NotifySecurity } from "@/components/NotifySecurity";
+import { HouseDirectory } from "@/components/HouseDirectory";
 
 
 export const Route = createFileRoute("/")({
@@ -225,9 +226,7 @@ function Index() {
           </div>
         </section>
 
-
-
-
+        <HouseDirectory />
       </main>
 
       <SiteFooter />
