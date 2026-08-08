@@ -23,12 +23,16 @@ export const Route = createFileRoute("/login")({
       { property: "og:description", content: "Private portal access for registered residences at 40 Trinity Place." },
     ],
   }),
+  validateSearch: (search: Record<string, unknown>): { mode?: "signin" | "signup" } => ({
+    mode: search['mode'] === "signup" ? "signup" : search['mode'] === "signin" ? "signin" : undefined,
+  }),
   component: LoginPage,
 });
 
 function LoginPage() {
   const { currentUser } = usePortal();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const { mode: initialMode } = Route.useSearch();
+  const [mode, setMode] = useState<"signin" | "signup">(initialMode ?? "signin");
 
   return (
     <PageShell
