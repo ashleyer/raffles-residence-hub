@@ -178,6 +178,16 @@ function ResetPasswordPage() {
             <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
               Change my password
             </Button>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={cooldown > 0}
+              onClick={() => issueCode(true)}
+              className="min-h-11 w-full tracking-[0.18em] uppercase"
+            >
+              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
+            </Button>
+
           </form>
         )}
 
