@@ -1,10 +1,3 @@
-import board1 from "@/assets/people/board-1.jpg";
-import board2 from "@/assets/people/board-2.jpg";
-import board3 from "@/assets/people/board-3.jpg";
-import staff1 from "@/assets/people/staff-1.jpg";
-import staff2 from "@/assets/people/staff-2.jpg";
-import staff3 from "@/assets/people/staff-3.jpg";
-
 /* ---------------------------------------------------------------- people */
 
 /** A named person living in the residence, listed under the household profile. */
@@ -43,7 +36,8 @@ export type Person = {
   name: string;
   role: string;
   bio: string;
-  photo: string;
+  /** Portraits are intentionally blank in this demo — a monogram is shown instead. */
+  photo?: string;
 };
 
 export const RESIDENTS: Resident[] = [
@@ -144,21 +138,54 @@ export const BOARD: Person[] = [
     name: "Margaret Ellsworth",
     role: "President, Board of Trustees · Residence 39A",
     bio: "Twelve years on Back Bay association boards. Leads the reserve study and the terrace restoration programme.",
-    photo: board1,
   },
   {
     id: 2,
     name: "Andre Whitcombe",
-    role: "Treasurer · Residence 26C",
-    bio: "Former CFO in commercial real estate. Oversees the operating budget, condominium fee schedule and audit.",
-    photo: board2,
+    role: "Vice President · Residence 26C",
+    bio: "Former CFO in commercial real estate. Partners with the President on capital planning and vendor contracts.",
   },
   {
     id: 3,
+    name: "Priya Raghunathan",
+    role: "Treasurer · Residence 30F",
+    bio: "Oversees the operating budget, the condominium fee schedule, the reserve fund and the annual audit.",
+  },
+  {
+    id: 4,
     name: "Hana Sato",
-    role: "Secretary & Amenities Chair · Residence 32E",
-    bio: "Chairs the amenities and events committee and keeps the minutes of every trustee sitting.",
-    photo: board3,
+    role: "Secretary · Residence 32E",
+    bio: "Keeps the minutes of every trustee sitting and maintains the governance record for deed-holders.",
+  },
+  {
+    id: 5,
+    name: "Clifford Bowen",
+    role: "Trustee · Chair, Buildings & Grounds · Residence 24D",
+    bio: "Follows engineering projects, façade and terrace works, and the long-range maintenance calendar.",
+  },
+  {
+    id: 6,
+    name: "Rosalind Meyer",
+    role: "Trustee · Chair, Amenities & Events · Residence 35B",
+    bio: "Works with the Residences Office on the Residents' Lounge programme and the events committee calendar.",
+  },
+  {
+    id: 7,
+    name: "Daniel Okonkwo",
+    role: "Trustee · Chair, Rules & Compliance · Residence 28A",
+    bio: "Reviews house rules, short-term stay policy and the moving and contractor procedures.",
+  },
+  {
+    id: 8,
+    name: "Beatrice Lindqvist",
+    role: "Trustee · Chair, Finance Review · Residence 41C",
+    bio: "Reads the monthly variance report with the Treasurer and presents findings at the quarterly meeting.",
+  },
+  {
+    id: 9,
+    name: "Victor Alarcón",
+    role: "Trustee at Large · Residence 22K",
+    bio: "Liaison to the hotel operator on shared services, valet flow and loading dock scheduling.",
   },
 ];
 
@@ -168,21 +195,72 @@ export const STAFF: Person[] = [
     name: "Julien Marchand",
     role: "Director of Residences",
     bio: "Twenty years with Raffles across Singapore and Paris. Point of escalation for every household matter.",
-    photo: staff1,
   },
   {
     id: 2,
     name: "Amelia Reyes",
     role: "Head Concierge",
-    bio: "Leads the concierge team: in-residence dining, packing, unpacking and the daily rhythm of the residences.",
-    photo: staff2,
+    bio: "Leads the concierge team: in-residence dining, guest arrivals, packing, unpacking and daily requests.",
   },
   {
     id: 3,
     name: "Thomas Baird",
     role: "Chief Engineer",
     bio: "Runs building operations and the maintenance desk, including after-hours engineering response.",
-    photo: staff3,
+  },
+  {
+    id: 4,
+    name: "Nadia Farouk",
+    role: "Residences Manager",
+    bio: "Day-to-day management of the residential floors, move coordination and contractor access.",
+  },
+  {
+    id: 5,
+    name: "Grace Okafor",
+    role: "Resident Relations Manager",
+    bio: "First point of contact for household questions, directory listings and community programming.",
+  },
+  {
+    id: 6,
+    name: "Marcus Devlin",
+    role: "Director of Security",
+    bio: "Oversees the security team, access credentials, package chain of custody and life-safety drills.",
+  },
+  {
+    id: 7,
+    name: "Sofia Grimaldi",
+    role: "Concierge, Evenings",
+    bio: "Evening desk coverage: dining reservations, car requests, guest greetings and late arrivals.",
+  },
+  {
+    id: 8,
+    name: "Henry Lassiter",
+    role: "Valet Manager",
+    bio: "Manages valet staffing, vehicle retrieval times and the resident parking roster.",
+  },
+  {
+    id: 9,
+    name: "Camille Boucher",
+    role: "Housekeeping Manager, Residences",
+    bio: "Coordinates in-residence housekeeping, dry cleaning collection and common-area presentation.",
+  },
+  {
+    id: 10,
+    name: "Owen Pierce",
+    role: "Building Engineer",
+    bio: "Preventive maintenance, mechanical systems and same-day repairs across the residential floors.",
+  },
+  {
+    id: 11,
+    name: "Isabel Moreno",
+    role: "Financial Administrator",
+    bio: "House accounts, condominium fee statements, payment plans and billing questions.",
+  },
+  {
+    id: 12,
+    name: "Kenji Watanabe",
+    role: "Amenities & Events Coordinator",
+    bio: "Books the Residents' Lounge spaces, the Emerald Lounge and hotel catering for private events.",
   },
 ];
 
@@ -676,6 +754,22 @@ export type SurveyResponse = {
   comment?: string;
   submittedBy: string;
 };
+
+export const SURVEY_NAME = "Monthly Residence Happiness Survey";
+
+/** Management-only access code for the survey results dashboard (demo). */
+export const MANAGEMENT_ACCESS_CODE = "residences-office";
+
+export function monthLabel(date: Date = new Date()) {
+  return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+}
+
+/** True on the final calendar day of the month, and on any later day of a month
+ *  that has already rolled over — the prompt keeps appearing until completed. */
+export function isSurveyWindowOpen(date: Date = new Date()) {
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  return date.getDate() >= lastDay;
+}
 
 export const CURRENT_SURVEY_MONTH = "August 2026";
 
