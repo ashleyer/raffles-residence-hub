@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BellRing, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -39,11 +39,21 @@ const STATUS_ICON = {
 } as const;
 
 function ConciergePage() {
-  const { conciergeRequests: requests, addConciergeRequest, setConciergeStatus } = usePortal();
+  const {
+    conciergeRequests: requests,
+    addConciergeRequest,
+    setConciergeStatus,
+    currentUser,
+  } = usePortal();
   const [service, setService] = useState<string>(CONCIERGE_SERVICES[0]);
   const [detail, setDetail] = useState("");
   const [unit, setUnit] = useState("");
   const [priority, setPriority] = useState(false);
+  /* Signed-in residents should never retype their own residence number. */
+  useEffect(() => {
+    if (currentUser?.unit) setUnit((v) => v || currentUser.unit!);
+  }, [currentUser]);
+
   const [filter, setFilter] = useState<"All" | ConciergeRequest["status"]>("All");
 
   const visible = requests.filter((r) => filter === "All" || r.status === filter);
