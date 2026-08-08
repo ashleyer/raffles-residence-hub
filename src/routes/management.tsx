@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Info, Lock } from "lucide-react";
+import { DemoTag } from "@/components/DemoTag";
 import { PageShell, TabBar, TabPanel } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { RequireSession } from "@/components/RequireSession";
