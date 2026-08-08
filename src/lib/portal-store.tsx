@@ -111,6 +111,24 @@ type PortalValue = {
   hasAnsweredSurvey: boolean;
 };
 
+/** "22h" / "unit 22H" -> "Residence 22H" */
+export function formatUnit(raw: string): string {
+  const value = raw.trim().replace(/^(residence|unit|apt\.?|apartment)\s+/i, "");
+  if (!value) return "";
+  return `Residence ${value.toUpperCase()}`;
+}
+
+const unitKey = (u: string) => u.replace(/^(residence|unit|apt\.?|apartment)\s+/i, "").replace(/\s+/g, "").toUpperCase();
+
+/** A real residence number, as opposed to a placeholder. */
+function isKnownUnit(u: string): boolean {
+  return /\d/.test(u);
+}
+
+function sameUnit(a: string, b: string): boolean {
+  return unitKey(a) === unitKey(b);
+}
+
 const PortalContext = createContext<PortalValue | null>(null);
 
 const nextId = () => Date.now() + Math.floor(Math.random() * 1000);
