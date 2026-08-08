@@ -63,7 +63,12 @@ function StaffSignInPage() {
       title="Raffles Personnel Sign In"
       intro="Internal colleagues only. Sign in with the personnel account you registered on this device."
     >
-      <form onSubmit={(e) => void submit(e)} aria-busy={busy} className="mt-12 max-w-md space-y-5" noValidate>
+      <form
+        onSubmit={(e) => void submit(e)}
+        aria-busy={busy}
+        className="mt-12 max-w-md space-y-5"
+        noValidate
+      >
         <div className="space-y-2">
           <Label htmlFor="staff-signin-email">Work email</Label>
           <Input

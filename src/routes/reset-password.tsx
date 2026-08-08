@@ -86,7 +86,6 @@ function ResetPasswordPage() {
     if (await issueCode()) setStep("reset");
   };
 
-
   const strength = scorePassword(password);
   const liveIssues: FieldErrors = { ...validate(newPasswordSchema, { code, password, confirm }) };
   if (!liveIssues["password"] && password && strength.score < MIN_STRENGTH_SCORE) {
@@ -203,7 +202,6 @@ function ResetPasswordPage() {
     void navigate({ to: "/login", search: { mode: "signin" } });
   };
 
-
   return (
     <PageShell
       eyebrow="Account Recovery"
@@ -262,7 +260,6 @@ function ResetPasswordPage() {
           </form>
         ) : (
           <form onSubmit={complete} className="mt-6 space-y-5" noValidate aria-busy={busy}>
-
             {issuedCode ? (
               <p className="border border-border bg-secondary/40 p-4 text-sm text-muted-foreground">
                 Demonstration only — your reset code is{" "}
@@ -436,7 +433,6 @@ function ResetPasswordPage() {
                 "Resend code"
               )}
             </Button>
-
           </form>
         )}
 

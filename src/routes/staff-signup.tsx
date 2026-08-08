@@ -68,7 +68,12 @@ function StaffSignUpPage() {
       title="Raffles Personnel Sign Up"
       intro="For internal Raffles Boston colleagues. Register a personnel account to reach the staff dashboard. Demonstration only — accounts are kept in this browser."
     >
-      <form onSubmit={(e) => void submit(e)} aria-busy={busy} className="mt-12 max-w-xl space-y-5" noValidate>
+      <form
+        onSubmit={(e) => void submit(e)}
+        aria-busy={busy}
+        className="mt-12 max-w-xl space-y-5"
+        noValidate
+      >
         <div className="space-y-2">
           <Label htmlFor="staff-name">Full name</Label>
           <Input
