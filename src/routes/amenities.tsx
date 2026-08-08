@@ -29,6 +29,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { usePortal } from "@/lib/portal-store";
 import { ForYou } from "@/components/ForYou";
+import { SpatialBookingGrid } from "@/components/SpatialBookingGrid";
 
 export const Route = createFileRoute("/amenities")({
   head: () => ({
@@ -260,18 +261,15 @@ function AmenitiesPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="slot">Sitting</Label>
-                  <select
-                    id="slot"
-                    value={slot}
-                    onChange={(e) => setSlot(e.target.value)}
-                    className="h-11 w-full border border-input bg-transparent px-3 text-sm"
-                  >
-                    {amenity.slots.map((s) => (
-                      <option key={s} value={s} className="bg-card">
-                        {s}
-                      </option>
-                    ))}
-                  </select>
+                  <SpatialBookingGrid
+                    slots={amenity.slots}
+                    bookings={bookings}
+                    amenityId={amenity.id}
+                    date={date}
+                    selected={slot}
+                    onSelect={setSlot}
+                  />
+                  <input type="hidden" id="slot" value={slot} readOnly />
                 </div>
 
                 <div className="space-y-2">
