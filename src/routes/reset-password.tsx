@@ -88,6 +88,22 @@ function ResetPasswordPage() {
   const errorFor = (field: "code" | "password" | "confirm") =>
     touched[field] ? (liveIssues[field] ?? fieldErrors[field]) : undefined;
 
+  const fieldLabels = {
+    code: "Reset code",
+    password: "New password",
+    confirm: "Confirm password",
+  } as const;
+
+  const blockingIssues = (["code", "password", "confirm"] as const)
+    .map((field) => ({
+      field,
+      label: fieldLabels[field] as string,
+      message: liveIssues[field],
+    }))
+    .filter((entry): entry is { field: typeof entry.field; label: string; message: string } =>
+      Boolean(entry.message),
+    );
+
   const visibleIssues = (["code", "password", "confirm"] as const)
     .map((field) => ({ field, message: errorFor(field) }))
     .filter((entry): entry is { field: typeof entry.field; message: string } =>
@@ -106,7 +122,6 @@ function ResetPasswordPage() {
     const timer = window.setTimeout(() => setAnnouncement(summaryText), 700);
     return () => window.clearTimeout(timer);
   }, [summaryText, step]);
-
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,12 +194,7 @@ function ResetPasswordPage() {
                 fifteen minutes.
               </p>
             ) : null}
-            <div
-              id="reset-validation-summary"
-              role="status"
-              aria-live="polite"
-              className="sr-only"
-            >
+            <div id="reset-validation-summary" role="status" aria-live="polite" className="sr-only">
               {announcement}
             </div>
             <div className="space-y-2">
@@ -269,7 +279,6 @@ function ResetPasswordPage() {
               ) : null}
             </div>
 
-
             <p
               id="reset-error"
               role="alert"
@@ -288,8 +297,11 @@ function ResetPasswordPage() {
             </Button>
             {canSubmit ? null : (
               <p id="reset-submit-hint" className="text-sm text-muted-foreground">
-                Enter your reset code and a matching password of at least “Fair” strength to
-                continue.
+                {blockingIssues.length === 0
+                  ? "Complete all three fields to continue."
+                  : `Still to fix — ${blockingIssues
+                      .map((issue) => `${issue.label}: ${issue.message}`)
+                      .join(" ")}`}
               </p>
             )}
             <Button
