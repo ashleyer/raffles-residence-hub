@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { toast } from "sonner";
+import { NotificationBell } from "@/components/NotificationBell";
 import { usePortal } from "@/lib/portal-store";
 import rafflesLogo from "@/assets/raffles-logo.png";
 
@@ -120,6 +121,8 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
               <Link to="/directory" hash="my-profile" className="nav-link hidden min-h-11 items-center sm:inline-flex">
                 {currentUser.unit}
               </Link>
+              <NotificationBell />
+
               <button
                 type="button"
                 onClick={() => {
