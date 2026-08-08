@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import { ForYou } from "@/components/ForYou";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroTower from "@/assets/hero-tower.jpg";
