@@ -580,6 +580,32 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         setRememberedEmail(null);
         setRememberedUnit(null);
       },
+      rememberEnabled,
+      /* Turning the switch off stops persistence at once and wipes whatever is
+         already saved on this device; the live session is left untouched. */
+      setRememberEnabled: (enabled: boolean) => {
+        setRememberEnabledState(enabled);
+        writeStore(REMEMBER_PREF_KEY, enabled);
+        if (!enabled) {
+          clearStore(LAST_USER_KEY);
+          clearStore(SESSION_KEY);
+          setRememberedEmail(null);
+          setRememberedUnit(null);
+        } else if (currentUser) {
+          writeExpiring(
+            LAST_USER_KEY,
+            { email: currentUser.email, unit: currentUser.unit },
+            REMEMBER_TTL_MS,
+          );
+          writeExpiring(
+            SESSION_KEY,
+            { residentId: currentUser.id, email: currentUser.email },
+            SESSION_TTL_MS,
+          );
+          setRememberedEmail(currentUser.email);
+          setRememberedUnit(currentUser.unit ?? null);
+        }
+      },
 
 
 
