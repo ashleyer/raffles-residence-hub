@@ -4,6 +4,7 @@ import { Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
 import { NotifySecurity } from "@/components/NotifySecurity";
+import { ContactLink } from "@/components/ContactLink";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -27,20 +28,24 @@ export function SiteFooter() {
         </p>
 
         <div className="mx-auto mt-8 grid grid-cols-1 gap-y-1 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-8">
-          <a
+          <ContactLink
             href="tel:+16175891480"
-            aria-label="Call the Concierge at 617-589-1480"
+            value="617-589-1480"
+            kind="tel"
+            ariaLabel="Call the Concierge at 617-589-1480"
             className="nav-link inline-flex min-h-12 w-full items-center justify-center px-3 text-center text-balance text-muted-foreground hover:text-foreground sm:min-h-11 sm:w-auto sm:px-0"
           >
             Concierge · 617-589-1480
-          </a>
-          <a
+          </ContactLink>
+          <ContactLink
             href="mailto:ResidencesConcierge.Boston@raffles.com"
-            aria-label="Email the Concierge at ResidencesConcierge.Boston@raffles.com"
+            value="ResidencesConcierge.Boston@raffles.com"
+            kind="mail"
+            ariaLabel="Email the Concierge at ResidencesConcierge.Boston@raffles.com"
             className="nav-link inline-flex min-h-12 w-full items-center justify-center px-3 text-center text-balance text-muted-foreground hover:text-foreground sm:min-h-11 sm:w-auto sm:px-0"
           >
             ResidencesConcierge.Boston@raffles.com
-          </a>
+          </ContactLink>
         </div>
 
         <NotifySecurity className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto" />
