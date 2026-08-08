@@ -121,7 +121,7 @@ function SignedIn() {
 }
 
 function SignInForm() {
-  const { signIn, rememberedEmail } = usePortal();
+  const { signIn, rememberedEmail, rememberedUnit } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [unit, setUnit] = useState("");
@@ -131,7 +131,8 @@ function SignInForm() {
 
   useEffect(() => {
     if (rememberedEmail) setEmail(rememberedEmail);
-  }, [rememberedEmail]);
+    if (rememberedUnit) setUnit(rememberedUnit);
+  }, [rememberedEmail, rememberedUnit]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
