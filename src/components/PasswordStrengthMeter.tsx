@@ -50,4 +50,3 @@ export function PasswordStrengthMeter({ value, id }: { value: string; id?: strin
     </div>
   );
 }
-

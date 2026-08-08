@@ -18,7 +18,6 @@ export interface PasswordStrength {
   criteria: StrengthCriterion[];
 }
 
-
 const COMMON = [
   "password",
   "12345678",
@@ -88,4 +87,3 @@ export function scorePassword(value: string): PasswordStrength {
   const score = Math.max(0, Math.min(4, points)) as StrengthLevel;
   return { score, label: LABELS[score], suggestions: suggestions.slice(0, 3), criteria };
 }
-
