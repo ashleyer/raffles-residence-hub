@@ -222,9 +222,20 @@ function ResetPasswordPage() {
             >
               {error}
             </p>
-            <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
+            <Button
+              type="submit"
+              disabled={!canSubmit}
+              aria-describedby={canSubmit ? undefined : "reset-submit-hint"}
+              className="min-h-11 w-full tracking-[0.18em] uppercase"
+            >
               Change my password
             </Button>
+            {canSubmit ? null : (
+              <p id="reset-submit-hint" className="text-sm text-muted-foreground">
+                Enter your reset code and a matching password of at least “Fair” strength to
+                continue.
+              </p>
+            )}
             <Button
               type="button"
               variant="outline"
