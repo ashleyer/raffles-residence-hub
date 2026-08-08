@@ -14,6 +14,7 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as AmenitiesRouteImport } from './routes/amenities'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ConciergeRouteImport } from './routes/concierge'
+import { Route as ConciergeDeskRouteImport } from './routes/concierge-desk'
 import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ForYouRouteImport } from './routes/for-you'
@@ -25,7 +26,6 @@ import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as ServicesRouteImport } from './routes/services'
-import { Route as ConciergeDeskRouteImport } from './routes/concierge.desk'
 import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
 const IndexRoute = IndexRouteImport.update({
@@ -51,6 +51,11 @@ const CommunityRoute = CommunityRouteImport.update({
 const ConciergeRoute = ConciergeRouteImport.update({
   id: '/concierge',
   path: '/concierge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConciergeDeskRoute = ConciergeDeskRouteImport.update({
+  id: '/concierge-desk',
+  path: '/concierge-desk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DirectoryRoute = DirectoryRouteImport.update({
@@ -108,11 +113,6 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ConciergeDeskRoute = ConciergeDeskRouteImport.update({
-  id: '/desk',
-  path: '/desk',
-  getParentRoute: () => ConciergeRoute,
-} as any)
 const HealthReadyRoute = HealthReadyRouteImport.update({
   id: '/ready',
   path: '/ready',
@@ -124,7 +124,8 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/community': typeof CommunityRoute
-  '/concierge': typeof ConciergeRouteWithChildren
+  '/concierge': typeof ConciergeRoute
+  '/concierge-desk': typeof ConciergeDeskRoute
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
@@ -136,7 +137,6 @@ export interface FileRoutesByFullPath {
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
-  '/concierge/desk': typeof ConciergeDeskRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesByTo {
@@ -144,7 +144,8 @@ export interface FileRoutesByTo {
   '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/community': typeof CommunityRoute
-  '/concierge': typeof ConciergeRouteWithChildren
+  '/concierge': typeof ConciergeRoute
+  '/concierge-desk': typeof ConciergeDeskRoute
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
@@ -156,7 +157,6 @@ export interface FileRoutesByTo {
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
-  '/concierge/desk': typeof ConciergeDeskRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesById {
@@ -165,7 +165,8 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/community': typeof CommunityRoute
-  '/concierge': typeof ConciergeRouteWithChildren
+  '/concierge': typeof ConciergeRoute
+  '/concierge-desk': typeof ConciergeDeskRoute
   '/directory': typeof DirectoryRoute
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
@@ -177,7 +178,6 @@ export interface FileRoutesById {
   '/messages': typeof MessagesRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
-  '/concierge/desk': typeof ConciergeDeskRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRouteTypes {
@@ -188,6 +188,7 @@ export interface FileRouteTypes {
     | '/amenities'
     | '/community'
     | '/concierge'
+    | '/concierge-desk'
     | '/directory'
     | '/events'
     | '/for-you'
@@ -199,7 +200,6 @@ export interface FileRouteTypes {
     | '/messages'
     | '/proposals'
     | '/services'
-    | '/concierge/desk'
     | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -208,6 +208,7 @@ export interface FileRouteTypes {
     | '/amenities'
     | '/community'
     | '/concierge'
+    | '/concierge-desk'
     | '/directory'
     | '/events'
     | '/for-you'
@@ -219,7 +220,6 @@ export interface FileRouteTypes {
     | '/messages'
     | '/proposals'
     | '/services'
-    | '/concierge/desk'
     | '/health/ready'
   id:
     | '__root__'
@@ -228,6 +228,7 @@ export interface FileRouteTypes {
     | '/amenities'
     | '/community'
     | '/concierge'
+    | '/concierge-desk'
     | '/directory'
     | '/events'
     | '/for-you'
@@ -239,7 +240,6 @@ export interface FileRouteTypes {
     | '/messages'
     | '/proposals'
     | '/services'
-    | '/concierge/desk'
     | '/health/ready'
   fileRoutesById: FileRoutesById
 }
@@ -248,7 +248,8 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AmenitiesRoute: typeof AmenitiesRoute
   CommunityRoute: typeof CommunityRoute
-  ConciergeRoute: typeof ConciergeRouteWithChildren
+  ConciergeRoute: typeof ConciergeRoute
+  ConciergeDeskRoute: typeof ConciergeDeskRoute
   DirectoryRoute: typeof DirectoryRoute
   EventsRoute: typeof EventsRoute
   ForYouRoute: typeof ForYouRoute
@@ -297,6 +298,13 @@ declare module '@tanstack/react-router' {
       path: '/concierge'
       fullPath: '/concierge'
       preLoaderRoute: typeof ConciergeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/concierge-desk': {
+      id: '/concierge-desk'
+      path: '/concierge-desk'
+      fullPath: '/concierge-desk'
+      preLoaderRoute: typeof ConciergeDeskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/directory': {
@@ -376,13 +384,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/concierge/desk': {
-      id: '/concierge/desk'
-      path: '/desk'
-      fullPath: '/concierge/desk'
-      preLoaderRoute: typeof ConciergeDeskRouteImport
-      parentRoute: typeof ConciergeRoute
-    }
     '/health/ready': {
       id: '/health/ready'
       path: '/ready'
@@ -392,18 +393,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface ConciergeRouteChildren {
-  ConciergeDeskRoute: typeof ConciergeDeskRoute
-}
-
-const ConciergeRouteChildren: ConciergeRouteChildren = {
-  ConciergeDeskRoute: ConciergeDeskRoute,
-}
-
-const ConciergeRouteWithChildren = ConciergeRoute._addFileChildren(
-  ConciergeRouteChildren,
-)
 
 interface HealthRouteChildren {
   HealthReadyRoute: typeof HealthReadyRoute
@@ -421,7 +410,8 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AmenitiesRoute: AmenitiesRoute,
   CommunityRoute: CommunityRoute,
-  ConciergeRoute: ConciergeRouteWithChildren,
+  ConciergeRoute: ConciergeRoute,
+  ConciergeDeskRoute: ConciergeDeskRoute,
   DirectoryRoute: DirectoryRoute,
   EventsRoute: EventsRoute,
   ForYouRoute: ForYouRoute,
