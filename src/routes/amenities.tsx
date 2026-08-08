@@ -297,7 +297,71 @@ function AmenitiesPage() {
           </aside>
         </div>
 
+        <InResidenceDining />
+
+        <section aria-labelledby="hotel-venues" className="mt-16">
+          <h2 id="hotel-venues" className="text-2xl">
+            Hotel venues
+          </h2>
+          <div className="gold-rule mt-4" />
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            These rooms belong to the hotel and are not reservable in their entirety through the residences desk. Menus
+            and booking are held by each venue.
+          </p>
+          <ul className="mt-6 grid gap-6 sm:grid-cols-2">
+            {VENUES.map((v) => (
+              <li key={v.id}>
+                <article className="flex h-full flex-col border border-border bg-card">
+                  <img
+                    src={v.image}
+                    alt={`${v.name} at Raffles Boston`}
+                    width={1200}
+                    height={800}
+                    loading="lazy"
+                    className="h-48 w-full object-cover"
+                  />
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="text-2xl leading-snug">{v.name}</h3>
+                    <p className="mt-2 flex items-center gap-2 text-xs tracking-wider text-muted-foreground uppercase">
+                      <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                      {v.location}
+                    </p>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{v.description}</p>
+                    <ul className="mt-4 space-y-1">
+                      {v.hours.map((h) => (
+                        <li key={h} className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Clock className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-3 flex gap-2 border-l-2 border-primary/50 pl-3 text-xs leading-relaxed text-muted-foreground">
+                      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" aria-hidden="true" />
+                      {v.note}
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      {v.links.map((l) => (
+                        <a
+                          key={l.href}
+                          href={l.href}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="btn-outline inline-flex min-h-11 items-center gap-2"
+                        >
+                          {l.label}
+                          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <ForYou variant="inline" area="amenities" />
+
       </main>
       <SiteFooter />
     </div>
