@@ -95,7 +95,11 @@ function ResetPasswordPage() {
   } as const;
 
   const blockingIssues = (["code", "password", "confirm"] as const)
-    .map((field) => ({ field, label: fieldLabels[field], message: liveIssues[field] }))
+    .map((field) => ({
+      field,
+      label: fieldLabels[field] as string,
+      message: liveIssues[field],
+    }))
     .filter(
       (entry): entry is { field: typeof entry.field; label: string; message: string } =>
         Boolean(entry.message),
