@@ -302,8 +302,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const signUp = useCallback<PortalValue["signUp"]>(
     ({ name, email, unit, password, confirm, remember = true }) => {
       const address = email.trim().toLowerCase();
+      const residence = formatUnit(unit ?? "");
       if (!name.trim()) return { ok: false, error: "Enter the name for your household." };
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+      if (!residence) return { ok: false, error: "Enter your residence number." };
       if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
       if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
       if (accounts.some((a) => a.email === address)) {
@@ -315,7 +317,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         existing ?? {
           id: `res-${Date.now()}`,
           name: name.trim(),
-          unit: unit?.trim() || "Residence pending verification",
+          unit: residence,
           email: address,
           phone: "",
           bio: "",
