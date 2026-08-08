@@ -178,6 +178,14 @@ function ResetPasswordPage() {
                 fifteen minutes.
               </p>
             ) : null}
+            <div
+              id="reset-validation-summary"
+              role="status"
+              aria-live="polite"
+              className="sr-only"
+            >
+              {announcement}
+            </div>
             <div className="space-y-2">
               <Label htmlFor="reset-code">Reset code</Label>
               <Input
@@ -187,16 +195,18 @@ function ResetPasswordPage() {
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                aria-invalid={fieldErrors["code"] ? true : undefined}
-                aria-describedby={fieldErrors["code"] ? "reset-code-error" : undefined}
+                onBlur={() => setTouched((t) => ({ ...t, code: true }))}
+                aria-invalid={errorFor("code") ? true : undefined}
+                aria-describedby={errorFor("code") ? "reset-code-error" : undefined}
                 className="min-h-11"
               />
-              {fieldErrors["code"] ? (
-                <p id="reset-code-error" role="alert" className="text-sm text-destructive">
-                  {fieldErrors["code"]}
+              {errorFor("code") ? (
+                <p id="reset-code-error" className="text-sm text-destructive">
+                  {errorFor("code")}
                 </p>
               ) : null}
             </div>
+
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <Label htmlFor="reset-password">New password</Label>
