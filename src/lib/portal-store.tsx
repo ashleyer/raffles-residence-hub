@@ -666,6 +666,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       surveyResponses,
       answeredSurvey,
       conciergeRequests,
+      myNotifications,
+      raiseNotification,
       activity,
     ],
   );
