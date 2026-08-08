@@ -470,11 +470,14 @@ export const SEED_EVENT_IDEAS: EventIdea[] = [
 
 export const CONCIERGE_SERVICES = [
   "Housekeeping",
+  "Dry Cleaning & Laundry",
   "Valet & Transport",
   "In-Residence Dining",
+  "Guest Arrival Greeting",
   "Floristry",
   "Package & Courier",
   "Engineering",
+  "Other",
 ] as const;
 
 export const SEED_REQUESTS: ConciergeRequest[] = [
