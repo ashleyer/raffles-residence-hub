@@ -11,7 +11,7 @@ import { CONCIERGE_SERVICES, type ConciergeRequest } from "@/lib/intranet-data";
 import { MANAGEMENT_ACCESS_CODE, STAFF } from "@/lib/portal-data";
 import { usePortal } from "@/lib/portal-store";
 
-export const Route = createFileRoute("/concierge/desk")({
+export const Route = createFileRoute("/concierge-desk")({
   head: () => ({
     meta: [
       { title: "Concierge Desk Queue — Raffles Boston Residences" },

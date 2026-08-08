@@ -83,7 +83,7 @@ function ConciergePage() {
         </p>
         <p className="mt-4 text-xs tracking-wider text-muted-foreground uppercase">
           Residences team ·{" "}
-          <Link to="/concierge/desk" className="text-primary underline-offset-4 hover:underline">
+          <Link to="/concierge-desk" className="text-primary underline-offset-4 hover:underline">
             Open the concierge desk queue
           </Link>
         </p>
