@@ -225,9 +225,7 @@ function Index() {
           </div>
         </section>
 
-
-
-
+        <HouseDirectory />
       </main>
 
       <SiteFooter />
