@@ -61,8 +61,10 @@ function ResetPasswordPage() {
       return;
     }
     setError(null);
-    toast.success("Your password has been changed. Please sign in.");
-    navigate({ to: "/login", search: { mode: "signin" } });
+    toast.success("Password changed", {
+      description: "Please sign in with your new password.",
+    });
+    void navigate({ to: "/login", search: { mode: "signin" } });
   };
 
   return (
