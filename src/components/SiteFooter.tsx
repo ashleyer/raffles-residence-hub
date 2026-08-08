@@ -188,12 +188,16 @@ export function SiteFooter() {
 
         <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
           className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
-          built with 🤍 in Raffles Residences Boston, Unit 22H by{" "}
+          built with <span role="img" aria-label="white heart">🤍</span> in Raffles Residences Boston, Unit 22H by{" "}
           <button
             type="button"
             onClick={() => setDevOpen(true)}
-            className="underline underline-offset-4 hover:no-underline"
+            aria-haspopup="dialog"
+            aria-expanded={devOpen}
+            aria-label="Ashley Romano — contact the developer"
+            className="inline-flex min-h-11 items-center underline underline-offset-4 hover:no-underline"
           >
+
             Ashley Romano
           </button>
         </p>
