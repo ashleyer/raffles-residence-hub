@@ -201,10 +201,17 @@ function SignInForm() {
   }, [rememberedEmail, rememberedUnit]);
 
   const values = { email, unit, password };
+  /* The open demonstration account has no residence number. */
+  const isDemo = email.trim().toLowerCase() === DEMO_ACCOUNT.email;
+  const checkValues = (v: typeof values) => {
+    const found = validate(signInSchema, v);
+    if (v.email.trim().toLowerCase() === DEMO_ACCOUNT.email) delete found["unit"];
+    return found;
+  };
 
   const check = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    const next = validate(signInSchema, values);
+    const next = checkValues(values);
     setFieldErrors((prev) => ({ ...prev, [field]: next[field] ?? "" }));
   };
 
@@ -214,7 +221,7 @@ function SignInForm() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
-    const found = validate(signInSchema, values);
+    const found = checkValues(values);
     setFieldErrors(found);
     setTouched({ email: true, unit: true, password: true });
     if (Object.keys(found).length > 0) {
@@ -225,6 +232,7 @@ function SignInForm() {
       first?.focus();
       return;
     }
+
     setSubmitting(true);
     setError(null);
     try {
