@@ -118,11 +118,32 @@ type PortalValue = {
   assignConciergeRequest: (id: number, staff: string) => void;
   replyToConciergeRequest: (id: number, body: string, author: string) => void;
 
+  /* in-app notifications raised when the desk touches a resident's request */
+  notifications: PortalNotification[];
+  unreadNotifications: number;
+  markNotificationsRead: () => void;
+  dismissNotification: (id: number) => void;
+
   /* surveys */
   surveyResponses: SurveyResponse[];
   submitSurvey: (r: Omit<SurveyResponse, "id">) => void;
   hasAnsweredSurvey: boolean;
 };
+
+/** An in-app alert raised for one residence when the desk touches its request. */
+export type PortalNotification = {
+  id: number;
+  /** Residence the alert belongs to, e.g. "Residence 22H". */
+  unit: string;
+  requestId: number;
+  kind: "reply" | "status" | "assigned";
+  title: string;
+  body: string;
+  at: string;
+  read: boolean;
+};
+
+
 
 /** "22h" / "unit 22H" -> "Residence 22H" */
 export function formatUnit(raw: string): string {
@@ -152,6 +173,7 @@ const nextId = () => Date.now() + Math.floor(Math.random() * 1000);
 const ACCOUNTS_KEY = "raffles.accounts.v1";
 const RESIDENTS_KEY = "raffles.residents.v1";
 const SESSION_KEY = "raffles.session.v1";
+const NOTIFICATIONS_KEY = "raffles.notifications.v1";
 /* Last signed-in identity: kept after sign out so residents never re-register. */
 const LAST_USER_KEY = "raffles.lastUser.v1";
 const REQUESTS_KEY = "raffles.conciergeRequests.v1";
@@ -207,6 +229,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [votes, setVotes] = useState<Record<number, Vote>>({});
   const [surveyResponses, setSurveyResponses] = useState<SurveyResponse[]>(SEED_SURVEY_RESPONSES);
   const [answeredSurvey, setAnsweredSurvey] = useState(false);
+  const [notifications, setNotifications] = useState<PortalNotification[]>([]);
   const [activity, setActivity] = useState<ActivityEvent[]>([]);
   const [conciergeRequests, setConciergeRequests] = useState<ConciergeRequest[]>(SEED_REQUESTS);
 
@@ -243,8 +266,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     }
     const savedRequests = readStore<ConciergeRequest[] | null>(REQUESTS_KEY, null);
     if (savedRequests && savedRequests.length > 0) setConciergeRequests(savedRequests);
+    setNotifications(readStore<PortalNotification[]>(NOTIFICATIONS_KEY, []));
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (hydrated) writeStore(NOTIFICATIONS_KEY, notifications);
+  }, [notifications, hydrated]);
+
 
   useEffect(() => {
     if (hydrated) writeStore(ACCOUNTS_KEY, accounts);
@@ -391,6 +420,16 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     [accounts, residents, rememberSession],
   );
 
+  /* Raise an alert for one residence; the desk is the only source of these. */
+  const raiseNotification = useCallback((n: Omit<PortalNotification, "id" | "at" | "read">) => {
+    setNotifications((prev) => [{ ...n, id: nextId(), at: "Just now", read: false }, ...prev].slice(0, 60));
+  }, []);
+
+  const myNotifications = useMemo(
+    () => (currentUser?.unit ? notifications.filter((n) => unitKey(n.unit) === unitKey(currentUser.unit!)) : []),
+    [notifications, currentUser],
+  );
+
   const value = useMemo<PortalValue>(
     () => ({
       currentUser,
@@ -527,11 +566,35 @@ export function PortalProvider({ children }: { children: ReactNode }) {
           { ...r, id: nextId(), status: "Lodged", placedAt: "Just now", replies: [] },
           ...prev,
         ]),
-      setConciergeStatus: (id, status) =>
-        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r))),
-      assignConciergeRequest: (id, staff) =>
-        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r))),
-      replyToConciergeRequest: (id, body, author) =>
+      setConciergeStatus: (id, status) => {
+        const target = conciergeRequests.find((r) => r.id === id);
+        if (!target || target.status === status) return;
+        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+        raiseNotification({
+          unit: target.unit,
+          requestId: id,
+          kind: "status",
+          title: `${target.service} — ${status.toLowerCase()}`,
+          body:
+            status === "Completed"
+              ? "The concierge desk has marked your request complete."
+              : "The concierge desk has updated the status of your request.",
+        });
+      },
+      assignConciergeRequest: (id, staff) => {
+        const target = conciergeRequests.find((r) => r.id === id);
+        if (!target || target.assignedTo === staff) return;
+        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r)));
+        raiseNotification({
+          unit: target.unit,
+          requestId: id,
+          kind: "assigned",
+          title: `${target.service} — assigned`,
+          body: `${staff} is now looking after your request.`,
+        });
+      },
+      replyToConciergeRequest: (id, body, author) => {
+        const target = conciergeRequests.find((r) => r.id === id);
         setConciergeRequests((prev) =>
           prev.map((r) =>
             r.id === id
@@ -542,7 +605,30 @@ export function PortalProvider({ children }: { children: ReactNode }) {
                 }
               : r,
           ),
+        );
+        /* Only desk replies alert the residence — not the resident's own. */
+        if (target && unitKey(author) !== unitKey(target.unit)) {
+          raiseNotification({
+            unit: target.unit,
+            requestId: id,
+            kind: "reply",
+            title: `${author} replied`,
+            body: body.slice(0, 160),
+          });
+        }
+      },
+
+
+      notifications: myNotifications,
+      unreadNotifications: myNotifications.filter((n) => !n.read).length,
+      markNotificationsRead: () =>
+        setNotifications((prev) =>
+          prev.map((n) =>
+            currentUser?.unit && unitKey(n.unit) === unitKey(currentUser.unit) ? { ...n, read: true } : n,
+          ),
         ),
+      dismissNotification: (id) => setNotifications((prev) => prev.filter((n) => n.id !== id)),
+
 
       surveyResponses,
 
@@ -580,6 +666,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       surveyResponses,
       answeredSurvey,
       conciergeRequests,
+      myNotifications,
+      raiseNotification,
       activity,
     ],
   );
