@@ -136,7 +136,6 @@ function ResetPasswordPage() {
     return () => window.clearTimeout(timer);
   }, [summaryText, step]);
 
-
   /** Moves keyboard focus to the first field, in visual order, that is failing validation. */
   const focusFirstInvalid = (issues: FieldErrors) => {
     const first = (["code", "password", "confirm"] as const).find((field) => issues[field]);
