@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { BUILDING_MARKET_FACTS, unitMarketSnapshot } from "@/lib/market-data";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
