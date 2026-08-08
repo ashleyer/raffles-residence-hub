@@ -351,7 +351,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       const session = readExpiring<{ residentId: string; email: string }>(SESSION_KEY);
       if (session) writeExpiring(SESSION_KEY, session, SESSION_TTL_MS);
     };
-    const events: (keyof WindowEventMap)[] = ["pointerdown", "keydown", "visibilitychange"];
+    const events = ["pointerdown", "keydown", "focus"] as const;
     for (const e of events) window.addEventListener(e, touch);
     return () => {
       for (const e of events) window.removeEventListener(e, touch);
