@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Eye, EyeOff, KeyRound } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, KeyRound } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { Button } from "@/components/ui/button";
