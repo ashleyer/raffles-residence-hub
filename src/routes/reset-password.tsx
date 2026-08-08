@@ -9,6 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
 import { newPasswordSchema, validate, type FieldErrors } from "@/lib/auth-validation";
+import { scorePassword } from "@/lib/password-strength";
+
+/** Minimum meter score ("Fair") required before the reset can be submitted. */
+const MIN_STRENGTH_SCORE = 2;
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -69,6 +73,11 @@ function ResetPasswordPage() {
     e.preventDefault();
     if (issueCode()) setStep("reset");
   };
+
+  const strength = scorePassword(password);
+  const canSubmit =
+    Object.keys(validate(newPasswordSchema, { code, password, confirm })).length === 0 &&
+    strength.score >= MIN_STRENGTH_SCORE;
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
@@ -222,9 +231,20 @@ function ResetPasswordPage() {
             >
               {error}
             </p>
-            <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
+            <Button
+              type="submit"
+              disabled={!canSubmit}
+              aria-describedby={canSubmit ? undefined : "reset-submit-hint"}
+              className="min-h-11 w-full tracking-[0.18em] uppercase"
+            >
               Change my password
             </Button>
+            {canSubmit ? null : (
+              <p id="reset-submit-hint" className="text-sm text-muted-foreground">
+                Enter your reset code and a matching password of at least “Fair” strength to
+                continue.
+              </p>
+            )}
             <Button
               type="button"
               variant="outline"
