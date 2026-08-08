@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { ShieldCheck } from "lucide-react";
+import { Loader2, ShieldCheck } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
@@ -9,6 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RememberMeConsent } from "@/components/RememberMeConsent";
+import { signInSchema, signUpSchema, validate, type FieldErrors } from "@/lib/auth-validation";
+
+/** Inline, screen-reader announced message for a single field. */
+function FieldError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} role="alert" className="text-sm text-destructive">
+      {message}
+    </p>
+  );
+}
+
 
 export const Route = createFileRoute("/login")({
   head: () => ({
