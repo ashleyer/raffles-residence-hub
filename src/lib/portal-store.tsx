@@ -178,6 +178,16 @@ const NOTIFICATIONS_KEY = "raffles.notifications.v1";
 const LAST_USER_KEY = "raffles.lastUser.v1";
 const REQUESTS_KEY = "raffles.conciergeRequests.v1";
 
+/* Expiring persistence. A live session lapses after 12 hours of inactivity and
+   is refreshed while the resident is active; the remembered identity (email and
+   residence, used only to pre-fill sign in) is discarded after 30 days. Both are
+   cleared automatically the moment they lapse, on read and on a ticking timer. */
+export const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+export const REMEMBER_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const EXPIRY_CHECK_MS = 60 * 1000;
+
+type Expiring<T> = { value: T; expiresAt: number };
+
 type Account = { email: string; password: string; residentId: string };
 
 function readStore<T>(key: string, fallback: T): T {
@@ -207,6 +217,27 @@ function clearStore(key: string) {
     /* ignore */
   }
 }
+
+/* Write a value stamped with an absolute expiry. */
+function writeExpiring(key: string, value: unknown, ttl: number) {
+  writeStore(key, { value, expiresAt: Date.now() + ttl } satisfies Expiring<unknown>);
+}
+
+/* Read a stamped value, deleting it if the deadline has passed. Anything stored
+   in the older un-stamped shape is treated as expired and removed. */
+function readExpiring<T>(key: string): T | null {
+  const raw = readStore<Expiring<T> | null>(key, null);
+  if (!raw || typeof raw !== "object" || !("expiresAt" in raw) || typeof raw.expiresAt !== "number") {
+    if (raw) clearStore(key);
+    return null;
+  }
+  if (Date.now() >= raw.expiresAt) {
+    clearStore(key);
+    return null;
+  }
+  return raw.value;
+}
+
 
 export function PortalProvider({ children }: { children: ReactNode }) {
   const [residents, setResidents] = useState<Resident[]>(RESIDENTS);
@@ -254,8 +285,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       });
     }
     setAccounts(readStore<Account[]>(ACCOUNTS_KEY, []));
-    const session = readStore<{ residentId: string; email: string } | null>(SESSION_KEY, null);
-    const last = readStore<{ email: string; unit?: string } | null>(LAST_USER_KEY, null);
+    const session = readExpiring<{ residentId: string; email: string }>(SESSION_KEY);
+    const last = readExpiring<{ email: string; unit?: string }>(LAST_USER_KEY);
     if (last) {
       setRememberedEmail(last.email);
       setRememberedUnit(last.unit ?? null);
@@ -263,6 +294,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     if (session) {
       setCurrentUserId(session.residentId);
       setRememberedEmail(session.email);
+      /* Returning within the window slides the deadline forward. */
+      writeExpiring(SESSION_KEY, session, SESSION_TTL_MS);
     }
     const savedRequests = readStore<ConciergeRequest[] | null>(REQUESTS_KEY, null);
     if (savedRequests && savedRequests.length > 0) setConciergeRequests(savedRequests);
@@ -296,14 +329,52 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     setRememberedEmail(remember ? resident.email : null);
     setRememberedUnit(remember ? (resident.unit ?? null) : null);
     if (remember) {
-      /* Keep the residence and contact details on this device after sign out. */
-      writeStore(LAST_USER_KEY, { email: resident.email, unit: resident.unit });
-      writeStore(SESSION_KEY, { residentId: resident.id, email: resident.email });
+      /* Keep the residence and contact details on this device, but only until
+         the remembered-identity window lapses. */
+      writeExpiring(LAST_USER_KEY, { email: resident.email, unit: resident.unit }, REMEMBER_TTL_MS);
+      writeExpiring(SESSION_KEY, { residentId: resident.id, email: resident.email }, SESSION_TTL_MS);
     } else {
       clearStore(LAST_USER_KEY);
       clearStore(SESSION_KEY);
     }
   }, []);
+
+  /* Slide the session deadline forward while the resident is actually using the
+     portal, so an idle device lapses but an active one does not. */
+  useEffect(() => {
+    if (!hydrated || !currentUserId) return;
+    let last = 0;
+    const touch = () => {
+      const now = Date.now();
+      if (now - last < 30_000) return;
+      last = now;
+      const session = readExpiring<{ residentId: string; email: string }>(SESSION_KEY);
+      if (session) writeExpiring(SESSION_KEY, session, SESSION_TTL_MS);
+    };
+    const events = ["pointerdown", "keydown", "focus"] as const;
+    for (const e of events) window.addEventListener(e, touch);
+    return () => {
+      for (const e of events) window.removeEventListener(e, touch);
+    };
+  }, [hydrated, currentUserId]);
+
+  /* Enforce the deadline while the tab stays open: when it passes, the stored
+     session and remembered identity are removed and the resident is signed out. */
+  useEffect(() => {
+    if (!hydrated) return;
+    const tick = () => {
+      if (!readExpiring<{ email: string }>(LAST_USER_KEY)) {
+        setRememberedEmail((v) => (v ? null : v));
+        setRememberedUnit((v) => (v ? null : v));
+      }
+      if (!readExpiring<{ residentId: string }>(SESSION_KEY)) {
+        setCurrentUserId((id) => (id ? null : id));
+      }
+    };
+    const timer = window.setInterval(tick, EXPIRY_CHECK_MS);
+    return () => window.clearInterval(timer);
+  }, [hydrated]);
+
 
 
   const signIn = useCallback(
