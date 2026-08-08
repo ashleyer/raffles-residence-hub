@@ -214,7 +214,6 @@ function ResetPasswordPage() {
               ) : null}
             </div>
 
-
             <p
               id="reset-error"
               role="alert"
