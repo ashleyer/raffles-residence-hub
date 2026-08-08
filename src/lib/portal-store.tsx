@@ -404,8 +404,15 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       const residence = formatUnit(unit ?? "");
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
 
-      /* Open demonstration account — no residence number required. */
-      if (address === DEMO_ACCOUNT.email && passcode === DEMO_ACCOUNT.password) {
+      /* Open demonstration account — no residence number required. A password
+         reset on this address stores an account row, which then takes over. */
+      const storedForAddress = accounts.find((a) => a.email === address);
+      if (
+        address === DEMO_ACCOUNT.email &&
+        (storedForAddress
+          ? storedForAddress.password === passcode
+          : passcode === DEMO_ACCOUNT.password)
+      ) {
         const existing = residents.find((r) => r.email.toLowerCase() === DEMO_ACCOUNT.email);
         const demo: Resident = existing ?? {
           id: "demo-account",
@@ -552,14 +559,18 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     (email) => {
       const address = email.trim().toLowerCase();
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
-      if (!accounts.some((a) => a.email === address)) {
+      const knownAddress =
+        accounts.some((a) => a.email === address) ||
+        address === DEMO_ACCOUNT.email ||
+        residents.some((r) => r.email.toLowerCase() === address);
+      if (!knownAddress) {
         return { ok: false, error: "No account exists for that address on this browser." };
       }
       const code = String(Math.floor(100000 + Math.random() * 900000));
       resetCodes.current[address] = { code, expiresAt: Date.now() + 15 * 60 * 1000 };
       return { ok: true, code };
     },
-    [accounts],
+    [accounts, residents],
   );
 
   const resetPassword = useCallback<PortalValue["resetPassword"]>(
@@ -574,11 +585,17 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (password.length < 8)
         return { ok: false, error: "Choose a password of at least eight characters." };
       if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
-      setAccounts((prev) => prev.map((a) => (a.email === address ? { ...a, password } : a)));
+      setAccounts((prev) => {
+        if (prev.some((a) => a.email === address)) {
+          return prev.map((a) => (a.email === address ? { ...a, password } : a));
+        }
+        const resident = residents.find((r) => r.email.toLowerCase() === address);
+        return [...prev, { email: address, password, residentId: resident?.id ?? "demo-account" }];
+      });
       delete resetCodes.current[address];
       return { ok: true };
     },
-    [],
+    [residents],
   );
 
   /* Raise an alert for one residence; the desk is the only source of these. */
