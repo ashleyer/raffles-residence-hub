@@ -35,6 +35,8 @@ export const Route = createFileRoute("/")({
     ],
   }),
   component: Index,
+  errorComponent: RouteErrorFallback,
+  notFoundComponent: RouteNotFound,
 });
 
 const PATHS = [
