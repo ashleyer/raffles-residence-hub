@@ -1,5 +1,5 @@
 import * as React from "react";
-import { reportLovableError } from "@/lib/lovable-error-reporting";
+import { logRuntimeError } from "@/lib/runtime-error-logger";
 
 type Props = { children: React.ReactNode };
 type State = { error: Error | null };
@@ -16,7 +16,10 @@ export class AppErrorBoundary extends React.Component<Props, State> {
 
   override componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error("[AppErrorBoundary]", error, info.componentStack);
-    reportLovableError(error, { boundary: "react_app_error_boundary" });
+    logRuntimeError(error, "runtime_error", {
+      boundary: "react_app_error_boundary",
+      componentStack: info.componentStack?.slice(0, 2000),
+    });
   }
 
   private reset = () => this.setState({ error: null });
