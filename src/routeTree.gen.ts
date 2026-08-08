@@ -28,9 +28,11 @@ import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as PressRouteImport } from './routes/press'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as SalesAndLeasingRouteImport } from './routes/sales-and-leasing'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
 const IndexRoute = IndexRouteImport.update({
@@ -128,6 +130,11 @@ const PressRoute = PressRouteImport.update({
   path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProposalsRoute = ProposalsRouteImport.update({
   id: '/proposals',
   path: '/proposals',
@@ -141,6 +148,11 @@ const SalesAndLeasingRoute = SalesAndLeasingRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HealthReadyRoute = HealthReadyRouteImport.update({
@@ -169,9 +181,11 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesByTo {
@@ -194,9 +208,11 @@ export interface FileRoutesByTo {
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesById {
@@ -220,9 +236,11 @@ export interface FileRoutesById {
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRouteTypes {
@@ -247,9 +265,11 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/messages'
     | '/press'
+    | '/privacy'
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
+    | '/terms'
     | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -272,9 +292,11 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/messages'
     | '/press'
+    | '/privacy'
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
+    | '/terms'
     | '/health/ready'
   id:
     | '__root__'
@@ -297,9 +319,11 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/messages'
     | '/press'
+    | '/privacy'
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
+    | '/terms'
     | '/health/ready'
   fileRoutesById: FileRoutesById
 }
@@ -323,9 +347,11 @@ export interface RootRouteChildren {
   MarketplaceRoute: typeof MarketplaceRoute
   MessagesRoute: typeof MessagesRoute
   PressRoute: typeof PressRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProposalsRoute: typeof ProposalsRoute
   SalesAndLeasingRoute: typeof SalesAndLeasingRoute
   ServicesRoute: typeof ServicesRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -463,6 +489,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/proposals': {
       id: '/proposals'
       path: '/proposals'
@@ -482,6 +515,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/health/ready': {
@@ -525,9 +565,11 @@ const rootRouteChildren: RootRouteChildren = {
   MarketplaceRoute: MarketplaceRoute,
   MessagesRoute: MessagesRoute,
   PressRoute: PressRoute,
+  PrivacyRoute: PrivacyRoute,
   ProposalsRoute: ProposalsRoute,
   SalesAndLeasingRoute: SalesAndLeasingRoute,
   ServicesRoute: ServicesRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

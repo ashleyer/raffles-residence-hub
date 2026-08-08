@@ -135,6 +135,34 @@ export function SiteFooter() {
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>
 
+        <nav
+          aria-label="Legal"
+          className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 border-t border-border pt-5 text-[0.6875rem] tracking-[0.16em] uppercase"
+        >
+          <a
+            href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Privacy Policy
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+          <span aria-hidden="true" className="text-muted-foreground">
+            ·
+          </span>
+          <a
+            href="/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Terms
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        </nav>
+
+
 
         <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
           className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
