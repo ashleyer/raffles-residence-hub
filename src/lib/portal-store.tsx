@@ -33,6 +33,10 @@ import {
   type ForumTopic,
   type ValetRequest,
 } from "./portal-data";
+import {
+  SEED_REQUESTS,
+  type ConciergeRequest,
+} from "./intranet-data";
 import type { ActivityEvent } from "./recommendations";
 
 type Vote = "up" | "down";
@@ -107,6 +111,13 @@ type PortalValue = {
   activity: ActivityEvent[];
   logActivity: (e: Omit<ActivityEvent, "id" | "at">) => void;
 
+  /* concierge desk — shared between residents and staff */
+  conciergeRequests: ConciergeRequest[];
+  addConciergeRequest: (r: Omit<ConciergeRequest, "id" | "status" | "placedAt" | "replies">) => void;
+  setConciergeStatus: (id: number, status: ConciergeRequest["status"]) => void;
+  assignConciergeRequest: (id: number, staff: string) => void;
+  replyToConciergeRequest: (id: number, body: string, author: string) => void;
+
   /* surveys */
   surveyResponses: SurveyResponse[];
   submitSurvey: (r: Omit<SurveyResponse, "id">) => void;
@@ -143,6 +154,7 @@ const RESIDENTS_KEY = "raffles.residents.v1";
 const SESSION_KEY = "raffles.session.v1";
 /* Last signed-in identity: kept after sign out so residents never re-register. */
 const LAST_USER_KEY = "raffles.lastUser.v1";
+const REQUESTS_KEY = "raffles.conciergeRequests.v1";
 
 type Account = { email: string; password: string; residentId: string };
 
@@ -196,6 +208,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [surveyResponses, setSurveyResponses] = useState<SurveyResponse[]>(SEED_SURVEY_RESPONSES);
   const [answeredSurvey, setAnsweredSurvey] = useState(false);
   const [activity, setActivity] = useState<ActivityEvent[]>([]);
+  const [conciergeRequests, setConciergeRequests] = useState<ConciergeRequest[]>(SEED_REQUESTS);
 
   /* Restore any remembered residences and session after hydration. */
   useEffect(() => {
@@ -228,12 +241,19 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       setCurrentUserId(session.residentId);
       setRememberedEmail(session.email);
     }
+    const savedRequests = readStore<ConciergeRequest[] | null>(REQUESTS_KEY, null);
+    if (savedRequests && savedRequests.length > 0) setConciergeRequests(savedRequests);
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (hydrated) writeStore(ACCOUNTS_KEY, accounts);
   }, [accounts, hydrated]);
+
+  /* The desk queue is shared: resident submissions and staff replies persist. */
+  useEffect(() => {
+    if (hydrated) writeStore(REQUESTS_KEY, conciergeRequests);
+  }, [conciergeRequests, hydrated]);
 
   /* Profile edits (directory listing, household members, pets) survive reloads. */
   useEffect(() => {
