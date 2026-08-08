@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  DEMO_ACCOUNT,
   DEMO_PASSCODE,
   RESIDENTS,
   SEED_LISTINGS,
