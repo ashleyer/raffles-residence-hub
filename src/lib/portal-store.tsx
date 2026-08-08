@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -39,8 +40,17 @@ type Vote = "up" | "down";
 type PortalValue = {
   /* session */
   currentUser: Resident | null;
-  signIn: (email: string, passcode: string, name?: string) => { ok: boolean; error?: string };
+  signIn: (email: string, passcode: string, remember?: boolean) => { ok: boolean; error?: string };
+  signUp: (input: {
+    name: string;
+    email: string;
+    unit?: string;
+    password: string;
+    confirm: string;
+    remember?: boolean;
+  }) => { ok: boolean; error?: string };
   signOut: () => void;
+  rememberedEmail: string | null;
 
   /* directory & profile */
   residents: Resident[];
@@ -100,9 +110,49 @@ const PortalContext = createContext<PortalValue | null>(null);
 
 const nextId = () => Date.now() + Math.floor(Math.random() * 1000);
 
+/* --------------------------------------------------------------- storage */
+/* Demo persistence only: accounts live in this browser, never on a server. */
+
+const ACCOUNTS_KEY = "raffles.accounts.v1";
+const RESIDENTS_KEY = "raffles.residents.v1";
+const SESSION_KEY = "raffles.session.v1";
+
+type Account = { email: string; password: string; residentId: string };
+
+function readStore<T>(key: string, fallback: T): T {
+  if (typeof window === "undefined") return fallback;
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeStore(key: string, value: unknown) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* storage unavailable — the session simply will not be remembered */
+  }
+}
+
+function clearStore(key: string) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    /* ignore */
+  }
+}
+
 export function PortalProvider({ children }: { children: ReactNode }) {
   const [residents, setResidents] = useState<Resident[]>(RESIDENTS);
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [rememberedEmail, setRememberedEmail] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
   const [threads, setThreads] = useState<Thread[]>(SEED_THREADS);
   const [statements, setStatements] = useState<Statement[]>(STATEMENTS);
   const [payments, setPayments] = useState<PaymentRecord[]>([]);
@@ -119,28 +169,81 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [answeredSurvey, setAnsweredSurvey] = useState(false);
   const [activity, setActivity] = useState<ActivityEvent[]>([]);
 
+  /* Restore any remembered residences and session after hydration. */
+  useEffect(() => {
+    const savedResidents = readStore<Resident[]>(RESIDENTS_KEY, []);
+    if (savedResidents.length > 0) {
+      setResidents((seed) => {
+        const merged = [...seed];
+        for (const r of savedResidents) {
+          const i = merged.findIndex((x) => x.id === r.id);
+          if (i >= 0) merged[i] = r;
+          else merged.push(r);
+        }
+        return merged;
+      });
+    }
+    setAccounts(readStore<Account[]>(ACCOUNTS_KEY, []));
+    const session = readStore<{ residentId: string; email: string } | null>(SESSION_KEY, null);
+    if (session) {
+      setCurrentUserId(session.residentId);
+      setRememberedEmail(session.email);
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated) writeStore(ACCOUNTS_KEY, accounts);
+  }, [accounts, hydrated]);
+
+  /* Profile edits (directory listing, household members, pets) survive reloads. */
+  useEffect(() => {
+    if (hydrated) writeStore(RESIDENTS_KEY, residents);
+  }, [residents, hydrated]);
+
   const currentUser = residents.find((r) => r.id === currentUserId) ?? null;
 
+  const rememberSession = useCallback((resident: Resident, remember: boolean) => {
+    setCurrentUserId(resident.id);
+    setRememberedEmail(resident.email);
+    if (remember) writeStore(SESSION_KEY, { residentId: resident.id, email: resident.email });
+    else clearStore(SESSION_KEY);
+  }, []);
+
   const signIn = useCallback(
-    (email: string, passcode: string, name?: string) => {
+    (email: string, passcode: string, remember = true) => {
       const address = email.trim().toLowerCase();
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
-      if (passcode.trim() !== DEMO_PASSCODE) return { ok: false, error: "That passcode is not recognised." };
+      if (!passcode.trim()) return { ok: false, error: "Enter your password or the residence passcode." };
 
-      const match = residents.find((r) => r.email.toLowerCase() === address);
-      if (match) {
-        setCurrentUserId(match.id);
+      // 1. An account created through sign up.
+      const account = accounts.find((a) => a.email === address);
+      if (account) {
+        if (account.password !== passcode) return { ok: false, error: "That password is not correct." };
+        const resident = residents.find((r) => r.id === account.residentId);
+        if (!resident) return { ok: false, error: "That account could not be found. Please register again." };
+        rememberSession(resident, remember);
         return { ok: true };
       }
 
-      // New guest: the demo passcode admits any address with a temporary residence profile.
+      // 2. A seeded residence, admitted with the shared preview passcode.
+      if (passcode.trim() !== DEMO_PASSCODE) {
+        return { ok: false, error: "No account found for that address. Create one, or use the preview passcode." };
+      }
+      const match = residents.find((r) => r.email.toLowerCase() === address);
+      if (match) {
+        rememberSession(match, remember);
+        return { ok: true };
+      }
+
+      // 3. Guest access: the preview passcode admits any address.
       const id = `guest-${Date.now()}`;
       const fallbackName = (address.split("@")[0] ?? "")
         .replace(/[._-]+/g, " ")
         .replace(/\b\w/g, (c) => c.toUpperCase());
       const guest: Resident = {
         id,
-        name: name?.trim() || fallbackName || "Guest Resident",
+        name: fallbackName || "Guest Resident",
         unit: "Guest Access",
         email: address,
         phone: "",
@@ -148,19 +251,70 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         interests: [],
         visibleInDirectory: false,
         contactOptIn: false,
+        members: [],
+        pets: [],
       };
       setResidents((prev) => [...prev, guest]);
-      setCurrentUserId(id);
+      rememberSession(guest, remember);
       return { ok: true };
     },
-    [residents],
+    [accounts, residents, rememberSession],
+  );
+
+  const signUp = useCallback<PortalValue["signUp"]>(
+    ({ name, email, unit, password, confirm, remember = true }) => {
+      const address = email.trim().toLowerCase();
+      if (!name.trim()) return { ok: false, error: "Enter the name for your household." };
+      if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+      if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
+      if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
+      if (accounts.some((a) => a.email === address)) {
+        return { ok: false, error: "An account already exists for that address. Please sign in." };
+      }
+
+      const existing = residents.find((r) => r.email.toLowerCase() === address);
+      const resident: Resident =
+        existing ?? {
+          id: `res-${Date.now()}`,
+          name: name.trim(),
+          unit: unit?.trim() || "Residence pending verification",
+          email: address,
+          phone: "",
+          bio: "",
+          interests: [],
+          visibleInDirectory: false,
+          contactOptIn: false,
+          members: [],
+          pets: [],
+        };
+
+      if (existing) {
+        setResidents((prev) =>
+          prev.map((r) =>
+            r.id === existing.id ? { ...r, name: name.trim(), ...(unit?.trim() ? { unit: unit.trim() } : {}) } : r,
+          ),
+        );
+      } else {
+        setResidents((prev) => [...prev, resident]);
+      }
+
+      setAccounts((prev) => [...prev, { email: address, password, residentId: resident.id }]);
+      rememberSession(resident, remember);
+      return { ok: true };
+    },
+    [accounts, residents, rememberSession],
   );
 
   const value = useMemo<PortalValue>(
     () => ({
       currentUser,
       signIn,
-      signOut: () => setCurrentUserId(null),
+      signUp,
+      rememberedEmail,
+      signOut: () => {
+        setCurrentUserId(null);
+        clearStore(SESSION_KEY);
+      },
 
       residents,
       updateProfile: (patch) =>
@@ -289,6 +443,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       currentUser,
       currentUserId,
       signIn,
+      signUp,
+      rememberedEmail,
       residents,
       threads,
       statements,
