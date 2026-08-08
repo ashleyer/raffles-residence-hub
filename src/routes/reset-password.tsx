@@ -71,12 +71,19 @@ function ResetPasswordPage() {
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
+    const issues = validate(newPasswordSchema, { code, password, confirm });
+    setFieldErrors(issues);
+    if (Object.keys(issues).length > 0) {
+      setError("Please correct the highlighted fields.");
+      return;
+    }
     const result = resetPassword({ email, code, password, confirm });
     if (!result.ok) {
       setError(result.error ?? "That password could not be changed.");
       return;
     }
     setError(null);
+
     toast.success("Password changed", {
       description: "Please sign in with your new password.",
     });
