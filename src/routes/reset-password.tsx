@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Eye, EyeOff, KeyRound } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, KeyRound } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { Button } from "@/components/ui/button";
@@ -87,6 +88,20 @@ function ResetPasswordPage() {
   /** Errors surfaced next to a field: after a submit attempt, or once the field has been used. */
   const errorFor = (field: "code" | "password" | "confirm") =>
     touched[field] ? (liveIssues[field] ?? fieldErrors[field]) : undefined;
+
+  /** Error styling for an input that is currently failing validation. */
+  const fieldClass = (field: "code" | "password" | "confirm") =>
+    cn(
+      "min-h-11",
+      errorFor(field) &&
+        "border-destructive ring-1 ring-destructive/40 focus-visible:border-destructive focus-visible:ring-destructive/40",
+    );
+
+  /** Ties an invalid input to its own message and the live validation summary. */
+  const describedBy = (field: "code" | "password" | "confirm", extra?: string) =>
+    [extra, errorFor(field) ? `reset-${field}-error reset-validation-summary` : null]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   const fieldLabels = {
     code: "Reset code",
@@ -227,7 +242,9 @@ function ResetPasswordPage() {
               {announcement}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="reset-code">Reset code</Label>
+              <Label htmlFor="reset-code" className={errorFor("code") ? "text-destructive" : ""}>
+                Reset code
+              </Label>
               <Input
                 id="reset-code"
                 inputMode="numeric"
@@ -237,12 +254,13 @@ function ResetPasswordPage() {
                 onChange={(e) => setCode(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, code: true }))}
                 aria-invalid={errorFor("code") ? true : undefined}
-                aria-describedby={errorFor("code") ? "reset-code-error" : undefined}
-                className="min-h-11"
+                aria-describedby={describedBy("code")}
+                className={fieldClass("code")}
               />
               {errorFor("code") ? (
-                <p id="reset-code-error" className="text-sm text-destructive">
-                  {errorFor("code")}
+                <p id="reset-code-error" className="flex gap-1.5 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <span>{errorFor("code")}</span>
                 </p>
               ) : null}
             </div>
@@ -273,22 +291,24 @@ function ResetPasswordPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, password: true }))}
                 aria-invalid={errorFor("password") ? true : undefined}
-                aria-describedby={
-                  errorFor("password")
-                    ? "reset-password-meter reset-password-error"
-                    : "reset-password-meter"
-                }
-                className="min-h-11"
+                aria-describedby={describedBy("password", "reset-password-meter")}
+                className={fieldClass("password")}
               />
               <PasswordStrengthMeter id="reset-password-meter" value={password} />
               {errorFor("password") ? (
-                <p id="reset-password-error" className="text-sm text-destructive">
-                  {errorFor("password")}
+                <p id="reset-password-error" className="flex gap-1.5 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <span>{errorFor("password")}</span>
                 </p>
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="reset-confirm">Confirm new password</Label>
+              <Label
+                htmlFor="reset-confirm"
+                className={errorFor("confirm") ? "text-destructive" : ""}
+              >
+                Confirm new password
+              </Label>
               <Input
                 id="reset-confirm"
                 type={showPassword ? "text" : "password"}
@@ -298,12 +318,13 @@ function ResetPasswordPage() {
                 onChange={(e) => setConfirm(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, confirm: true }))}
                 aria-invalid={errorFor("confirm") ? true : undefined}
-                aria-describedby={errorFor("confirm") ? "reset-confirm-error" : undefined}
-                className="min-h-11"
+                aria-describedby={describedBy("confirm")}
+                className={fieldClass("confirm")}
               />
               {errorFor("confirm") ? (
-                <p id="reset-confirm-error" className="text-sm text-destructive">
-                  {errorFor("confirm")}
+                <p id="reset-confirm-error" className="flex gap-1.5 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <span>{errorFor("confirm")}</span>
                 </p>
               ) : null}
             </div>
