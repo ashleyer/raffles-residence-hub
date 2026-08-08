@@ -40,11 +40,16 @@ type Vote = "up" | "down";
 type PortalValue = {
   /* session */
   currentUser: Resident | null;
-  signIn: (email: string, passcode: string, remember?: boolean) => { ok: boolean; error?: string };
+  signIn: (
+    email: string,
+    passcode: string,
+    remember?: boolean,
+    unit?: string,
+  ) => { ok: boolean; error?: string };
   signUp: (input: {
     name: string;
     email: string;
-    unit?: string;
+    unit: string;
     password: string;
     confirm: string;
     remember?: boolean;
@@ -105,6 +110,24 @@ type PortalValue = {
   submitSurvey: (r: Omit<SurveyResponse, "id">) => void;
   hasAnsweredSurvey: boolean;
 };
+
+/** "22h" / "unit 22H" -> "Residence 22H" */
+export function formatUnit(raw: string): string {
+  const value = raw.trim().replace(/^(residence|unit|apt\.?|apartment)\s+/i, "");
+  if (!value) return "";
+  return `Residence ${value.toUpperCase()}`;
+}
+
+const unitKey = (u: string) => u.replace(/^(residence|unit|apt\.?|apartment)\s+/i, "").replace(/\s+/g, "").toUpperCase();
+
+/** A real residence number, as opposed to a placeholder. */
+function isKnownUnit(u: string): boolean {
+  return /\d/.test(u);
+}
+
+function sameUnit(a: string, b: string): boolean {
+  return unitKey(a) === unitKey(b);
+}
 
 const PortalContext = createContext<PortalValue | null>(null);
 
@@ -211,10 +234,15 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signIn = useCallback(
-    (email: string, passcode: string, remember = true) => {
+    (email: string, passcode: string, remember = true, unit?: string) => {
       const address = email.trim().toLowerCase();
+      const residence = formatUnit(unit ?? "");
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+      if (!residence) return { ok: false, error: "Enter your residence number." };
       if (!passcode.trim()) return { ok: false, error: "Enter your password or the residence passcode." };
+
+      const unitMatches = (resident: Resident) =>
+        !isKnownUnit(resident.unit) || sameUnit(resident.unit, residence);
 
       // 1. An account created through sign up.
       const account = accounts.find((a) => a.email === address);
@@ -222,6 +250,12 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         if (account.password !== passcode) return { ok: false, error: "That password is not correct." };
         const resident = residents.find((r) => r.id === account.residentId);
         if (!resident) return { ok: false, error: "That account could not be found. Please register again." };
+        if (!unitMatches(resident)) {
+          return { ok: false, error: "That residence number does not match the address on file." };
+        }
+        if (!isKnownUnit(resident.unit)) {
+          setResidents((prev) => prev.map((r) => (r.id === resident.id ? { ...r, unit: residence } : r)));
+        }
         rememberSession(resident, remember);
         return { ok: true };
       }
@@ -232,6 +266,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       }
       const match = residents.find((r) => r.email.toLowerCase() === address);
       if (match) {
+        if (!unitMatches(match)) {
+          return { ok: false, error: "That residence number does not match the address on file." };
+        }
         rememberSession(match, remember);
         return { ok: true };
       }
@@ -244,7 +281,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       const guest: Resident = {
         id,
         name: fallbackName || "Guest Resident",
-        unit: "Guest Access",
+        unit: residence,
         email: address,
         phone: "",
         bio: "Exploring the residents' portal with guest access.",
@@ -258,14 +295,17 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       rememberSession(guest, remember);
       return { ok: true };
     },
+
     [accounts, residents, rememberSession],
   );
 
   const signUp = useCallback<PortalValue["signUp"]>(
     ({ name, email, unit, password, confirm, remember = true }) => {
       const address = email.trim().toLowerCase();
+      const residence = formatUnit(unit ?? "");
       if (!name.trim()) return { ok: false, error: "Enter the name for your household." };
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+      if (!residence) return { ok: false, error: "Enter your residence number." };
       if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
       if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
       if (accounts.some((a) => a.email === address)) {
@@ -277,7 +317,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         existing ?? {
           id: `res-${Date.now()}`,
           name: name.trim(),
-          unit: unit?.trim() || "Residence pending verification",
+          unit: residence,
           email: address,
           phone: "",
           bio: "",
@@ -291,7 +331,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (existing) {
         setResidents((prev) =>
           prev.map((r) =>
-            r.id === existing.id ? { ...r, name: name.trim(), ...(unit?.trim() ? { unit: unit.trim() } : {}) } : r,
+            r.id === existing.id ? { ...r, name: name.trim(), unit: residence } : r,
           ),
         );
       } else {

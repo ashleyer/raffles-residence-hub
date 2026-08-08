@@ -124,6 +124,7 @@ function SignInForm() {
   const { signIn, rememberedEmail } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [unit, setUnit] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -134,7 +135,7 @@ function SignInForm() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = signIn(email, password, remember);
+    const result = signIn(email, password, remember, unit);
     if (!result.ok) {
       setError(result.error ?? "Sign in failed.");
       return;
@@ -166,6 +167,23 @@ function SignInForm() {
           </p>
         </div>
         <div className="space-y-2">
+          <Label htmlFor="signin-unit">Residence number</Label>
+          <Input
+            id="signin-unit"
+            required
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
+            placeholder="Residence 22H"
+            aria-describedby={error ? "signin-error" : "signin-unit-hint"}
+            aria-invalid={error ? true : undefined}
+            className="min-h-11"
+          />
+          <p id="signin-unit-hint" className="text-xs text-muted-foreground">
+            The residence on file for your address — for example 22H.
+          </p>
+        </div>
+        <div className="space-y-2">
+
           <Label htmlFor="password">Password or residence passcode</Label>
           <Input
             id="password"
@@ -248,8 +266,8 @@ function SignUpForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="su-unit">Residence number (optional)</Label>
-          <Input id="su-unit" value={form.unit} onChange={set("unit")} placeholder="Residence 22H" className="min-h-11" />
+          <Label htmlFor="su-unit">Residence number</Label>
+          <Input id="su-unit" required value={form.unit} onChange={set("unit")} placeholder="Residence 22H" className="min-h-11" />
           <p className="text-xs text-muted-foreground">
             Residences are verified by the Residences Office before the directory listing is confirmed.
           </p>
