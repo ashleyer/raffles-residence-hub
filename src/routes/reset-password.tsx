@@ -39,19 +39,33 @@ function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [cooldown, setCooldown] = useState(0);
 
-  const request = (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = window.setTimeout(() => setCooldown((s) => s - 1), 1000);
+    return () => window.clearTimeout(timer);
+  }, [cooldown]);
+
+  const issueCode = (silent = false) => {
     const result = requestPasswordReset(email);
     if (!result.ok) {
       setError(result.error ?? "That request could not be completed.");
-      return;
+      return false;
     }
     setError(null);
     setIssuedCode(result.code ?? null);
-    setStep("reset");
-    toast.success("Reset code issued.");
+    setCode("");
+    setCooldown(30);
+    toast.success(silent ? "New reset code issued." : "Reset code issued.");
+    return true;
   };
+
+  const request = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (issueCode()) setStep("reset");
+  };
+
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
