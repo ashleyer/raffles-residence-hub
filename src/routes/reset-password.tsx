@@ -1,0 +1,166 @@
+import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
+import { KeyRound } from "lucide-react";
+import { PageShell } from "@/components/PageShell";
+import { usePortal } from "@/lib/portal-store";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+export const Route = createFileRoute("/reset-password")({
+  head: () => ({
+    meta: [
+      { title: "Reset Your Password — Raffles Boston Residences" },
+      {
+        name: "description",
+        content:
+          "Request a reset code and choose a new password for your Raffles Residences Boston resident portal account.",
+      },
+      { property: "og:title", content: "Reset Your Password — Raffles Boston Residences" },
+      {
+        property: "og:description",
+        content: "Password recovery for the private residents' portal at 40 Trinity Place.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  component: ResetPasswordPage,
+});
+
+function ResetPasswordPage() {
+  const { requestPasswordReset, resetPassword } = usePortal();
+  const navigate = useNavigate();
+  const [step, setStep] = useState<"request" | "reset">("request");
+  const [email, setEmail] = useState("");
+  const [issuedCode, setIssuedCode] = useState<string | null>(null);
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const request = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = requestPasswordReset(email);
+    if (!result.ok) {
+      setError(result.error ?? "That request could not be completed.");
+      return;
+    }
+    setError(null);
+    setIssuedCode(result.code ?? null);
+    setStep("reset");
+    toast.success("Reset code issued.");
+  };
+
+  const complete = (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = resetPassword({ email, code, password, confirm });
+    if (!result.ok) {
+      setError(result.error ?? "That password could not be changed.");
+      return;
+    }
+    setError(null);
+    toast.success("Your password has been changed. Please sign in.");
+    navigate({ to: "/login", search: { mode: "signin" } });
+  };
+
+  return (
+    <PageShell
+      eyebrow="Account Recovery"
+      title="Reset your password"
+      intro="Request a reset code for your registered address, then choose a new password. This demonstration keeps accounts in your browser only, so the code is shown on screen rather than emailed."
+    >
+      <div className="mt-12 max-w-xl border border-border bg-card p-8">
+        <div className="flex items-center gap-2">
+          <KeyRound className="h-4 w-4 text-primary" aria-hidden="true" />
+          <p className="eyebrow">{step === "request" ? "Step one of two" : "Step two of two"}</p>
+        </div>
+
+        {step === "request" ? (
+          <form onSubmit={request} className="mt-6 space-y-5" noValidate>
+            <div className="space-y-2">
+              <Label htmlFor="reset-email">Email address</Label>
+              <Input
+                id="reset-email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                aria-describedby={error ? "reset-error" : undefined}
+                aria-invalid={error ? true : undefined}
+                className="min-h-11"
+              />
+            </div>
+            <p id="reset-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
+              {error}
+            </p>
+            <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
+              Send reset code
+            </Button>
+          </form>
+        ) : (
+          <form onSubmit={complete} className="mt-6 space-y-5" noValidate>
+            {issuedCode ? (
+              <p className="border border-border bg-secondary/40 p-4 text-sm text-muted-foreground">
+                Demonstration only — your reset code is{" "}
+                <span className="text-foreground tracking-[0.2em]">{issuedCode}</span>. It lapses in fifteen
+                minutes.
+              </p>
+            ) : null}
+            <div className="space-y-2">
+              <Label htmlFor="reset-code">Reset code</Label>
+              <Input
+                id="reset-code"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                required
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                className="min-h-11"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="reset-password">New password</Label>
+              <Input
+                id="reset-password"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="min-h-11"
+              />
+              <p className="text-xs text-muted-foreground">At least eight characters.</p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="reset-confirm">Confirm new password</Label>
+              <Input
+                id="reset-confirm"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                className="min-h-11"
+              />
+            </div>
+            <p id="reset-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
+              {error}
+            </p>
+            <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
+              Change my password
+            </Button>
+          </form>
+        )}
+
+        <p className="mt-6 text-sm">
+          <Link to="/login" search={{ mode: "signin" }} className="underline underline-offset-4">
+            Return to sign in
+          </Link>
+        </p>
+      </div>
+    </PageShell>
+  );
+}
