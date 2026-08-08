@@ -363,7 +363,6 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-
   /* Slide the session deadline forward while the resident is actually using the
      portal, so an idle device lapses but an active one does not. */
   useEffect(() => {
