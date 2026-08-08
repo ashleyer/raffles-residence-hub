@@ -227,7 +227,9 @@ function ResetPasswordPage() {
               {announcement}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="reset-code">Reset code</Label>
+              <Label htmlFor="reset-code" className={errorFor("code") ? "text-destructive" : ""}>
+                Reset code
+              </Label>
               <Input
                 id="reset-code"
                 inputMode="numeric"
@@ -237,15 +239,17 @@ function ResetPasswordPage() {
                 onChange={(e) => setCode(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, code: true }))}
                 aria-invalid={errorFor("code") ? true : undefined}
-                aria-describedby={errorFor("code") ? "reset-code-error" : undefined}
-                className="min-h-11"
+                aria-describedby={describedBy("code")}
+                className={fieldClass("code")}
               />
               {errorFor("code") ? (
-                <p id="reset-code-error" className="text-sm text-destructive">
-                  {errorFor("code")}
+                <p id="reset-code-error" className="flex gap-1.5 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <span>{errorFor("code")}</span>
                 </p>
               ) : null}
             </div>
+
 
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
