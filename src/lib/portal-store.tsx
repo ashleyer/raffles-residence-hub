@@ -331,7 +331,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (existing) {
         setResidents((prev) =>
           prev.map((r) =>
-            r.id === existing.id ? { ...r, name: name.trim(), ...(unit?.trim() ? { unit: unit.trim() } : {}) } : r,
+            r.id === existing.id ? { ...r, name: name.trim(), unit: residence } : r,
           ),
         );
       } else {
