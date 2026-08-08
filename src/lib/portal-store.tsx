@@ -73,6 +73,9 @@ type PortalValue = {
   clearSavedDetails: () => void;
   rememberedEmail: string | null;
   rememberedUnit: string | null;
+  /* Privacy toggle: when off, nothing is persisted between sign-ins. */
+  rememberEnabled: boolean;
+  setRememberEnabled: (enabled: boolean) => void;
 
   /* directory & profile */
   residents: Resident[];
@@ -187,6 +190,8 @@ const SESSION_KEY = "raffles.session.v1";
 const NOTIFICATIONS_KEY = "raffles.notifications.v1";
 /* Last signed-in identity: kept after sign out so residents never re-register. */
 const LAST_USER_KEY = "raffles.lastUser.v1";
+/* Resident-controlled privacy switch for "Remember me" persistence. */
+const REMEMBER_PREF_KEY = "raffles.rememberPref.v1";
 const REQUESTS_KEY = "raffles.conciergeRequests.v1";
 
 /* Expiring persistence. A live session lapses after 12 hours of inactivity and
@@ -256,6 +261,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [rememberedEmail, setRememberedEmail] = useState<string | null>(null);
   const [rememberedUnit, setRememberedUnit] = useState<string | null>(null);
+  const [rememberEnabled, setRememberEnabledState] = useState(true);
   const [hydrated, setHydrated] = useState(false);
   const [threads, setThreads] = useState<Thread[]>(SEED_THREADS);
   const [statements, setStatements] = useState<Statement[]>(STATEMENTS);
@@ -296,8 +302,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       });
     }
     setAccounts(readStore<Account[]>(ACCOUNTS_KEY, []));
+    const prefOn = readStore<boolean>(REMEMBER_PREF_KEY, true);
+    setRememberEnabledState(prefOn);
     const session = readExpiring<{ residentId: string; email: string }>(SESSION_KEY);
-    const last = readExpiring<{ email: string; unit?: string }>(LAST_USER_KEY);
+    const last = prefOn ? readExpiring<{ email: string; unit?: string }>(LAST_USER_KEY) : null;
     if (last) {
       setRememberedEmail(last.email);
       setRememberedUnit(last.unit ?? null);
@@ -337,9 +345,11 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   const rememberSession = useCallback((resident: Resident, remember: boolean) => {
     setCurrentUserId(resident.id);
-    setRememberedEmail(remember ? resident.email : null);
-    setRememberedUnit(remember ? (resident.unit ?? null) : null);
-    if (remember) {
+    /* The profile privacy switch always wins over the sign-in checkbox. */
+    const allow = remember && readStore<boolean>(REMEMBER_PREF_KEY, true);
+    setRememberedEmail(allow ? resident.email : null);
+    setRememberedUnit(allow ? (resident.unit ?? null) : null);
+    if (allow) {
       /* Keep the residence and contact details on this device, but only until
          the remembered-identity window lapses. */
       writeExpiring(LAST_USER_KEY, { email: resident.email, unit: resident.unit }, REMEMBER_TTL_MS);
@@ -570,6 +580,32 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         setRememberedEmail(null);
         setRememberedUnit(null);
       },
+      rememberEnabled,
+      /* Turning the switch off stops persistence at once and wipes whatever is
+         already saved on this device; the live session is left untouched. */
+      setRememberEnabled: (enabled: boolean) => {
+        setRememberEnabledState(enabled);
+        writeStore(REMEMBER_PREF_KEY, enabled);
+        if (!enabled) {
+          clearStore(LAST_USER_KEY);
+          clearStore(SESSION_KEY);
+          setRememberedEmail(null);
+          setRememberedUnit(null);
+        } else if (currentUser) {
+          writeExpiring(
+            LAST_USER_KEY,
+            { email: currentUser.email, unit: currentUser.unit },
+            REMEMBER_TTL_MS,
+          );
+          writeExpiring(
+            SESSION_KEY,
+            { residentId: currentUser.id, email: currentUser.email },
+            SESSION_TTL_MS,
+          );
+          setRememberedEmail(currentUser.email);
+          setRememberedUnit(currentUser.unit ?? null);
+        }
+      },
 
 
 
@@ -779,6 +815,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       signUp,
       rememberedEmail,
       rememberedUnit,
+      rememberEnabled,
       residents,
       threads,
       statements,
