@@ -178,6 +178,16 @@ const NOTIFICATIONS_KEY = "raffles.notifications.v1";
 const LAST_USER_KEY = "raffles.lastUser.v1";
 const REQUESTS_KEY = "raffles.conciergeRequests.v1";
 
+/* Expiring persistence. A live session lapses after 12 hours of inactivity and
+   is refreshed while the resident is active; the remembered identity (email and
+   residence, used only to pre-fill sign in) is discarded after 30 days. Both are
+   cleared automatically the moment they lapse, on read and on a ticking timer. */
+export const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+export const REMEMBER_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+const EXPIRY_CHECK_MS = 60 * 1000;
+
+type Expiring<T> = { value: T; expiresAt: number };
+
 type Account = { email: string; password: string; residentId: string };
 
 function readStore<T>(key: string, fallback: T): T {
@@ -207,6 +217,27 @@ function clearStore(key: string) {
     /* ignore */
   }
 }
+
+/* Write a value stamped with an absolute expiry. */
+function writeExpiring(key: string, value: unknown, ttl: number) {
+  writeStore(key, { value, expiresAt: Date.now() + ttl } satisfies Expiring<unknown>);
+}
+
+/* Read a stamped value, deleting it if the deadline has passed. Anything stored
+   in the older un-stamped shape is treated as expired and removed. */
+function readExpiring<T>(key: string): T | null {
+  const raw = readStore<Expiring<T> | null>(key, null);
+  if (!raw || typeof raw !== "object" || !("expiresAt" in raw) || typeof raw.expiresAt !== "number") {
+    if (raw) clearStore(key);
+    return null;
+  }
+  if (Date.now() >= raw.expiresAt) {
+    clearStore(key);
+    return null;
+  }
+  return raw.value;
+}
+
 
 export function PortalProvider({ children }: { children: ReactNode }) {
   const [residents, setResidents] = useState<Resident[]>(RESIDENTS);
