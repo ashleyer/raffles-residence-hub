@@ -514,8 +514,32 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       activity,
       logActivity: (e) =>
         setActivity((prev) => [{ ...e, id: nextId(), at: "Just now" }, ...prev]),
+      /* Concierge desk queue: residents lodge, staff triage and reply. */
+      conciergeRequests,
+      addConciergeRequest: (r) =>
+        setConciergeRequests((prev) => [
+          { ...r, id: nextId(), status: "Lodged", placedAt: "Just now", replies: [] },
+          ...prev,
+        ]),
+      setConciergeStatus: (id, status) =>
+        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r))),
+      assignConciergeRequest: (id, staff) =>
+        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r))),
+      replyToConciergeRequest: (id, body, author) =>
+        setConciergeRequests((prev) =>
+          prev.map((r) =>
+            r.id === id
+              ? {
+                  ...r,
+                  status: r.status === "Lodged" ? "In progress" : r.status,
+                  replies: [...(r.replies ?? []), { id: nextId(), body, author, at: "Just now" }],
+                }
+              : r,
+          ),
+        ),
 
       surveyResponses,
+
       submitSurvey: (r) => {
         setSurveyResponses((prev) => [{ ...r, id: nextId() }, ...prev]);
         setAnsweredSurvey(true);
