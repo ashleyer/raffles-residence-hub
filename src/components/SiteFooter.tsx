@@ -30,10 +30,12 @@ export function SiteFooter() {
         </p>
         <a
           href="mailto:security@raffles-boston.demo?subject=Security%20issue%20report&body=Residence%3A%0ALocation%3A%0ATime%20observed%3A%0AWhat%20happened%3A%0A"
-          className="btn-outline mt-8 inline-flex min-h-11 items-center"
+          className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto"
+          aria-label="Notify security of an issue by email"
         >
           Notify security of an issue
         </a>
+
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>

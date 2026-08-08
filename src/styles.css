@@ -240,11 +240,16 @@
   align-items: center;
   justify-content: center;
   min-height: 2.75rem;
+  padding-block: 0.5rem;
   padding-inline: 1.25rem;
+  max-width: 100%;
+  text-align: center;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
   border: 1px solid var(--foreground);
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  font-size: clamp(0.625rem, 0.55rem + 0.3vw, 0.6875rem);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   transition:
     background-color 200ms ease,
@@ -255,6 +260,7 @@
     color: var(--background);
   }
 }
+
 
 /* Fluid editorial display sizes */
 @utility display-hero {

@@ -158,20 +158,21 @@ function Index() {
         </section>
 
         <section
-          aria-labelledby="contact-concierge"
+          aria-label="Contact the residences team"
           className="mx-auto grid w-full max-w-7xl gap-6 px-5 pb-20 sm:px-8 md:grid-cols-2"
         >
-          <div className="border border-border bg-card px-6 py-8 text-center sm:px-10">
+          <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10">
             <p className="eyebrow">At your service</p>
-            <h2 id="contact-concierge" className="mt-3 text-xl sm:text-2xl">
+            <h2 id="contact-concierge" className="mt-3 text-balance text-xl sm:text-2xl">
               Contact the concierge
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
               Reservations, deliveries, transport or anything else — the desk replies daily.
             </p>
             <a
               href="mailto:concierge@raffles-boston.demo?subject=Resident%20request"
-              className="btn-outline mt-6 inline-flex min-h-11 items-center"
+              className="btn-outline mt-6 w-full self-center sm:w-auto"
+              aria-label="Email the concierge at concierge at raffles-boston dot demo"
             >
               concierge@raffles-boston.demo
             </a>
@@ -180,18 +181,18 @@ function Index() {
             </p>
           </div>
 
-          <div className="border border-border bg-card px-6 py-8 text-center sm:px-10">
+          <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10">
             <p className="eyebrow">Around the clock</p>
-            <h2 id="notify-security" className="mt-3 text-xl sm:text-2xl">
+            <h2 id="notify-security" className="mt-3 text-balance text-xl sm:text-2xl">
               Notify security
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
               Report a safety concern, suspicious activity or an incident in the building.
             </p>
             <a
               href="mailto:security@raffles-boston.demo?subject=Security%20issue%20report&body=Residence%3A%0ALocation%3A%0ATime%20observed%3A%0AWhat%20happened%3A%0A"
-              className="btn-outline mt-6 inline-flex min-h-11 items-center"
-              aria-describedby="notify-security"
+              className="btn-outline mt-6 w-full self-center sm:w-auto"
+              aria-label="Notify security by email at security at raffles-boston dot demo"
             >
               security@raffles-boston.demo
             </a>
@@ -200,6 +201,7 @@ function Index() {
             </p>
           </div>
         </section>
+
 
 
       </main>
