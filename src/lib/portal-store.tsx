@@ -407,9 +407,32 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       const address = email.trim().toLowerCase();
       const residence = formatUnit(unit ?? "");
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+
+      /* Open demonstration account — no residence number required. */
+      if (address === DEMO_ACCOUNT.email && passcode === DEMO_ACCOUNT.password) {
+        const existing = residents.find((r) => r.email.toLowerCase() === DEMO_ACCOUNT.email);
+        const demo: Resident = existing ?? {
+          id: "demo-account",
+          name: "Demo Visitor",
+          unit: residence || "Demo",
+          email: DEMO_ACCOUNT.email,
+          phone: "",
+          bio: "Exploring the residents' portal in demonstration mode.",
+          interests: [],
+          visibleInDirectory: false,
+          contactOptIn: false,
+          members: [],
+          pets: [],
+        };
+        if (!existing) setResidents((prev) => [...prev, demo]);
+        rememberSession(demo, remember);
+        return { ok: true };
+      }
+
       if (!residence) return { ok: false, error: "Enter your residence number." };
       if (!passcode.trim())
         return { ok: false, error: "Enter your password or the residence passcode." };
+
 
       const unitMatches = (resident: Resident) =>
         !isKnownUnit(resident.unit) || sameUnit(resident.unit, residence);
