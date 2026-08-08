@@ -6,6 +6,8 @@ import social4 from "@/assets/social/social-4.jpg";
 import social5 from "@/assets/social/social-5.jpg";
 import social6 from "@/assets/social/social-6.jpg";
 
+const IG_PROFILE = "https://www.instagram.com/rafflesresidencesboston/";
+
 type Post = {
   id: number;
   image: string;
