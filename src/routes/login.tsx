@@ -8,7 +8,7 @@ import { DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import { RememberMeConsent } from "@/components/RememberMeConsent";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -133,7 +133,7 @@ function SignInForm() {
   const [email, setEmail] = useState("");
   const [unit, setUnit] = useState("");
   const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -209,24 +209,7 @@ function SignInForm() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-          <div className="min-w-0 flex-1">
-            <Label htmlFor="remember" className="text-sm font-normal">
-              Remember me on this device
-            </Label>
-            <p id="remember-hint" className="mt-1 text-pretty text-xs text-muted-foreground">
-              On: your residence and contact details stay on this device after sign out, and are cleared
-              automatically after 30 days. Your signed-in session lapses after 12 hours of inactivity.
-              Off: everything is cleared the moment you sign out.
-            </p>
-          </div>
-          <Switch
-            id="remember"
-            checked={remember}
-            onCheckedChange={setRemember}
-            aria-describedby="remember-hint"
-          />
-        </div>
+        <RememberMeConsent id="remember" checked={remember} onChange={setRemember} />
 
 
         <p id="signin-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
@@ -245,7 +228,7 @@ function SignUpForm() {
   const { signUp } = usePortal();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: "", email: "", unit: "", phone: "", password: "", confirm: "" });
-  const [remember, setRemember] = useState(true);
+  const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -340,23 +323,7 @@ function SignUpForm() {
           />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-          <div className="min-w-0 flex-1">
-            <Label htmlFor="su-remember" className="text-sm font-normal">
-              Remember me on this device
-            </Label>
-            <p id="su-remember-hint" className="mt-1 text-pretty text-xs text-muted-foreground">
-              On: your residence and contact details stay on this device after sign out. Off: they are
-              cleared the moment you sign out.
-            </p>
-          </div>
-          <Switch
-            id="su-remember"
-            checked={remember}
-            onCheckedChange={setRemember}
-            aria-describedby="su-remember-hint"
-          />
-        </div>
+        <RememberMeConsent id="su-remember" checked={remember} onChange={setRemember} />
 
 
         <p role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
