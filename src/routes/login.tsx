@@ -167,6 +167,23 @@ function SignInForm() {
           </p>
         </div>
         <div className="space-y-2">
+          <Label htmlFor="signin-unit">Residence number</Label>
+          <Input
+            id="signin-unit"
+            required
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)}
+            placeholder="Residence 22H"
+            aria-describedby={error ? "signin-error" : "signin-unit-hint"}
+            aria-invalid={error ? true : undefined}
+            className="min-h-11"
+          />
+          <p id="signin-unit-hint" className="text-xs text-muted-foreground">
+            The residence on file for your address — for example 22H.
+          </p>
+        </div>
+        <div className="space-y-2">
+
           <Label htmlFor="password">Password or residence passcode</Label>
           <Input
             id="password"
