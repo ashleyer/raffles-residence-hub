@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { AlertCircle, Eye, EyeOff, KeyRound } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, KeyRound, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
@@ -51,6 +51,8 @@ function ResetPasswordPage() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [announcement, setAnnouncement] = useState("");
+  const [pending, setPending] = useState<null | "request" | "resend" | "reset">(null);
+  const busy = pending !== null;
 
   useEffect(() => {
     if (cooldown <= 0) return;
