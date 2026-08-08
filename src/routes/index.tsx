@@ -12,7 +12,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
 
 import { HouseDirectory } from "@/components/HouseDirectory";
-import { usePortal } from "@/lib/portal-store";
+import { AccountAccess } from "@/components/AccountAccess";
 
 
 export const Route = createFileRoute("/")({
