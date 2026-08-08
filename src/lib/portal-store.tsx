@@ -240,8 +240,6 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       const residence = formatUnit(unit ?? "");
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
       if (!residence) return { ok: false, error: "Enter your residence number." };
-      if (!phone || phone.replace(/\D/g, "").length < 7)
-        return { ok: false, error: "Enter a contact number for your household profile." };
       if (!passcode.trim()) return { ok: false, error: "Enter your password or the residence passcode." };
 
       const unitMatches = (resident: Resident) =>
