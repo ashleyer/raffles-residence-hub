@@ -61,6 +61,17 @@ export function SiteFooter() {
             <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
             <span className="sr-only">(opens in a new tab)</span>
           </a>
+          <a
+            href="https://all.accor.com/loyalty-program/index.en.shtml"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            ALL — Accor loyalty
+            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+
           <Link
             to="/press"
             className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
