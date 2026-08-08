@@ -1,8 +1,16 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { CalendarCheck, Clock, Info, MapPin, UtensilsCrossed } from "lucide-react";
+import { CalendarCheck, Clock, ExternalLink, Info, MapPin, Minus, Plus, UtensilsCrossed } from "lucide-react";
 import { toast } from "sonner";
-import { AMENITIES, CATERING_OPTIONS, SEED_BOOKINGS, type Booking } from "@/lib/intranet-data";
+import {
+  AMENITIES,
+  CATERING_OPTIONS,
+  IN_RESIDENCE_DINING,
+  IN_RESIDENCE_MENU,
+  SEED_BOOKINGS,
+  VENUES,
+  type Booking,
+} from "@/lib/intranet-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
@@ -19,13 +27,13 @@ export const Route = createFileRoute("/amenities")({
       {
         name: "description",
         content:
-          "Submit reservation requests with catering options for the Residents' Lounge on Floor 21, private in-residence dining, Long Bar & Terrace, Guerlain Spa and La Padrona.",
+          "Reserve the Residents' Lounge on Floor 21, Nantucket Kitchen, Secret Garden Room, sports simulator and Emerald Lounge, order in-residence dining, and find hotel venue menus and hours.",
       },
       { property: "og:title", content: "Amenity Reservations — Raffles Boston Residences" },
       {
         property: "og:description",
         content:
-          "Residents' booking desk: lounge, private dining, spa and restaurant requests with catering selections.",
+          "Residents' booking desk: lounge and amenity rooms with hotel catering, in-residence dining orders, and hotel venue menus.",
       },
     ],
   }),
