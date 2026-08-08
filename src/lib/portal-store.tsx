@@ -516,6 +516,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         setCurrentUserId(null);
         clearStore(SESSION_KEY);
       },
+      /* One click: forget the remembered residence and contact details. */
+      clearSavedDetails: () => {
+        clearStore(LAST_USER_KEY);
+        setRememberedEmail(null);
+        setRememberedUnit(null);
+      },
+
+
 
       residents,
       updateProfile: (patch) =>
