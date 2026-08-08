@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Info, PawPrint, Plus, Trash2, Users } from "lucide-react";
 import { PageShell, SectionCard } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
+import { SavedDetailsControl } from "@/components/SavedDetailsControl";
 import { usePortal } from "@/lib/portal-store";
 import type { HouseholdMember, HouseholdPet } from "@/lib/portal-data";
 import { Button } from "@/components/ui/button";
