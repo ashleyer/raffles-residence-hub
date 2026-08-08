@@ -78,7 +78,6 @@ export const newPasswordSchema = z
 
 export type FieldErrors = Record<string, string>;
 
-
 /** Validate a value against a schema and flatten issues into per-field messages. */
 export function validate<T extends z.ZodType>(schema: T, value: unknown): FieldErrors {
   const result = schema.safeParse(value);

@@ -148,13 +148,13 @@ function ResetPasswordPage() {
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                aria-invalid={fieldErrors['code'] ? true : undefined}
-                aria-describedby={fieldErrors['code'] ? "reset-code-error" : undefined}
+                aria-invalid={fieldErrors["code"] ? true : undefined}
+                aria-describedby={fieldErrors["code"] ? "reset-code-error" : undefined}
                 className="min-h-11"
               />
-              {fieldErrors['code'] ? (
+              {fieldErrors["code"] ? (
                 <p id="reset-code-error" role="alert" className="text-sm text-destructive">
-                  {fieldErrors['code']}
+                  {fieldErrors["code"]}
                 </p>
               ) : null}
             </div>
@@ -167,14 +167,14 @@ function ResetPasswordPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                aria-invalid={fieldErrors['password'] ? true : undefined}
+                aria-invalid={fieldErrors["password"] ? true : undefined}
                 aria-describedby="reset-password-meter"
                 className="min-h-11"
               />
               <PasswordStrengthMeter id="reset-password-meter" value={password} />
-              {fieldErrors['password'] ? (
+              {fieldErrors["password"] ? (
                 <p role="alert" className="text-sm text-destructive">
-                  {fieldErrors['password']}
+                  {fieldErrors["password"]}
                 </p>
               ) : null}
             </div>
@@ -187,13 +187,13 @@ function ResetPasswordPage() {
                 required
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                aria-invalid={fieldErrors['confirm'] ? true : undefined}
-                aria-describedby={fieldErrors['confirm'] ? "reset-confirm-error" : undefined}
+                aria-invalid={fieldErrors["confirm"] ? true : undefined}
+                aria-describedby={fieldErrors["confirm"] ? "reset-confirm-error" : undefined}
                 className="min-h-11"
               />
-              {fieldErrors['confirm'] ? (
+              {fieldErrors["confirm"] ? (
                 <p id="reset-confirm-error" role="alert" className="text-sm text-destructive">
-                  {fieldErrors['confirm']}
+                  {fieldErrors["confirm"]}
                 </p>
               ) : null}
             </div>

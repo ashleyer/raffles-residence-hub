@@ -4,9 +4,13 @@ import { scorePassword } from "@/lib/password-strength";
    conveys the result — the label and hints are always readable. */
 export function PasswordStrengthMeter({ value, id }: { value: string; id?: string }) {
   const { score, label, suggestions } = scorePassword(value);
-  const tone = ["bg-destructive", "bg-destructive", "bg-amber-500", "bg-emerald-600", "bg-emerald-700"][
-    score
-  ];
+  const tone = [
+    "bg-destructive",
+    "bg-destructive",
+    "bg-amber-500",
+    "bg-emerald-600",
+    "bg-emerald-700",
+  ][score];
 
   return (
     <div id={id} className="space-y-2">
