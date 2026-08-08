@@ -2,6 +2,8 @@ import { toast } from "sonner";
 import { ShieldOff } from "lucide-react";
 import { usePortal, REMEMBER_TTL_MS } from "@/lib/portal-store";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,9 +19,10 @@ import {
 const REMEMBER_DAYS = Math.round(REMEMBER_TTL_MS / (24 * 60 * 60 * 1000));
 
 /** One-click removal of the residence and contact details kept in this browser
- *  by "Remember me". Signing out is unaffected; the profile itself is kept. */
+ *  by "Remember me", plus the privacy switch that stops it happening again. */
 export function SavedDetailsControl() {
-  const { rememberedEmail, rememberedUnit, clearSavedDetails } = usePortal();
+  const { rememberedEmail, rememberedUnit, clearSavedDetails, rememberEnabled, setRememberEnabled } =
+    usePortal();
   const hasSaved = Boolean(rememberedEmail || rememberedUnit);
 
   return (
@@ -28,7 +31,34 @@ export function SavedDetailsControl() {
         <ShieldOff className="h-4 w-4 text-primary" aria-hidden="true" />
         Saved residence details
       </h3>
-      <p className="mt-2 text-sm text-muted-foreground">
+
+      <div className="mt-4 flex items-start justify-between gap-4 border border-border bg-card px-4 py-4">
+        <div>
+          <Label htmlFor="remember-me-toggle" className="text-sm text-foreground">
+            Remember me on this browser
+          </Label>
+          <p id="remember-me-help" className="mt-1 text-sm text-muted-foreground">
+            When off, nothing is kept between sign-ins — anything already saved is erased the moment
+            you switch it off.
+          </p>
+        </div>
+        <Switch
+          id="remember-me-toggle"
+          checked={rememberEnabled}
+          aria-describedby="remember-me-help"
+          onCheckedChange={(next) => {
+            setRememberEnabled(next);
+            toast.success(
+              next
+                ? "Remember me is on for this browser."
+                : "Remember me is off — saved details cleared from this browser.",
+            );
+          }}
+        />
+      </div>
+
+      <p className="mt-4 text-sm text-muted-foreground">
+
         {hasSaved ? (
           <>
             This browser is remembering{" "}
