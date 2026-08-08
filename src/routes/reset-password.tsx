@@ -7,6 +7,8 @@ import { usePortal } from "@/lib/portal-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordStrengthMeter } from "@/components/PasswordStrengthMeter";
+import { newPasswordSchema, validate, type FieldErrors } from "@/lib/auth-validation";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -40,6 +42,7 @@ function ResetPasswordPage() {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -68,12 +71,19 @@ function ResetPasswordPage() {
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
+    const issues = validate(newPasswordSchema, { code, password, confirm });
+    setFieldErrors(issues);
+    if (Object.keys(issues).length > 0) {
+      setError("Please correct the highlighted fields.");
+      return;
+    }
     const result = resetPassword({ email, code, password, confirm });
     if (!result.ok) {
       setError(result.error ?? "That password could not be changed.");
       return;
     }
     setError(null);
+
     toast.success("Password changed", {
       description: "Please sign in with your new password.",
     });
@@ -138,8 +148,15 @@ function ResetPasswordPage() {
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
+                aria-invalid={fieldErrors["code"] ? true : undefined}
+                aria-describedby={fieldErrors["code"] ? "reset-code-error" : undefined}
                 className="min-h-11"
               />
+              {fieldErrors["code"] ? (
+                <p id="reset-code-error" role="alert" className="text-sm text-destructive">
+                  {fieldErrors["code"]}
+                </p>
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="reset-password">New password</Label>
@@ -150,9 +167,16 @@ function ResetPasswordPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                aria-invalid={fieldErrors["password"] ? true : undefined}
+                aria-describedby="reset-password-meter"
                 className="min-h-11"
               />
-              <p className="text-xs text-muted-foreground">At least eight characters.</p>
+              <PasswordStrengthMeter id="reset-password-meter" value={password} />
+              {fieldErrors["password"] ? (
+                <p role="alert" className="text-sm text-destructive">
+                  {fieldErrors["password"]}
+                </p>
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="reset-confirm">Confirm new password</Label>
@@ -163,9 +187,17 @@ function ResetPasswordPage() {
                 required
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
+                aria-invalid={fieldErrors["confirm"] ? true : undefined}
+                aria-describedby={fieldErrors["confirm"] ? "reset-confirm-error" : undefined}
                 className="min-h-11"
               />
+              {fieldErrors["confirm"] ? (
+                <p id="reset-confirm-error" role="alert" className="text-sm text-destructive">
+                  {fieldErrors["confirm"]}
+                </p>
+              ) : null}
             </div>
+
             <p
               id="reset-error"
               role="alert"
