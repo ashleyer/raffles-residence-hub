@@ -103,8 +103,6 @@ function ResetPasswordPage() {
       .filter(Boolean)
       .join(" ") || undefined;
 
-
-
   const fieldLabels = {
     code: "Reset code",
     password: "New password",
@@ -267,7 +265,6 @@ function ResetPasswordPage() {
               ) : null}
             </div>
 
-
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
                 <Label htmlFor="reset-password">New password</Label>
@@ -331,7 +328,6 @@ function ResetPasswordPage() {
                 </p>
               ) : null}
             </div>
-
 
             <p
               id="reset-error"
