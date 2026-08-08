@@ -207,6 +207,11 @@ function SignInForm() {
           <p id="passcode-hint" className="text-xs text-muted-foreground">
             Preview passcode for the demonstration residences: {DEMO_PASSCODE}
           </p>
+          <p className="text-sm">
+            <Link to="/reset-password" className="underline underline-offset-4">
+              Forgot password?
+            </Link>
+          </p>
         </div>
 
         <RememberMeConsent id="remember" checked={remember} onChange={setRemember} />
