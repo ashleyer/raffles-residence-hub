@@ -57,6 +57,11 @@ export const RESIDENTS: Resident[] = [
     interests: ["Wine", "Classical music", "Art"],
     visibleInDirectory: true,
     contactOptIn: true,
+    members: [
+      { id: "m-34b-1", name: "Eleanor Vance", relation: "Owner", email: "e.vance@residents.raffles-boston.test", phone: "(617) 555-0134" },
+      { id: "m-34b-2", name: "Robert Vance", relation: "Spouse", email: "r.vance@residents.raffles-boston.test" },
+    ],
+    pets: [{ id: "p-34b-1", name: "Bartholomew", kind: "Cat", note: "Indoor only — please do not hold the lift door open on 34." }],
   },
   {
     id: "r-21a",
@@ -68,6 +73,11 @@ export const RESIDENTS: Resident[] = [
     interests: ["Running", "Dogs", "Technology"],
     visibleInDirectory: true,
     contactOptIn: true,
+    members: [{ id: "m-21a-1", name: "Marcus Chen", relation: "Owner", email: "m.chen@residents.raffles-boston.test", phone: "(617) 555-0121" }],
+    pets: [
+      { id: "p-21a-1", name: "Atlas", kind: "Dog · Bernese Mountain", note: "Walks at 6:30 AM through the Trinity Place door." },
+      { id: "p-21a-2", name: "Juno", kind: "Dog · Bernese Mountain" },
+    ],
   },
   {
     id: "r-28d",
@@ -90,6 +100,13 @@ export const RESIDENTS: Resident[] = [
     interests: ["Families", "Sailing", "Food"],
     visibleInDirectory: true,
     contactOptIn: true,
+    members: [
+      { id: "m-41c-1", name: "James Whitfield", relation: "Owner", email: "j.whitfield@residents.raffles-boston.test", phone: "(617) 555-0141" },
+      { id: "m-41c-2", name: "Odile Whitfield", relation: "Owner", email: "o.whitfield@residents.raffles-boston.test" },
+      { id: "m-41c-3", name: "Colette", relation: "Child" },
+      { id: "m-41c-4", name: "Hugo", relation: "Child" },
+    ],
+    pets: [],
   },
   {
     id: "r-17f",
@@ -112,6 +129,8 @@ export const RESIDENTS: Resident[] = [
     interests: ["Design", "Technology", "Community"],
     visibleInDirectory: true,
     contactOptIn: true,
+    members: [{ id: "m-22h-1", name: "Ashley Romano", relation: "Owner", email: "ashleye.romano@gmail.com", phone: "(978) 857-5775" }],
+    pets: [],
   },
 ];
 
