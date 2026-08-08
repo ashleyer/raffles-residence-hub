@@ -55,7 +55,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const { currentUser } = usePortal();
-  const { mode: initialMode } = Route.useSearch();
+  const { mode: initialMode, redirect } = Route.useSearch();
   const [mode, setMode] = useState<"signin" | "signup">(initialMode ?? "signin");
 
   return (
@@ -125,7 +125,13 @@ function LoginPage() {
                 </button>
               ))}
             </div>
-            <div className="mt-4">{mode === "signin" ? <SignInForm /> : <SignUpForm />}</div>
+            <div className="mt-4">
+              {mode === "signin" ? (
+                <SignInForm redirectTo={redirect} />
+              ) : (
+                <SignUpForm redirectTo={redirect} />
+              )}
+            </div>
           </div>
 
           <aside className="border border-border bg-secondary/40 p-8">
@@ -188,7 +194,7 @@ function SignedIn() {
   );
 }
 
-function SignInForm() {
+function SignInForm({ redirectTo = "/directory" }: { redirectTo?: string }) {
   const { signIn, rememberedEmail, rememberedUnit } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -249,7 +255,7 @@ function SignInForm() {
         return;
       }
       toast.success("Welcome to the residences.");
-      navigate({ to: redirectTo });
+      navigate({ to: redirectTo, replace: true });
     } finally {
       setSubmitting(false);
     }
@@ -374,7 +380,7 @@ function SignInForm() {
   );
 }
 
-function SignUpForm() {
+function SignUpForm({ redirectTo = "/directory" }: { redirectTo?: string }) {
   const { signUp } = usePortal();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -434,7 +440,7 @@ function SignUpForm() {
         return;
       }
       toast.success("Your account has been created.");
-      navigate({ to: redirectTo });
+      navigate({ to: redirectTo, replace: true });
     } finally {
       setSubmitting(false);
     }
