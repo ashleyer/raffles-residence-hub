@@ -420,6 +420,16 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     [accounts, residents, rememberSession],
   );
 
+  /* Raise an alert for one residence; the desk is the only source of these. */
+  const raiseNotification = useCallback((n: Omit<PortalNotification, "id" | "at" | "read">) => {
+    setNotifications((prev) => [{ ...n, id: nextId(), at: "Just now", read: false }, ...prev].slice(0, 60));
+  }, []);
+
+  const myNotifications = useMemo(
+    () => (currentUser?.unit ? notifications.filter((n) => unitKey(n.unit) === unitKey(currentUser.unit!)) : []),
+    [notifications, currentUser],
+  );
+
   const value = useMemo<PortalValue>(
     () => ({
       currentUser,
