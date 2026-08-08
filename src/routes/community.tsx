@@ -54,7 +54,7 @@ function CommunityPage() {
           <ThankYouCarousel notes={SEED_THANK_YOU_NOTES} />
         </div>
         <Link to="/gratitude" className="btn-outline mt-6 inline-flex min-h-11 items-center">
-          Visit the thank you board
+          Visit Thank You Notes
         </Link>
       </section>
 
