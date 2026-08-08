@@ -566,58 +566,58 @@ export function PortalProvider({ children }: { children: ReactNode }) {
           { ...r, id: nextId(), status: "Lodged", placedAt: "Just now", replies: [] },
           ...prev,
         ]),
-      setConciergeStatus: (id, status) =>
+      setConciergeStatus: (id, status) => {
+        const target = conciergeRequests.find((r) => r.id === id);
+        if (!target || target.status === status) return;
+        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+        raiseNotification({
+          unit: target.unit,
+          requestId: id,
+          kind: "status",
+          title: `${target.service} — ${status.toLowerCase()}`,
+          body:
+            status === "Completed"
+              ? "The concierge desk has marked your request complete."
+              : "The concierge desk has updated the status of your request.",
+        });
+      },
+      assignConciergeRequest: (id, staff) => {
+        const target = conciergeRequests.find((r) => r.id === id);
+        if (!target || target.assignedTo === staff) return;
+        setConciergeRequests((prev) => prev.map((r) => (r.id === id ? { ...r, assignedTo: staff } : r)));
+        raiseNotification({
+          unit: target.unit,
+          requestId: id,
+          kind: "assigned",
+          title: `${target.service} — assigned`,
+          body: `${staff} is now looking after your request.`,
+        });
+      },
+      replyToConciergeRequest: (id, body, author) => {
+        const target = conciergeRequests.find((r) => r.id === id);
         setConciergeRequests((prev) =>
-          prev.map((r) => {
-            if (r.id !== id || r.status === status) return r;
-            raiseNotification({
-              unit: r.unit,
-              requestId: r.id,
-              kind: "status",
-              title: `${r.service} — ${status.toLowerCase()}`,
-              body:
-                status === "Completed"
-                  ? "The concierge desk has marked your request complete."
-                  : "The concierge desk has updated the status of your request.",
-            });
-            return { ...r, status };
-          }),
-        ),
-      assignConciergeRequest: (id, staff) =>
-        setConciergeRequests((prev) =>
-          prev.map((r) => {
-            if (r.id !== id || r.assignedTo === staff) return r;
-            raiseNotification({
-              unit: r.unit,
-              requestId: r.id,
-              kind: "assigned",
-              title: `${r.service} — assigned`,
-              body: `${staff} is now looking after your request.`,
-            });
-            return { ...r, assignedTo: staff };
-          }),
-        ),
-      replyToConciergeRequest: (id, body, author) =>
-        setConciergeRequests((prev) =>
-          prev.map((r) => {
-            if (r.id !== id) return r;
-            /* Only desk replies alert the residence — not the resident's own. */
-            if (unitKey(author) !== unitKey(r.unit)) {
-              raiseNotification({
-                unit: r.unit,
-                requestId: r.id,
-                kind: "reply",
-                title: `${author} replied`,
-                body: body.slice(0, 160),
-              });
-            }
-            return {
-              ...r,
-              status: r.status === "Lodged" ? "In progress" : r.status,
-              replies: [...(r.replies ?? []), { id: nextId(), body, author, at: "Just now" }],
-            };
-          }),
-        ),
+          prev.map((r) =>
+            r.id === id
+              ? {
+                  ...r,
+                  status: r.status === "Lodged" ? "In progress" : r.status,
+                  replies: [...(r.replies ?? []), { id: nextId(), body, author, at: "Just now" }],
+                }
+              : r,
+          ),
+        );
+        /* Only desk replies alert the residence — not the resident's own. */
+        if (target && unitKey(author) !== unitKey(target.unit)) {
+          raiseNotification({
+            unit: target.unit,
+            requestId: id,
+            kind: "reply",
+            title: `${author} replied`,
+            body: body.slice(0, 160),
+          });
+        }
+      },
+
 
       notifications: myNotifications,
       unreadNotifications: myNotifications.filter((n) => !n.read).length,
