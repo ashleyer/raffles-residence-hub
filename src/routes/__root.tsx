@@ -16,6 +16,7 @@ import { PortalProvider } from "@/lib/portal-store";
 import { DemoBanner, DemoModal } from "@/components/DemoNotice";
 import { SurveyPrompt } from "@/components/SurveyPrompt";
 import { AppErrorBoundary } from "@/components/AppErrorBoundary";
+import { RuntimeErrorReporter } from "@/components/RuntimeErrorReporter";
 
 
 
@@ -139,6 +140,7 @@ function RootComponent() {
         >
           Skip to main content
         </a>
+        <RuntimeErrorReporter />
         <DemoBanner />
         <DemoModal />
         <SurveyPrompt />
