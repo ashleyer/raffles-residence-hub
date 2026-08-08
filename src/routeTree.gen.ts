@@ -33,6 +33,9 @@ import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SalesAndLeasingRouteImport } from './routes/sales-and-leasing'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as StaffDashboardRouteImport } from './routes/staff-dashboard'
+import { Route as StaffSigninRouteImport } from './routes/staff-signin'
+import { Route as StaffSignupRouteImport } from './routes/staff-signup'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
@@ -156,6 +159,21 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffDashboardRoute = StaffDashboardRouteImport.update({
+  id: '/staff-dashboard',
+  path: '/staff-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffSigninRoute = StaffSigninRouteImport.update({
+  id: '/staff-signin',
+  path: '/staff-signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffSignupRoute = StaffSignupRouteImport.update({
+  id: '/staff-signup',
+  path: '/staff-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -192,6 +210,9 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/staff-dashboard': typeof StaffDashboardRoute
+  '/staff-signin': typeof StaffSigninRoute
+  '/staff-signup': typeof StaffSignupRoute
   '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
@@ -220,6 +241,9 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/staff-dashboard': typeof StaffDashboardRoute
+  '/staff-signin': typeof StaffSigninRoute
+  '/staff-signup': typeof StaffSignupRoute
   '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
@@ -249,6 +273,9 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/staff-dashboard': typeof StaffDashboardRoute
+  '/staff-signin': typeof StaffSigninRoute
+  '/staff-signup': typeof StaffSignupRoute
   '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
@@ -279,6 +306,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
+    | '/staff-dashboard'
+    | '/staff-signin'
+    | '/staff-signup'
     | '/terms'
     | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
@@ -307,6 +337,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
+    | '/staff-dashboard'
+    | '/staff-signin'
+    | '/staff-signup'
     | '/terms'
     | '/health/ready'
   id:
@@ -335,6 +368,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
+    | '/staff-dashboard'
+    | '/staff-signin'
+    | '/staff-signup'
     | '/terms'
     | '/health/ready'
   fileRoutesById: FileRoutesById
@@ -364,6 +400,9 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SalesAndLeasingRoute: typeof SalesAndLeasingRoute
   ServicesRoute: typeof ServicesRoute
+  StaffDashboardRoute: typeof StaffDashboardRoute
+  StaffSigninRoute: typeof StaffSigninRoute
+  StaffSignupRoute: typeof StaffSignupRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -537,6 +576,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff-dashboard': {
+      id: '/staff-dashboard'
+      path: '/staff-dashboard'
+      fullPath: '/staff-dashboard'
+      preLoaderRoute: typeof StaffDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff-signin': {
+      id: '/staff-signin'
+      path: '/staff-signin'
+      fullPath: '/staff-signin'
+      preLoaderRoute: typeof StaffSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff-signup': {
+      id: '/staff-signup'
+      path: '/staff-signup'
+      fullPath: '/staff-signup'
+      preLoaderRoute: typeof StaffSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -590,6 +650,9 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SalesAndLeasingRoute: SalesAndLeasingRoute,
   ServicesRoute: ServicesRoute,
+  StaffDashboardRoute: StaffDashboardRoute,
+  StaffSigninRoute: StaffSigninRoute,
+  StaffSignupRoute: StaffSignupRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport

@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
-import { DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
+import { DEMO_ACCOUNT, DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -61,7 +61,34 @@ function LoginPage() {
             ? "Resident sign in"
             : "Create your account"
       }
-      intro="Registered deed-holders and leaseholders sign in with their residence address. New visitors may register an account or explore with the shared preview passcode. Accounts are kept in this browser only."
+      intro={
+        <>
+          Registered deed-holders and approved leaseholders can sign up with their residence address
+          here, or if previously registered,{" "}
+          <Link
+            to="/login"
+            search={{ mode: "signin" }}
+            onClick={() => setMode("signin")}
+            className="underline underline-offset-4"
+          >
+            sign in by clicking here
+          </Link>
+          . Internal Raffles Persons can use the{" "}
+          <Link to="/staff-signup" className="underline underline-offset-4">
+            Raffles Personnel Sign Up
+          </Link>{" "}
+          and/or the{" "}
+          <Link to="/staff-signin" className="underline underline-offset-4">
+            Raffles Personnel Sign In
+          </Link>{" "}
+          found by scrolling down to the bottom.
+          <strong className="mt-3 block text-foreground">
+            For Demo purposes, login with "{DEMO_ACCOUNT.email}" with password "
+            {DEMO_ACCOUNT.password}" to explore the site without signing up (not all features
+            available in Demo Login).
+          </strong>
+        </>
+      }
     >
       {currentUser ? (
         <SignedIn />
@@ -104,6 +131,12 @@ function LoginPage() {
               the preview passcode, or register your own account — it will be remembered on this
               device until you sign out.
             </p>
+            <p className="mt-4 border border-border bg-background p-4 text-sm leading-relaxed">
+              Demo login — email <span className="text-foreground">{DEMO_ACCOUNT.email}</span>,
+              password <span className="text-foreground">{DEMO_ACCOUNT.password}</span>. No
+              residence number required; not all features are available.
+            </p>
+
             <ul className="mt-6 space-y-4">
               {RESIDENTS.slice(0, 4).map((r) => (
                 <li key={r.id} className="border-t border-border pt-4 text-sm">
@@ -166,10 +199,17 @@ function SignInForm() {
   }, [rememberedEmail, rememberedUnit]);
 
   const values = { email, unit, password };
+  /* The open demonstration account has no residence number. */
+  const isDemo = email.trim().toLowerCase() === DEMO_ACCOUNT.email;
+  const checkValues = (v: typeof values) => {
+    const found = validate(signInSchema, v);
+    if (v.email.trim().toLowerCase() === DEMO_ACCOUNT.email) delete found["unit"];
+    return found;
+  };
 
   const check = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
-    const next = validate(signInSchema, values);
+    const next = checkValues(values);
     setFieldErrors((prev) => ({ ...prev, [field]: next[field] ?? "" }));
   };
 
@@ -179,7 +219,7 @@ function SignInForm() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
-    const found = validate(signInSchema, values);
+    const found = checkValues(values);
     setFieldErrors(found);
     setTouched({ email: true, unit: true, password: true });
     if (Object.keys(found).length > 0) {
@@ -190,6 +230,7 @@ function SignInForm() {
       first?.focus();
       return;
     }
+
     setSubmitting(true);
     setError(null);
     try {
@@ -247,7 +288,7 @@ function SignInForm() {
               if (touched["unit"])
                 setFieldErrors((p) => ({
                   ...p,
-                  unit: validate(signInSchema, { ...values, unit: e.target.value })["unit"] ?? "",
+                  unit: checkValues({ ...values, unit: e.target.value })["unit"] ?? "",
                 }));
             }}
             onBlur={() => check("unit")}
@@ -258,7 +299,9 @@ function SignInForm() {
           />
           <FieldError id="signin-unit-error" message={errorFor("unit")} />
           <p id="signin-unit-hint" className="text-xs text-muted-foreground">
-            The residence on file for your address — for example 22H.
+            {isDemo
+              ? "Not required for the demo login — leave blank."
+              : "The residence on file for your address — for example 22H."}
           </p>
         </div>
         <div className="space-y-2">

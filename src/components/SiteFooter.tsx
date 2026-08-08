@@ -50,6 +50,24 @@ export function SiteFooter() {
 
         <NotifySecurity className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto" />
 
+        <nav
+          aria-label="Raffles personnel access"
+          className="mx-auto mt-8 flex w-full max-w-xl flex-col items-center justify-center gap-3 sm:flex-row"
+        >
+          <Link
+            to="/staff-signup"
+            className="btn-outline inline-flex min-h-12 w-full max-w-xs items-center justify-center px-5 text-center sm:w-auto"
+          >
+            Raffles Personnel Sign Up
+          </Link>
+          <Link
+            to="/staff-signin"
+            className="btn-outline inline-flex min-h-12 w-full max-w-xs items-center justify-center px-5 text-center sm:w-auto"
+          >
+            Raffles Personnel Sign In
+          </Link>
+        </nav>
+
         <nav aria-label="Raffles websites and resident pages" className="mx-auto mt-10 max-w-xl">
           <ul className="grid grid-cols-1 gap-y-1 divide-y divide-border/60 border-y border-border/60 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-8 sm:gap-y-3 sm:divide-y-0 sm:border-0">
             <li className="w-full sm:w-auto">
