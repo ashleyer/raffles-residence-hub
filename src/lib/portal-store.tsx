@@ -259,6 +259,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [rememberedEmail, setRememberedEmail] = useState<string | null>(null);
   const [rememberedUnit, setRememberedUnit] = useState<string | null>(null);
+  const [rememberEnabled, setRememberEnabledState] = useState(true);
   const [hydrated, setHydrated] = useState(false);
   const [threads, setThreads] = useState<Thread[]>(SEED_THREADS);
   const [statements, setStatements] = useState<Statement[]>(STATEMENTS);
