@@ -573,6 +573,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       votes,
       surveyResponses,
       answeredSurvey,
+      conciergeRequests,
       activity,
     ],
   );
