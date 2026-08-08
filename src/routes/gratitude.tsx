@@ -42,7 +42,7 @@ function GratitudePage() {
   return (
     <PageShell
       eyebrow="Notes of Thanks"
-      title="Thank you board"
+      title="Thank You Notes"
       intro="A public board for crediting the people who look after the building. Notes appear for every resident to read; leave your residence number off if you would rather thank someone quietly."
     >
       <section aria-labelledby="carousel-heading" className="mt-12">
@@ -54,7 +54,7 @@ function GratitudePage() {
         </div>
       </section>
 
-      <RequireSession area="the thank you board">
+      <RequireSession area="Thank You Notes">
         <NoteForm onPost={(note) => setNotes((prev) => [note, ...prev])} />
       </RequireSession>
 
