@@ -282,12 +282,33 @@ function DirectoryBody() {
 
 function HouseholdProfile() {
   const { currentUser, updateProfile } = usePortal();
-  const [member, setMember] = useState({ name: "", relation: "", email: "", phone: "" });
+  const [member, setMember] = useState({
+    name: "",
+    relation: "",
+    email: "",
+    phone: "",
+    notes: "",
+  });
   const [pet, setPet] = useState({ name: "", kind: "", note: "" });
 
   if (!currentUser) return null;
   const members = currentUser.members ?? [];
   const pets = currentUser.pets ?? [];
+
+  /* A single nested profile is always the main one; otherwise the flag decides. */
+  const mainId = members.length === 1 ? members[0]!.id : members.find((m) => m.primary)?.id;
+
+  const setMain = (id: string) => {
+    updateProfile({ members: members.map((m) => ({ ...m, primary: m.id === id })) });
+    toast.success("Main residence profile updated.");
+  };
+
+  const removeMember = (id: string) => {
+    const rest = members.filter((x) => x.id !== id);
+    /* Never leave a residence without a main profile. */
+    if (rest.length > 0 && !rest.some((m) => m.primary)) rest[0] = { ...rest[0]!, primary: true };
+    updateProfile({ members: rest });
+  };
 
   const addMember = (e: React.FormEvent) => {
     e.preventDefault();
@@ -301,11 +322,15 @@ function HouseholdProfile() {
       relation: member.relation.trim(),
       ...(member.email.trim() ? { email: member.email.trim() } : {}),
       ...(member.phone.trim() ? { phone: member.phone.trim() } : {}),
+      ...(member.notes.trim() ? { notes: member.notes.trim() } : {}),
+      /* The first profile added becomes the main one automatically. */
+      primary: members.length === 0,
     };
     updateProfile({ members: [...members, next] });
-    setMember({ name: "", relation: "", email: "", phone: "" });
+    setMember({ name: "", relation: "", email: "", phone: "", notes: "" });
     toast.success(`${next.name} added to ${currentUser.unit}.`);
   };
+
 
   const addPet = (e: React.FormEvent) => {
     e.preventDefault();
