@@ -5,6 +5,8 @@ import { Info, Lock } from "lucide-react";
 import { PageShell, TabBar, TabPanel } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { RequireSession } from "@/components/RequireSession";
+import { ResidenceHandbook } from "@/components/ResidenceHandbook";
+
 import {
   ANNOUNCEMENTS,
   BOARD,
@@ -51,8 +53,10 @@ const TABS = [
   { id: "announcements", label: "Announcements" },
   { id: "board", label: "Meet the board" },
   { id: "staff", label: "Meet the staff" },
+  { id: "handbook", label: "Residence handbook" },
   { id: "survey", label: "Happiness survey" },
 ];
+
 
 function ManagementPage() {
   const [tab, setTab] = useState("announcements");
@@ -116,7 +120,12 @@ function ManagementPage() {
         />
       </TabPanel>
 
+      <TabPanel id="handbook" active={tab}>
+        <ResidenceHandbook />
+      </TabPanel>
+
       <TabPanel id="survey" active={tab}>
+
         <RequireSession area={SURVEY_NAME}>
           <SurveySection />
         </RequireSession>
