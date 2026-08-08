@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
+import { NotifySecurity } from "@/components/NotifySecurity";
+
 
 import {
   Dialog,
@@ -29,13 +31,8 @@ export function SiteFooter() {
           40 Trinity Place · Back Bay · Boston, Massachusetts 02116
           <span className="mt-2 block">Private Residents' Portal</span>
         </p>
-        <a
-          href="mailto:security@raffles-boston.demo?subject=Security%20issue%20report&body=Residence%3A%0ALocation%3A%0ATime%20observed%3A%0AWhat%20happened%3A%0A"
-          className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto"
-          aria-label="Notify security of an issue by email"
-        >
-          Notify security of an issue
-        </a>
+        <NotifySecurity className="btn-outline mx-auto mt-8 w-full max-w-xs sm:w-auto" />
+
 
         <nav
           aria-label="Official Raffles websites"
