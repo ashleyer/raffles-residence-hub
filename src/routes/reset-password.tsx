@@ -172,8 +172,9 @@ function ResetPasswordPage() {
     });
   };
 
-  const complete = (e: React.FormEvent) => {
+  const complete = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setTouched({ code: true, password: true, confirm: true });
     const issues = { ...validate(newPasswordSchema, { code, password, confirm }) };
     if (!issues["password"] && password && strength.score < MIN_STRENGTH_SCORE) {
@@ -186,9 +187,12 @@ function ResetPasswordPage() {
       focusFirstInvalid(issues);
       return;
     }
+    setPending("reset");
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     const result = resetPassword({ email, code, password, confirm });
     if (!result.ok) {
       setError(result.error ?? "That password could not be changed.");
+      setPending(null);
       return;
     }
     setError(null);
@@ -198,6 +202,7 @@ function ResetPasswordPage() {
     });
     void navigate({ to: "/login", search: { mode: "signin" } });
   };
+
 
   return (
     <PageShell
