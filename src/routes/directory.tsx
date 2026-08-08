@@ -331,7 +331,6 @@ function HouseholdProfile() {
     toast.success(`${next.name} added to ${currentUser.unit}.`);
   };
 
-
   const addPet = (e: React.FormEvent) => {
     e.preventDefault();
     if (!pet.name.trim() || !pet.kind.trim()) {
@@ -553,7 +552,6 @@ function HouseholdProfile() {
             Add resident profile
           </Button>
         </form>
-
       </div>
 
       {/* --- pets ---------------------------------------------------------- */}

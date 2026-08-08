@@ -13,7 +13,6 @@ export type HouseholdMember = {
   primary?: boolean;
 };
 
-
 /** A pet registered to the residence — useful for the concierge and for neighbours. */
 export type HouseholdPet = {
   id: string;
