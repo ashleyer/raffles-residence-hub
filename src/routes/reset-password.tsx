@@ -89,6 +89,22 @@ function ResetPasswordPage() {
   const errorFor = (field: "code" | "password" | "confirm") =>
     touched[field] ? (liveIssues[field] ?? fieldErrors[field]) : undefined;
 
+  /** Error styling for an input that is currently failing validation. */
+  const fieldClass = (field: "code" | "password" | "confirm") =>
+    cn(
+      "min-h-11",
+      errorFor(field) &&
+        "border-destructive ring-1 ring-destructive/40 focus-visible:border-destructive focus-visible:ring-destructive/40",
+    );
+
+  /** Ties an invalid input to its own message and the live validation summary. */
+  const describedBy = (field: "code" | "password" | "confirm", extra?: string) =>
+    [extra, errorFor(field) ? `reset-${field}-error reset-validation-summary` : null]
+      .filter(Boolean)
+      .join(" ") || undefined;
+
+
+
   const fieldLabels = {
     code: "Reset code",
     password: "New password",
