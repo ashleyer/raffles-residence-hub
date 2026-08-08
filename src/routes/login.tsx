@@ -340,23 +340,7 @@ function SignUpForm() {
           />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-          <div className="min-w-0 flex-1">
-            <Label htmlFor="su-remember" className="text-sm font-normal">
-              Remember me on this device
-            </Label>
-            <p id="su-remember-hint" className="mt-1 text-pretty text-xs text-muted-foreground">
-              On: your residence and contact details stay on this device after sign out. Off: they are
-              cleared the moment you sign out.
-            </p>
-          </div>
-          <Switch
-            id="su-remember"
-            checked={remember}
-            onCheckedChange={setRemember}
-            aria-describedby="su-remember-hint"
-          />
-        </div>
+        <RememberMeConsent id="su-remember" checked={remember} onChange={setRemember} />
 
 
         <p role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
