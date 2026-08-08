@@ -158,7 +158,6 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
                   Resident sign up
                 </Link>
               </div>
-
             )}
           </div>
         </div>
