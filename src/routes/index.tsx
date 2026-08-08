@@ -13,6 +13,7 @@ import { Reveal } from "@/components/Reveal";
 
 import { HouseDirectory } from "@/components/HouseDirectory";
 import { AccountAccess } from "@/components/AccountAccess";
+import { RouteErrorFallback, RouteNotFound } from "@/components/RouteErrorFallback";
 
 
 export const Route = createFileRoute("/")({
