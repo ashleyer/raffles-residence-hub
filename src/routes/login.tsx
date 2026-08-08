@@ -266,8 +266,8 @@ function SignUpForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="su-unit">Residence number (optional)</Label>
-          <Input id="su-unit" value={form.unit} onChange={set("unit")} placeholder="Residence 22H" className="min-h-11" />
+          <Label htmlFor="su-unit">Residence number</Label>
+          <Input id="su-unit" required value={form.unit} onChange={set("unit")} placeholder="Residence 22H" className="min-h-11" />
           <p className="text-xs text-muted-foreground">
             Residences are verified by the Residences Office before the directory listing is confirmed.
           </p>
