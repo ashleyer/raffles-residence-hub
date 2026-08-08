@@ -14,6 +14,7 @@ const NAV_GROUPS = [
       { label: "Amenities", to: "/amenities" },
       { label: "Events", to: "/events" },
       { label: "Concierge", to: "/concierge" },
+      { label: "In the press", to: "/press" },
     ],
   },
   {

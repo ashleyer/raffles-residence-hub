@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
@@ -60,7 +61,14 @@ export function SiteFooter() {
             <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
             <span className="sr-only">(opens in a new tab)</span>
           </a>
+          <Link
+            to="/press"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            In the press
+          </Link>
         </nav>
+
 
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
           Preview environment — resident data shown here is illustrative and resets when the page reloads.

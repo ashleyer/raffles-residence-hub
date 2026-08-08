@@ -24,6 +24,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
+import { Route as PressRouteImport } from './routes/press'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as HealthReadyRouteImport } from './routes/health.ready'
@@ -103,6 +104,11 @@ const MessagesRoute = MessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PressRoute = PressRouteImport.update({
+  id: '/press',
+  path: '/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProposalsRoute = ProposalsRouteImport.update({
   id: '/proposals',
   path: '/proposals',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
+  '/press': typeof PressRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
   '/health/ready': typeof HealthReadyRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
+  '/press': typeof PressRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
   '/health/ready': typeof HealthReadyRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
+  '/press': typeof PressRoute
   '/proposals': typeof ProposalsRoute
   '/services': typeof ServicesRoute
   '/health/ready': typeof HealthReadyRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/management'
     | '/marketplace'
     | '/messages'
+    | '/press'
     | '/proposals'
     | '/services'
     | '/health/ready'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/management'
     | '/marketplace'
     | '/messages'
+    | '/press'
     | '/proposals'
     | '/services'
     | '/health/ready'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/management'
     | '/marketplace'
     | '/messages'
+    | '/press'
     | '/proposals'
     | '/services'
     | '/health/ready'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   ManagementRoute: typeof ManagementRoute
   MarketplaceRoute: typeof MarketplaceRoute
   MessagesRoute: typeof MessagesRoute
+  PressRoute: typeof PressRoute
   ProposalsRoute: typeof ProposalsRoute
   ServicesRoute: typeof ServicesRoute
 }
@@ -370,6 +383,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MessagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/press': {
+      id: '/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof PressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/proposals': {
       id: '/proposals'
       path: '/proposals'
@@ -421,6 +441,7 @@ const rootRouteChildren: RootRouteChildren = {
   ManagementRoute: ManagementRoute,
   MarketplaceRoute: MarketplaceRoute,
   MessagesRoute: MessagesRoute,
+  PressRoute: PressRoute,
   ProposalsRoute: ProposalsRoute,
   ServicesRoute: ServicesRoute,
 }
