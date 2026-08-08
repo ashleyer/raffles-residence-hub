@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -60,6 +61,14 @@ type PortalValue = {
     remember?: boolean;
   }) => { ok: boolean; error?: string };
   signOut: () => void;
+  /* Demo password reset: a code is issued in the browser, then redeemed. */
+  requestPasswordReset: (email: string) => { ok: boolean; code?: string; error?: string };
+  resetPassword: (input: {
+    email: string;
+    code: string;
+    password: string;
+    confirm: string;
+  }) => { ok: boolean; error?: string };
   /* Erase the remembered residence and contact details kept in this browser. */
   clearSavedDetails: () => void;
   rememberedEmail: string | null;
@@ -493,6 +502,43 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     [accounts, residents, rememberSession],
   );
 
+  /* Demonstration password reset. No email leaves the browser: a short-lived
+     code is issued on screen and redeemed on the reset page. */
+  const resetCodes = useRef<Record<string, { code: string; expiresAt: number }>>({});
+
+  const requestPasswordReset = useCallback<PortalValue["requestPasswordReset"]>(
+    (email) => {
+      const address = email.trim().toLowerCase();
+      if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
+      if (!accounts.some((a) => a.email === address)) {
+        return { ok: false, error: "No account exists for that address on this browser." };
+      }
+      const code = String(Math.floor(100000 + Math.random() * 900000));
+      resetCodes.current[address] = { code, expiresAt: Date.now() + 15 * 60 * 1000 };
+      return { ok: true, code };
+    },
+    [accounts],
+  );
+
+  const resetPassword = useCallback<PortalValue["resetPassword"]>(
+    ({ email, code, password, confirm }) => {
+      const address = email.trim().toLowerCase();
+      const issued = resetCodes.current[address];
+      if (!issued || issued.expiresAt < Date.now()) {
+        return { ok: false, error: "That reset code has lapsed. Please request a new one." };
+      }
+      if (issued.code !== code.trim()) return { ok: false, error: "That reset code is not correct." };
+      if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
+      if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
+      setAccounts((prev) => prev.map((a) => (a.email === address ? { ...a, password } : a)));
+      delete resetCodes.current[address];
+      return { ok: true };
+    },
+    [],
+  );
+
+
+
   /* Raise an alert for one residence; the desk is the only source of these. */
   const raiseNotification = useCallback((n: Omit<PortalNotification, "id" | "at" | "read">) => {
     setNotifications((prev) => [{ ...n, id: nextId(), at: "Just now", read: false }, ...prev].slice(0, 60));
@@ -508,6 +554,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       currentUser,
       signIn,
       signUp,
+      requestPasswordReset,
+      resetPassword,
       rememberedEmail,
       rememberedUnit,
       /* Sign out only ends the session: the account, profile and remembered
@@ -750,6 +798,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       myNotifications,
       raiseNotification,
       activity,
+      requestPasswordReset,
+      resetPassword,
     ],
   );
 

@@ -30,6 +30,7 @@ import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProposalsRouteImport } from './routes/proposals'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SalesAndLeasingRouteImport } from './routes/sales-and-leasing'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -140,6 +141,11 @@ const ProposalsRoute = ProposalsRouteImport.update({
   path: '/proposals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SalesAndLeasingRoute = SalesAndLeasingRouteImport.update({
   id: '/sales-and-leasing',
   path: '/sales-and-leasing',
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
@@ -210,6 +217,7 @@ export interface FileRoutesByTo {
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
@@ -238,6 +246,7 @@ export interface FileRoutesById {
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
@@ -267,6 +276,7 @@ export interface FileRouteTypes {
     | '/press'
     | '/privacy'
     | '/proposals'
+    | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
     | '/terms'
@@ -294,6 +304,7 @@ export interface FileRouteTypes {
     | '/press'
     | '/privacy'
     | '/proposals'
+    | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
     | '/terms'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/press'
     | '/privacy'
     | '/proposals'
+    | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
     | '/terms'
@@ -349,6 +361,7 @@ export interface RootRouteChildren {
   PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
   ProposalsRoute: typeof ProposalsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SalesAndLeasingRoute: typeof SalesAndLeasingRoute
   ServicesRoute: typeof ServicesRoute
   TermsRoute: typeof TermsRoute
@@ -503,6 +516,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProposalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sales-and-leasing': {
       id: '/sales-and-leasing'
       path: '/sales-and-leasing'
@@ -567,6 +587,7 @@ const rootRouteChildren: RootRouteChildren = {
   PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
   ProposalsRoute: ProposalsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SalesAndLeasingRoute: SalesAndLeasingRoute,
   ServicesRoute: ServicesRoute,
   TermsRoute: TermsRoute,

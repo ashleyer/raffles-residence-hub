@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ShieldCheck } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
@@ -206,6 +206,11 @@ function SignInForm() {
           />
           <p id="passcode-hint" className="text-xs text-muted-foreground">
             Preview passcode for the demonstration residences: {DEMO_PASSCODE}
+          </p>
+          <p className="text-sm">
+            <Link to="/reset-password" className="underline underline-offset-4">
+              Forgot password?
+            </Link>
           </p>
         </div>
 
