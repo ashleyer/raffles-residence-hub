@@ -100,9 +100,8 @@ function ResetPasswordPage() {
       label: fieldLabels[field] as string,
       message: liveIssues[field],
     }))
-    .filter(
-      (entry): entry is { field: typeof entry.field; label: string; message: string } =>
-        Boolean(entry.message),
+    .filter((entry): entry is { field: typeof entry.field; label: string; message: string } =>
+      Boolean(entry.message),
     );
 
   const visibleIssues = (["code", "password", "confirm"] as const)
@@ -123,7 +122,6 @@ function ResetPasswordPage() {
     const timer = window.setTimeout(() => setAnnouncement(summaryText), 700);
     return () => window.clearTimeout(timer);
   }, [summaryText, step]);
-
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
@@ -196,12 +194,7 @@ function ResetPasswordPage() {
                 fifteen minutes.
               </p>
             ) : null}
-            <div
-              id="reset-validation-summary"
-              role="status"
-              aria-live="polite"
-              className="sr-only"
-            >
+            <div id="reset-validation-summary" role="status" aria-live="polite" className="sr-only">
               {announcement}
             </div>
             <div className="space-y-2">
@@ -285,7 +278,6 @@ function ResetPasswordPage() {
                 </p>
               ) : null}
             </div>
-
 
             <p
               id="reset-error"
