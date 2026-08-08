@@ -7,6 +7,23 @@ import staff3 from "@/assets/people/staff-3.jpg";
 
 /* ---------------------------------------------------------------- people */
 
+/** A named person living in the residence, listed under the household profile. */
+export type HouseholdMember = {
+  id: string;
+  name: string;
+  relation: string;
+  email?: string;
+  phone?: string;
+};
+
+/** A pet registered to the residence — useful for the concierge and for neighbours. */
+export type HouseholdPet = {
+  id: string;
+  name: string;
+  kind: string;
+  note?: string;
+};
+
 export type Resident = {
   id: string;
   name: string;
@@ -17,6 +34,8 @@ export type Resident = {
   interests: string[];
   visibleInDirectory: boolean;
   contactOptIn: boolean;
+  members?: HouseholdMember[];
+  pets?: HouseholdPet[];
 };
 
 export type Person = {
