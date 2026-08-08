@@ -56,7 +56,28 @@ export const signUpSchema = z
     message: "The two passwords do not match.",
   });
 
+export const newPasswordSchema = z
+  .object({
+    code: z
+      .string()
+      .trim()
+      .min(1, "Enter the reset code sent to you.")
+      .max(12, "That reset code is too long."),
+    password: z
+      .string()
+      .min(8, "Choose a password of at least eight characters.")
+      .max(128, "Choose a password under 128 characters.")
+      .refine((v) => /[A-Za-z]/.test(v), "Include at least one letter.")
+      .refine((v) => /\d|[^A-Za-z0-9]/.test(v), "Include at least one number or symbol."),
+    confirm: z.string().min(1, "Confirm your new password."),
+  })
+  .refine((v) => v.password === v.confirm, {
+    path: ["confirm"],
+    message: "The two passwords do not match.",
+  });
+
 export type FieldErrors = Record<string, string>;
+
 
 /** Validate a value against a schema and flatten issues into per-field messages. */
 export function validate<T extends z.ZodType>(schema: T, value: unknown): FieldErrors {
