@@ -123,13 +123,29 @@ function ResetPasswordPage() {
     return () => window.clearTimeout(timer);
   }, [summaryText, step]);
 
+  /** Moves keyboard focus to the first field, in visual order, that is failing validation. */
+  const focusFirstInvalid = (issues: FieldErrors) => {
+    const first = (["code", "password", "confirm"] as const).find((field) => issues[field]);
+    if (!first) return;
+    window.requestAnimationFrame(() => {
+      const el = document.getElementById(`reset-${first}`) as HTMLInputElement | null;
+      el?.focus();
+      el?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
+  };
+
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
     setTouched({ code: true, password: true, confirm: true });
-    const issues = validate(newPasswordSchema, { code, password, confirm });
+    const issues = { ...validate(newPasswordSchema, { code, password, confirm }) };
+    if (!issues["password"] && password && strength.score < MIN_STRENGTH_SCORE) {
+      issues["password"] =
+        `Password strength is “${strength.label}”. Reach at least “Fair” to continue.`;
+    }
     setFieldErrors(issues);
     if (Object.keys(issues).length > 0) {
       setError("Please correct the highlighted fields.");
+      focusFirstInvalid(issues);
       return;
     }
     const result = resetPassword({ email, code, password, confirm });
