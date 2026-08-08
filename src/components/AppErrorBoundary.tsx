@@ -8,20 +8,20 @@ type State = { error: Error | null };
  *  tree — including providers and undefined components — so residents see a
  *  courteous fallback instead of a blank page. */
 export class AppErrorBoundary extends React.Component<Props, State> {
-  state: State = { error: null };
+  override state: State = { error: null };
 
   static getDerivedStateFromError(error: Error): State {
     return { error };
   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
+  override componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error("[AppErrorBoundary]", error, info.componentStack);
     reportLovableError(error, { boundary: "react_app_error_boundary" });
   }
 
   private reset = () => this.setState({ error: null });
 
-  render() {
+  override render() {
     const { error } = this.state;
     if (!error) return this.props.children;
 
