@@ -60,6 +60,8 @@ type PortalValue = {
     remember?: boolean;
   }) => { ok: boolean; error?: string };
   signOut: () => void;
+  /* Erase the remembered residence and contact details kept in this browser. */
+  clearSavedDetails: () => void;
   rememberedEmail: string | null;
   rememberedUnit: string | null;
 
