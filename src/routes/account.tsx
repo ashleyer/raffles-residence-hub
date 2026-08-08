@@ -182,3 +182,60 @@ function AccountBody() {
     </div>
   );
 }
+
+/** Illustrative real-estate performance for the signed-in residence. */
+function MarketSnapshot({ unit }: { unit: string }) {
+  const snap = unitMarketSnapshot(unit);
+  const facts = BUILDING_MARKET_FACTS;
+
+  return (
+    <section aria-labelledby="market-heading" className="border border-border bg-card p-6 sm:p-8">
+      <p className="eyebrow">Ownership</p>
+      <h2 id="market-heading" className="mt-3 text-2xl">
+        Your residence at market
+      </h2>
+      <div className="gold-rule mt-4" />
+      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+        Illustrative valuation for {unit} based on recent activity in the building. Demonstration figures only — not an
+        appraisal.
+      </p>
+
+      <dl className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Estimated value" value={money(snap.estimate)} note={`${snap.sqft.toLocaleString("en-US")} sq ft`} />
+        <Stat label="Purchase price" value={money(snap.purchase)} note="Recorded at closing" />
+        <Stat
+          label="Unrealised gain"
+          value={`${snap.gain >= 0 ? "+" : ""}${money(snap.gain)}`}
+          note={`${snap.gainPct >= 0 ? "+" : ""}${snap.gainPct}% since purchase`}
+        />
+        <Stat
+          label="Lease potential"
+          value={`${money(snap.rentEstimate)} / mo`}
+          note={`${snap.grossYield}% gross yield`}
+        />
+      </dl>
+
+      <h3 className="mt-10 text-xl">The building</h3>
+      <dl className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Median price / sq ft" value={money(facts.medianPricePerSqft)} note={`${facts.yearOverYear}% year on year`} />
+        <Stat label="Days on market" value={`${facts.daysOnMarket}`} note={`${facts.askingToClose}% asking to close`} />
+        <Stat label="Active listings" value={`${facts.activeListings}`} note={`${facts.soldTrailingYear} sold in twelve months`} />
+        <Stat label="Leased occupancy" value={`${facts.leaseOccupancy}%`} note={`Median lease ${money(facts.medianLease)}`} />
+      </dl>
+
+      <Link to="/sales-and-leasing" className="btn-outline mt-8 inline-flex min-h-11 items-center">
+        View sales & leasing
+      </Link>
+    </section>
+  );
+}
+
+function Stat({ label, value, note }: { label: string; value: string; note: string }) {
+  return (
+    <div>
+      <dt className="text-[0.65rem] tracking-[0.18em] text-muted-foreground uppercase">{label}</dt>
+      <dd className="mt-2 font-display text-2xl">{value}</dd>
+      <dd className="mt-1 text-xs text-muted-foreground">{note}</dd>
+    </div>
+  );
+}
