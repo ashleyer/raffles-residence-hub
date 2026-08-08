@@ -161,6 +161,10 @@ function Index() {
           <ForYou variant="band" />
         </section>
 
+        <AccountAccess />
+
+
+
         <section
           aria-label="Contact the residences team"
           className="mx-auto grid w-full max-w-7xl gap-6 px-5 pb-20 sm:px-8 md:grid-cols-2"
