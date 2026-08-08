@@ -1,3 +1,4 @@
+import { DemoTag } from "@/components/DemoTag";
 import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -63,7 +64,8 @@ function GalleryPage() {
 
         <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <li key={post.id} className="flex flex-col border border-border bg-card">
+            <li key={post.id} className="relative flex flex-col border border-border bg-card">
+              <DemoTag label="Demo photo" title="Illustrative photo — not a real resident post" />
               <img
                 src={post.image}
                 alt={post.alt}

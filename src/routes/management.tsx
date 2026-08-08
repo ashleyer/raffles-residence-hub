@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Info, Lock } from "lucide-react";
+import { DemoTag } from "@/components/DemoTag";
 import { PageShell, TabBar, TabPanel } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { RequireSession } from "@/components/RequireSession";
@@ -208,7 +209,8 @@ function PeopleGrid({
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{description}</p>
       <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {people.map((p) => (
-          <li key={p.id} className="border border-border bg-card">
+          <li key={p.id} className="relative border border-border bg-card">
+            <DemoTag label="Not a real person" />
             <div
               role="img"
               aria-label={`Placeholder portrait for ${p.name}, ${p.role}. No photograph is shown in this demo.`}
