@@ -6,6 +6,9 @@
  *   node scripts/visual-header.mjs --update        # re-record the baseline
  *   node scripts/visual-header.mjs http://host     # target another base URL
  *
+ * Set VISUAL_CHROMIUM_PATH to reuse an already-installed Chromium binary
+ * instead of Playwright's own download.
+ *
  * For every breakpoint it renders a signed-out page, then checks the header's
  * measured geometry:
  *   - the "Resident sign in" / "Resident sign up" buttons never overlap the
@@ -95,7 +98,8 @@ async function main() {
 
   const recorded = {};
   const failures = [];
-  const browser = await chromium.launch();
+  const executablePath = process.env.VISUAL_CHROMIUM_PATH;
+  const browser = await chromium.launch(executablePath ? { executablePath } : {});
 
   for (const bp of BREAKPOINTS) {
     const context = await browser.newContext({
