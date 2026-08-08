@@ -40,11 +40,16 @@ type Vote = "up" | "down";
 type PortalValue = {
   /* session */
   currentUser: Resident | null;
-  signIn: (email: string, passcode: string, remember?: boolean) => { ok: boolean; error?: string };
+  signIn: (
+    email: string,
+    passcode: string,
+    remember?: boolean,
+    unit?: string,
+  ) => { ok: boolean; error?: string };
   signUp: (input: {
     name: string;
     email: string;
-    unit?: string;
+    unit: string;
     password: string;
     confirm: string;
     remember?: boolean;
