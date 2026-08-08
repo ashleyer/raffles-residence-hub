@@ -50,6 +50,7 @@ type PortalValue = {
     name: string;
     email: string;
     unit: string;
+    phone: string;
     password: string;
     confirm: string;
     remember?: boolean;
@@ -300,12 +301,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   );
 
   const signUp = useCallback<PortalValue["signUp"]>(
-    ({ name, email, unit, password, confirm, remember = true }) => {
+    ({ name, email, unit, phone, password, confirm, remember = true }) => {
       const address = email.trim().toLowerCase();
       const residence = formatUnit(unit ?? "");
       if (!name.trim()) return { ok: false, error: "Enter the name for your household." };
       if (!address.includes("@")) return { ok: false, error: "Enter a valid email address." };
       if (!residence) return { ok: false, error: "Enter your residence number." };
+      if (!phone || phone.replace(/\D/g, "").length < 7)
+        return { ok: false, error: "Enter a contact number for your household profile." };
       if (password.length < 8) return { ok: false, error: "Choose a password of at least eight characters." };
       if (password !== confirm) return { ok: false, error: "The two passwords do not match." };
       if (accounts.some((a) => a.email === address)) {
@@ -319,7 +322,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
           name: name.trim(),
           unit: residence,
           email: address,
-          phone: "",
+          phone: phone.trim(),
           bio: "",
           interests: [],
           visibleInDirectory: false,
@@ -331,7 +334,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (existing) {
         setResidents((prev) =>
           prev.map((r) =>
-            r.id === existing.id ? { ...r, name: name.trim(), unit: residence } : r,
+            r.id === existing.id ? { ...r, name: name.trim(), unit: residence, phone: phone.trim() } : r,
           ),
         );
       } else {

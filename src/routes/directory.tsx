@@ -33,7 +33,7 @@ function DirectoryPage() {
     <PageShell
       eyebrow="Community"
       title="Residents' directory"
-      intro="Listing is entirely optional. Nothing about your household appears here unless you switch it on, and contact details are shown only to neighbours you have opted in to hear from."
+      intro="Every household creates a profile with contact details when registering. Listing and contactability remain entirely optional — nothing about your household appears here unless you switch it on, and contact details are shown only to neighbours you have opted in to hear from."
     >
       <RequireSession area="the residents' directory">
         <DirectoryBody />

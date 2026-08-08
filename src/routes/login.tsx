@@ -223,7 +223,7 @@ function SignInForm() {
 function SignUpForm() {
   const { signUp } = usePortal();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", unit: "", password: "", confirm: "" });
+  const [form, setForm] = useState({ name: "", email: "", unit: "", phone: "", password: "", confirm: "" });
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -246,7 +246,7 @@ function SignUpForm() {
     <form onSubmit={submit} className="max-w-xl border border-border bg-card p-8" noValidate>
       <h2 className="text-2xl">Create an account</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        Register your household to keep your directory profile, reservations and preferences on this device.
+        Registering creates your household profile with contact details, and keeps your directory profile, reservations and preferences on this device.
       </p>
       <div className="mt-6 space-y-5">
         <div className="space-y-2">
@@ -270,6 +270,24 @@ function SignUpForm() {
           <Input id="su-unit" required value={form.unit} onChange={set("unit")} placeholder="Residence 22H" className="min-h-11" />
           <p className="text-xs text-muted-foreground">
             Residences are verified by the Residences Office before the directory listing is confirmed.
+          </p>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="su-phone">Contact number</Label>
+          <Input
+            id="su-phone"
+            type="tel"
+            autoComplete="tel"
+            required
+            value={form.phone}
+            onChange={set("phone")}
+            placeholder="617-555-0123"
+            aria-describedby="su-phone-hint"
+            className="min-h-11"
+          />
+          <p id="su-phone-hint" className="text-xs text-muted-foreground">
+            Every household keeps a profile with contact details on file. Listing in the directory and letting
+            neighbours contact you both stay optional — you choose in your profile settings.
           </p>
         </div>
         <div className="space-y-2">
