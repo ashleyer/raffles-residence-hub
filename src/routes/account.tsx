@@ -49,6 +49,8 @@ function AccountBody() {
 
   return (
     <div className="mt-12 space-y-10">
+      <MarketSnapshot unit={currentUser?.unit ?? "Residence 22H"} />
+
       <section aria-labelledby="balance-heading" className="border border-border bg-card p-8">
         <h2 id="balance-heading" className="text-2xl">
           Current balance
