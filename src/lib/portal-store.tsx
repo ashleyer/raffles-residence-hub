@@ -798,6 +798,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       myNotifications,
       raiseNotification,
       activity,
+      requestPasswordReset,
+      resetPassword,
     ],
   );
 
