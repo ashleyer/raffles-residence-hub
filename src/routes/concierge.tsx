@@ -182,9 +182,23 @@ function ConciergePage() {
                     rows={4}
                     value={detail}
                     onChange={(e) => setDetail(e.target.value)}
-                    placeholder="Describe the request for the concierge"
+                    placeholder={
+                      service === "Other"
+                        ? "Tell the desk what you need — anything not listed above"
+                        : service === "Guest Arrival Greeting"
+                          ? "Guest name, arrival time, and how you would like them received"
+                          : service === "Dry Cleaning & Laundry"
+                            ? "Number of pieces, any special care, and preferred collection time"
+                            : "Describe the request for the concierge"
+                    }
                   />
+                  {service === "Other" && (
+                    <p className="text-xs text-muted-foreground">
+                      The desk will route this to the right team once received.
+                    </p>
+                  )}
                 </div>
+
 
                 <div className="space-y-2">
                   <Label htmlFor="cunit">Residence number</Label>
