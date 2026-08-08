@@ -87,7 +87,7 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
             : "sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-sm"
         }
       >
-        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-5 py-4 sm:px-8 md:py-6">
+        <div className="mx-auto grid max-w-7xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:gap-5 px-5 py-4 sm:px-8 md:py-6">
           <div className="flex min-w-0 items-center">
             <button
               type="button"
@@ -120,7 +120,7 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
             />
           </Link>
 
-          <div className="flex min-w-0 shrink-0 items-center justify-end gap-2 sm:gap-4">
+          <div className="flex min-w-0 items-center justify-end gap-2 sm:gap-3">
             {currentUser ? (
               <>
                 <Link
@@ -150,16 +150,16 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
                   search={{ mode: "signin" }}
                   className="btn-outline shrink-0 justify-center text-center whitespace-nowrap"
                 >
-                  <span className="sm:hidden">Sign in</span>
-                  <span className="hidden sm:inline">Resident sign in</span>
+                  <span className="lg:hidden">Sign in</span>
+                  <span className="hidden lg:inline">Resident sign in</span>
                 </Link>
                 <Link
                   to="/login"
                   search={{ mode: "signup" }}
                   className="btn-outline shrink-0 justify-center text-center whitespace-nowrap"
                 >
-                  <span className="sm:hidden">Sign up</span>
-                  <span className="hidden sm:inline">Resident sign up</span>
+                  <span className="lg:hidden">Sign up</span>
+                  <span className="hidden lg:inline">Resident sign up</span>
                 </Link>
               </div>
             )}
