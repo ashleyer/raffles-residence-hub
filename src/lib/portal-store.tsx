@@ -190,6 +190,8 @@ const SESSION_KEY = "raffles.session.v1";
 const NOTIFICATIONS_KEY = "raffles.notifications.v1";
 /* Last signed-in identity: kept after sign out so residents never re-register. */
 const LAST_USER_KEY = "raffles.lastUser.v1";
+/* Resident-controlled privacy switch for "Remember me" persistence. */
+const REMEMBER_PREF_KEY = "raffles.rememberPref.v1";
 const REQUESTS_KEY = "raffles.conciergeRequests.v1";
 
 /* Expiring persistence. A live session lapses after 12 hours of inactivity and
