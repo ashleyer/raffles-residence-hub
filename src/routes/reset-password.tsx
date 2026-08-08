@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { KeyRound } from "lucide-react";
+import { Eye, EyeOff, KeyRound } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
 import { Button } from "@/components/ui/button";
@@ -40,6 +40,7 @@ function ResetPasswordPage() {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -159,10 +160,25 @@ function ResetPasswordPage() {
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="reset-password">New password</Label>
+              <div className="flex items-center justify-between gap-3">
+                <Label htmlFor="reset-password">New password</Label>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((s) => !s)}
+                  aria-pressed={showPassword}
+                  className="inline-flex items-center gap-1.5 rounded-sm text-sm text-muted-foreground underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                >
+                  {showPassword ? (
+                    <EyeOff className="size-4" aria-hidden="true" />
+                  ) : (
+                    <Eye className="size-4" aria-hidden="true" />
+                  )}
+                  {showPassword ? "Hide passwords" : "Show passwords"}
+                </button>
+              </div>
               <Input
                 id="reset-password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 required
                 value={password}
@@ -182,7 +198,7 @@ function ResetPasswordPage() {
               <Label htmlFor="reset-confirm">Confirm new password</Label>
               <Input
                 id="reset-confirm"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 required
                 value={confirm}
@@ -197,6 +213,7 @@ function ResetPasswordPage() {
                 </p>
               ) : null}
             </div>
+
 
             <p
               id="reset-error"
