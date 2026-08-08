@@ -42,7 +42,7 @@ export function SiteFooter() {
           </a>
           <a
             href="mailto:ResidencesConcierge.Boston@raffles.com"
-            aria-label="Email the Concierge at Residences Concierge dot Boston at raffles dot com"
+            aria-label="Email the Concierge at ResidencesConcierge.Boston@raffles.com"
             className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
           >
             ResidencesConcierge.Boston@raffles.com
@@ -53,81 +53,99 @@ export function SiteFooter() {
 
 
         <nav
-          aria-label="Official Raffles websites"
-          className="mx-auto mt-10 flex max-w-xl flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-8"
+          aria-label="Raffles websites and resident pages"
+          className="mx-auto mt-10 max-w-xl"
         >
-          <a
-            href="https://rafflesresidencesboston.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            Raffles Residences Boston Public Site
-            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-          <a
-            href="https://www.raffles.com/boston/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            Raffles Boston Hotel
-            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-          <a
-            href="https://all.accor.com/loyalty-program/index.en.shtml"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            ALL — Accor loyalty
-            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-
-          <Link
-            to="/press"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            In the press
-          </Link>
-          <Link
-            to="/about-raffles"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            About Raffles
-          </Link>
-          <Link
-            to="/sales-and-leasing"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            Sales & leasing
-          </Link>
-          <Link
-            to="/gallery"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            Residence gallery
-          </Link>
-          <Link
-            to="/gratitude"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            Thank you notes
-          </Link>
-          <a
-            href="https://www.instagram.com/rafflesresidencesboston/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
-          >
-            Instagram
-            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-
+          <ul className="flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-8">
+            <li>
+              <a
+                href="https://rafflesresidencesboston.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                Raffles Residences Boston Public Site
+                <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://www.raffles.com/boston/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                Raffles Boston Hotel
+                <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://all.accor.com/loyalty-program/index.en.shtml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                ALL — Accor loyalty
+                <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+            <li>
+              <Link
+                to="/press"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                In the press
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/about-raffles"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                About Raffles
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/sales-and-leasing"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                Sales & leasing
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/gallery"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                Residence gallery
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/gratitude"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                Thank you notes
+              </Link>
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/rafflesresidencesboston/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+              >
+                Instagram
+                <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
         </nav>
 
 
@@ -135,43 +153,51 @@ export function SiteFooter() {
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>
 
-        <nav
-          aria-label="Legal"
-          className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 border-t border-border pt-5 text-[0.6875rem] tracking-[0.16em] uppercase"
-        >
-          <a
-            href="/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Privacy Policy
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
-          <span aria-hidden="true" className="text-muted-foreground">
-            ·
-          </span>
-          <a
-            href="/terms"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Terms
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
+        <nav aria-label="Legal" className="mx-auto mt-6 border-t border-border pt-5">
+          <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-[0.6875rem] tracking-[0.16em] uppercase">
+            <li>
+              <a
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:underline"
+              >
+                Privacy Policy
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+            <li aria-hidden="true" className="text-muted-foreground">
+              ·
+            </li>
+            <li>
+              <a
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:underline"
+              >
+                Terms
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </li>
+          </ul>
         </nav>
+
 
 
 
         <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
           className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
-          built with 🤍 in Raffles Residences Boston, Unit 22H by{" "}
+          built with <span role="img" aria-label="white heart">🤍</span> in Raffles Residences Boston, Unit 22H by{" "}
           <button
             type="button"
             onClick={() => setDevOpen(true)}
-            className="underline underline-offset-4 hover:no-underline"
+            aria-haspopup="dialog"
+            aria-expanded={devOpen}
+            aria-label="Ashley Romano — contact the developer"
+            className="inline-flex min-h-11 items-center underline underline-offset-4 hover:no-underline"
           >
+
             Ashley Romano
           </button>
         </p>

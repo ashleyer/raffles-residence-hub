@@ -230,9 +230,11 @@
   }
 
   &:hover::after,
+  &:focus-visible::after,
   &.is-active::after {
     transform: scaleX(1);
   }
+
 }
 
 @utility btn-outline {
