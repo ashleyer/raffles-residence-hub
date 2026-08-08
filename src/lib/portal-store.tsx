@@ -345,9 +345,11 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   const rememberSession = useCallback((resident: Resident, remember: boolean) => {
     setCurrentUserId(resident.id);
-    setRememberedEmail(remember ? resident.email : null);
-    setRememberedUnit(remember ? (resident.unit ?? null) : null);
-    if (remember) {
+    /* The profile privacy switch always wins over the sign-in checkbox. */
+    const allow = remember && readStore<boolean>(REMEMBER_PREF_KEY, true);
+    setRememberedEmail(allow ? resident.email : null);
+    setRememberedUnit(allow ? (resident.unit ?? null) : null);
+    if (allow) {
       /* Keep the residence and contact details on this device, but only until
          the remembered-identity window lapses. */
       writeExpiring(LAST_USER_KEY, { email: resident.email, unit: resident.unit }, REMEMBER_TTL_MS);
