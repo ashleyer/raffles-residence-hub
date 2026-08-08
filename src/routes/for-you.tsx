@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { PageShell } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
 import { ForYou } from "@/components/ForYou";
 
 export const Route = createFileRoute("/for-you")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   component: ForYouPage,
   head: () => ({
     meta: [

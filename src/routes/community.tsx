@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { SocialFeed } from "@/components/SocialFeed";
@@ -16,6 +17,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/community")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Member Forum & Interest Groups — Raffles Boston Residences" },

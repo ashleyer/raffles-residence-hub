@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
@@ -10,6 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/messages")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Resident Messaging — Raffles Boston Residences" },

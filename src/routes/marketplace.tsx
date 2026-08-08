@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { ForYou } from "@/components/ForYou";
@@ -13,6 +14,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/marketplace")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Residents' Marketplace — Raffles Boston Residences" },

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RememberMeConsent } from "@/components/RememberMeConsent";
+import { safeRedirectPath } from "@/lib/session-guard";
 import { signInSchema, signUpSchema, validate, type FieldErrors } from "@/lib/auth-validation";
 
 /** Inline, screen-reader announced message for a single field. */
@@ -37,18 +38,24 @@ export const Route = createFileRoute("/login")({
       },
     ],
   }),
-  validateSearch: (search: Record<string, unknown>): { mode?: "signin" | "signup" } =>
-    search["mode"] === "signup"
-      ? { mode: "signup" }
-      : search["mode"] === "signin"
-        ? { mode: "signin" }
-        : {},
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { mode?: "signin" | "signup"; redirect?: string } => {
+    const mode =
+      search["mode"] === "signup"
+        ? ("signup" as const)
+        : search["mode"] === "signin"
+          ? ("signin" as const)
+          : undefined;
+    const redirect = safeRedirectPath(search["redirect"]);
+    return { ...(mode ? { mode } : {}), ...(redirect ? { redirect } : {}) };
+  },
   component: LoginPage,
 });
 
 function LoginPage() {
   const { currentUser } = usePortal();
-  const { mode: initialMode } = Route.useSearch();
+  const { mode: initialMode, redirect } = Route.useSearch();
   const [mode, setMode] = useState<"signin" | "signup">(initialMode ?? "signin");
 
   return (
@@ -118,7 +125,13 @@ function LoginPage() {
                 </button>
               ))}
             </div>
-            <div className="mt-4">{mode === "signin" ? <SignInForm /> : <SignUpForm />}</div>
+            <div className="mt-4">
+              {mode === "signin" ? (
+                <SignInForm redirectTo={redirect} />
+              ) : (
+                <SignUpForm redirectTo={redirect} />
+              )}
+            </div>
           </div>
 
           <aside className="border border-border bg-secondary/40 p-8">
@@ -181,7 +194,7 @@ function SignedIn() {
   );
 }
 
-function SignInForm() {
+function SignInForm({ redirectTo = "/directory" }: { redirectTo?: string }) {
   const { signIn, rememberedEmail, rememberedUnit } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -242,7 +255,7 @@ function SignInForm() {
         return;
       }
       toast.success("Welcome to the residences.");
-      navigate({ to: "/directory" });
+      navigate({ to: redirectTo, replace: true });
     } finally {
       setSubmitting(false);
     }
@@ -367,7 +380,7 @@ function SignInForm() {
   );
 }
 
-function SignUpForm() {
+function SignUpForm({ redirectTo = "/directory" }: { redirectTo?: string }) {
   const { signUp } = usePortal();
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -427,7 +440,7 @@ function SignUpForm() {
         return;
       }
       toast.success("Your account has been created.");
-      navigate({ to: "/directory" });
+      navigate({ to: redirectTo, replace: true });
     } finally {
       setSubmitting(false);
     }

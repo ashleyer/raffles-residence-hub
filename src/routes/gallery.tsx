@@ -1,6 +1,7 @@
 import { DemoTag } from "@/components/DemoTag";
 import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { toast } from "sonner";
 import { PageShell } from "@/components/PageShell";
 import { RequireSession } from "@/components/RequireSession";
@@ -13,6 +14,8 @@ import { GALLERY_PLACES, SEED_GALLERY_POSTS, type GalleryPost } from "@/lib/gall
 import { usePortal } from "@/lib/portal-store";
 
 export const Route = createFileRoute("/gallery")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Residence Gallery — Raffles Boston Residences" },

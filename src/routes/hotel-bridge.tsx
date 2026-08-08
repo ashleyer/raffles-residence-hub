@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, Cable, CircleDot, Loader2, ReceiptText, Timer } from "lucide-react";
 import { toast } from "sonner";
@@ -24,6 +25,8 @@ import {
 } from "@/lib/pms-types";
 
 export const Route = createFileRoute("/hotel-bridge")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Hotel Bridge — Raffles Boston Residences" },

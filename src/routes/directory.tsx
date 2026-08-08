@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { requireResidentSession } from "@/lib/session-guard";
 import { toast } from "sonner";
 import { Info, PawPrint, Plus, Trash2, Users } from "lucide-react";
 import { PageShell, SectionCard } from "@/components/PageShell";
@@ -14,6 +15,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
 export const Route = createFileRoute("/directory")({
+  ssr: false,
+  beforeLoad: requireResidentSession,
   head: () => ({
     meta: [
       { title: "Residents' Directory — Raffles Boston Residences" },
