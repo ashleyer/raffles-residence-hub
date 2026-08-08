@@ -815,6 +815,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       signUp,
       rememberedEmail,
       rememberedUnit,
+      rememberEnabled,
       residents,
       threads,
       statements,
