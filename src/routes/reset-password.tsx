@@ -217,21 +217,23 @@ function ResetPasswordPage() {
         </div>
 
         {step === "request" ? (
-          <form onSubmit={request} className="mt-6 space-y-5" noValidate>
-            <div className="space-y-2">
-              <Label htmlFor="reset-email">Email address</Label>
-              <Input
-                id="reset-email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                aria-describedby={error ? "reset-error" : undefined}
-                aria-invalid={error ? true : undefined}
-                className="min-h-11"
-              />
-            </div>
+          <form onSubmit={request} className="mt-6 space-y-5" noValidate aria-busy={busy}>
+            <fieldset disabled={busy} className="space-y-5 disabled:opacity-70">
+              <div className="space-y-2">
+                <Label htmlFor="reset-email">Email address</Label>
+                <Input
+                  id="reset-email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  aria-describedby={error ? "reset-error" : undefined}
+                  aria-invalid={error ? true : undefined}
+                  className="min-h-11"
+                />
+              </div>
+            </fieldset>
             <p
               id="reset-error"
               role="alert"
@@ -240,12 +242,27 @@ function ResetPasswordPage() {
             >
               {error}
             </p>
-            <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
-              Send reset code
+            <Button
+              type="submit"
+              disabled={busy}
+              className="min-h-11 w-full tracking-[0.18em] uppercase"
+            >
+              {pending === "request" ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                  Sending reset code…
+                </>
+              ) : (
+                "Send reset code"
+              )}
             </Button>
+            <p role="status" aria-live="polite" className="sr-only">
+              {pending === "request" ? "Sending your reset code, please wait." : ""}
+            </p>
           </form>
         ) : (
-          <form onSubmit={complete} className="mt-6 space-y-5" noValidate>
+          <form onSubmit={complete} className="mt-6 space-y-5" noValidate aria-busy={busy}>
+
             {issuedCode ? (
               <p className="border border-border bg-secondary/40 p-4 text-sm text-muted-foreground">
                 Demonstration only — your reset code is{" "}
