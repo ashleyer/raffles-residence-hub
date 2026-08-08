@@ -1,4 +1,5 @@
 import { Phone } from "lucide-react";
+import { DemoTag } from "@/components/DemoTag";
 
 /** Dummy in-house extensions for the demo. Numbers are not real. */
 const EXTENSIONS = [
@@ -90,7 +91,11 @@ export function HouseDirectory() {
 
         <ul className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {EXTENSIONS.map((e) => (
-            <li key={e.ext} className="flex items-start justify-between gap-4 bg-card p-5">
+            <li
+              key={e.ext}
+              className="relative flex items-start justify-between gap-4 bg-card p-5 pt-8"
+            >
+              <DemoTag label="Demo extension" title="Simulated extension — does not connect" />
               <div className="min-w-0">
                 <h3 className="text-base leading-snug">{e.name}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{e.detail}</p>

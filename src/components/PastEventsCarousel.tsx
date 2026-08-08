@@ -1,3 +1,4 @@
+import { DemoTag } from "@/components/DemoTag";
 import {
   Carousel,
   CarouselContent,
@@ -29,7 +30,8 @@ export function PastEventsCarousel() {
         <CarouselContent className="-ml-4">
           {PAST_EVENT_PHOTOS.map((photo) => (
             <CarouselItem key={photo.id} className="pl-4 sm:basis-1/2 lg:basis-1/3">
-              <figure className="h-full border border-border bg-card">
+              <figure className="relative h-full border border-border bg-card">
+                <DemoTag label="Demo photo" title="Illustrative photo — not a real event" />
                 <img
                   src={photo.image}
                   alt={photo.alt}
