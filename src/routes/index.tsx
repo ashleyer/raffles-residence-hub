@@ -10,6 +10,8 @@ import boardRoom from "@/assets/board-room.jpg";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
+import { NotifySecurity } from "@/components/NotifySecurity";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -190,13 +192,11 @@ function Index() {
             <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
               Report a safety concern, suspicious activity or an incident in the building.
             </p>
-            <a
-              href="mailto:security@raffles-boston.demo?subject=Security%20issue%20report&body=Residence%3A%0ALocation%3A%0ATime%20observed%3A%0AWhat%20happened%3A%0A"
-              className="btn-outline mt-6 w-full self-center sm:w-auto"
-              aria-label="Notify security by email at security at raffles-boston dot demo"
-            >
-              security@raffles-boston.demo
-            </a>
+            <NotifySecurity
+              label="security@raffles-boston.demo"
+              ariaLabel="Notify security by email at security at raffles-boston dot demo"
+            />
+
             <p className="mt-3 text-xs text-muted-foreground">
               Demo address — messages are not delivered. For emergencies, dial 911.
             </p>
