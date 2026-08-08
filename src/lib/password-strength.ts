@@ -2,12 +2,22 @@
 
 export type StrengthLevel = 0 | 1 | 2 | 3 | 4;
 
+/** A single scoring rule, shown inline so the score is never a mystery. */
+export interface StrengthCriterion {
+  id: string;
+  label: string;
+  met: boolean;
+}
+
 export interface PasswordStrength {
   score: StrengthLevel;
   label: string;
   /** Short, actionable suggestions for making the password stronger. */
   suggestions: string[];
+  /** Per-rule breakdown explaining how the score was reached. */
+  criteria: StrengthCriterion[];
 }
+
 
 const COMMON = [
   "password",
