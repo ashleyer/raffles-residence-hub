@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BellRing, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
