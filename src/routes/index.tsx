@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import { ForYou } from "@/components/ForYou";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroTower from "@/assets/hero-tower.jpg";
@@ -200,7 +201,30 @@ function Index() {
               Demo address — messages are not delivered. For emergencies, dial 911.
             </p>
           </div>
+
+          <div className="flex flex-col border border-border bg-card px-5 py-8 text-center sm:px-10 md:col-span-2">
+            <p className="eyebrow">Resident benefit</p>
+            <h2 id="accor-loyalty" className="mt-3 text-balance text-xl sm:text-2xl">
+              ALL — Accor Live Limitless
+            </h2>
+            <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
+              Live a rewarding life while exploring the world. Residents may enrol in Accor&rsquo;s
+              loyalty programme for points, member rates and recognition across Raffles and the wider
+              Accor collection.
+            </p>
+            <a
+              href="https://all.accor.com/loyalty-program/index.en.shtml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline mt-6 w-full self-center sm:w-auto"
+            >
+              Explore the loyalty programme
+              <ExternalLink className="ml-2 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          </div>
         </section>
+
 
 
 
