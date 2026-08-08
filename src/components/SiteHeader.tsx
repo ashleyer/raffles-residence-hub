@@ -145,7 +145,6 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
               <Link to="/login" className="btn-outline whitespace-nowrap">
                 Sign in or up as a resident
               </Link>
-
             )}
           </div>
         </div>
