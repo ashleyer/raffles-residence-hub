@@ -28,6 +28,7 @@ import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as PressRouteImport } from './routes/press'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as SalesAndLeasingRouteImport } from './routes/sales-and-leasing'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -128,6 +129,11 @@ const PressRoute = PressRouteImport.update({
   path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProposalsRoute = ProposalsRouteImport.update({
   id: '/proposals',
   path: '/proposals',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/marketplace': typeof MarketplaceRoute
   '/messages': typeof MessagesRoute
   '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/messages'
     | '/press'
+    | '/privacy'
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
@@ -272,6 +282,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/messages'
     | '/press'
+    | '/privacy'
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/messages'
     | '/press'
+    | '/privacy'
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
@@ -323,6 +335,7 @@ export interface RootRouteChildren {
   MarketplaceRoute: typeof MarketplaceRoute
   MessagesRoute: typeof MessagesRoute
   PressRoute: typeof PressRoute
+  PrivacyRoute: typeof PrivacyRoute
   ProposalsRoute: typeof ProposalsRoute
   SalesAndLeasingRoute: typeof SalesAndLeasingRoute
   ServicesRoute: typeof ServicesRoute
@@ -463,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/proposals': {
       id: '/proposals'
       path: '/proposals'
@@ -525,6 +545,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketplaceRoute: MarketplaceRoute,
   MessagesRoute: MessagesRoute,
   PressRoute: PressRoute,
+  PrivacyRoute: PrivacyRoute,
   ProposalsRoute: ProposalsRoute,
   SalesAndLeasingRoute: SalesAndLeasingRoute,
   ServicesRoute: ServicesRoute,
@@ -532,3 +553,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
