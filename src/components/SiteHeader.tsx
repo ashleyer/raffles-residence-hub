@@ -23,7 +23,9 @@ const NAV_GROUPS = [
     heading: "In Residence",
     items: [
       { label: "Services", to: "/services" },
+      { label: "Hotel bridge", to: "/hotel-bridge" },
       { label: "House account", to: "/account" },
+
       { label: "Directory", to: "/directory" },
       { label: "Messages", to: "/messages" },
       { label: "Sales & leasing", to: "/sales-and-leasing" },

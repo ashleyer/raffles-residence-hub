@@ -23,6 +23,7 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as GovernanceRouteImport } from './routes/governance'
 import { Route as GratitudeRouteImport } from './routes/gratitude'
 import { Route as HealthRouteImport } from './routes/health'
+import { Route as HotelBridgeRouteImport } from './routes/hotel-bridge'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ManagementRouteImport } from './routes/management'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -107,6 +108,11 @@ const GratitudeRoute = GratitudeRouteImport.update({
 const HealthRoute = HealthRouteImport.update({
   id: '/health',
   path: '/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HotelBridgeRoute = HotelBridgeRouteImport.update({
+  id: '/hotel-bridge',
+  path: '/hotel-bridge',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -200,6 +206,7 @@ export interface FileRoutesByFullPath {
   '/governance': typeof GovernanceRoute
   '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
+  '/hotel-bridge': typeof HotelBridgeRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
@@ -231,6 +238,7 @@ export interface FileRoutesByTo {
   '/governance': typeof GovernanceRoute
   '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
+  '/hotel-bridge': typeof HotelBridgeRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
@@ -263,6 +271,7 @@ export interface FileRoutesById {
   '/governance': typeof GovernanceRoute
   '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
+  '/hotel-bridge': typeof HotelBridgeRoute
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
   '/marketplace': typeof MarketplaceRoute
@@ -296,6 +305,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/gratitude'
     | '/health'
+    | '/hotel-bridge'
     | '/login'
     | '/management'
     | '/marketplace'
@@ -327,6 +337,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/gratitude'
     | '/health'
+    | '/hotel-bridge'
     | '/login'
     | '/management'
     | '/marketplace'
@@ -358,6 +369,7 @@ export interface FileRouteTypes {
     | '/governance'
     | '/gratitude'
     | '/health'
+    | '/hotel-bridge'
     | '/login'
     | '/management'
     | '/marketplace'
@@ -390,6 +402,7 @@ export interface RootRouteChildren {
   GovernanceRoute: typeof GovernanceRoute
   GratitudeRoute: typeof GratitudeRoute
   HealthRoute: typeof HealthRouteWithChildren
+  HotelBridgeRoute: typeof HotelBridgeRoute
   LoginRoute: typeof LoginRoute
   ManagementRoute: typeof ManagementRoute
   MarketplaceRoute: typeof MarketplaceRoute
@@ -504,6 +517,13 @@ declare module '@tanstack/react-router' {
       path: '/health'
       fullPath: '/health'
       preLoaderRoute: typeof HealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hotel-bridge': {
+      id: '/hotel-bridge'
+      path: '/hotel-bridge'
+      fullPath: '/hotel-bridge'
+      preLoaderRoute: typeof HotelBridgeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -640,6 +660,7 @@ const rootRouteChildren: RootRouteChildren = {
   GovernanceRoute: GovernanceRoute,
   GratitudeRoute: GratitudeRoute,
   HealthRoute: HealthRouteWithChildren,
+  HotelBridgeRoute: HotelBridgeRoute,
   LoginRoute: LoginRoute,
   ManagementRoute: ManagementRoute,
   MarketplaceRoute: MarketplaceRoute,
