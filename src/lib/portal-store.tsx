@@ -264,12 +264,18 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   const rememberSession = useCallback((resident: Resident, remember: boolean) => {
     setCurrentUserId(resident.id);
-    setRememberedEmail(resident.email);
-    setRememberedUnit(resident.unit ?? null);
-    writeStore(LAST_USER_KEY, { email: resident.email, unit: resident.unit });
-    if (remember) writeStore(SESSION_KEY, { residentId: resident.id, email: resident.email });
-    else clearStore(SESSION_KEY);
+    setRememberedEmail(remember ? resident.email : null);
+    setRememberedUnit(remember ? (resident.unit ?? null) : null);
+    if (remember) {
+      /* Keep the residence and contact details on this device after sign out. */
+      writeStore(LAST_USER_KEY, { email: resident.email, unit: resident.unit });
+      writeStore(SESSION_KEY, { residentId: resident.id, email: resident.email });
+    } else {
+      clearStore(LAST_USER_KEY);
+      clearStore(SESSION_KEY);
+    }
   }, []);
+
 
   const signIn = useCallback(
     (email: string, passcode: string, remember = true, unit?: string) => {
