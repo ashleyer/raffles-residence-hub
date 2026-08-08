@@ -48,6 +48,8 @@ function ResetPasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [announcement, setAnnouncement] = useState("");
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -75,9 +77,23 @@ function ResetPasswordPage() {
   };
 
   const strength = scorePassword(password);
-  const canSubmit =
-    Object.keys(validate(newPasswordSchema, { code, password, confirm })).length === 0 &&
-    strength.score >= MIN_STRENGTH_SCORE;
+  const liveIssues: FieldErrors = { ...validate(newPasswordSchema, { code, password, confirm }) };
+  if (!liveIssues["password"] && password && strength.score < MIN_STRENGTH_SCORE) {
+    liveIssues["password"] =
+      `Password strength is “${strength.label}”. Reach at least “Fair” to continue.`;
+  }
+  const canSubmit = Object.keys(liveIssues).length === 0;
+
+  /** Errors surfaced next to a field: after a submit attempt, or once the field has been used. */
+  const errorFor = (field: "code" | "password" | "confirm") =>
+    fieldErrors[field] ?? (touched[field] ? liveIssues[field] : undefined);
+
+  const visibleIssues = (["code", "password", "confirm"] as const)
+    .map((field) => ({ field, message: errorFor(field) }))
+    .filter((entry): entry is { field: typeof entry.field; message: string } =>
+      Boolean(entry.message),
+    );
+
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
