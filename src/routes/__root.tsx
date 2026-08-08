@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { PortalProvider } from "@/lib/portal-store";
 import { DemoBanner, DemoModal } from "@/components/DemoNotice";
+import { SurveyPrompt } from "@/components/SurveyPrompt";
 
 
 
@@ -139,6 +140,7 @@ function RootComponent() {
         </a>
         <DemoBanner />
         <DemoModal />
+        <SurveyPrompt />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
         <Toaster position="top-center" />
