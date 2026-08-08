@@ -285,8 +285,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       });
     }
     setAccounts(readStore<Account[]>(ACCOUNTS_KEY, []));
-    const session = readStore<{ residentId: string; email: string } | null>(SESSION_KEY, null);
-    const last = readStore<{ email: string; unit?: string } | null>(LAST_USER_KEY, null);
+    const session = readExpiring<{ residentId: string; email: string }>(SESSION_KEY);
+    const last = readExpiring<{ email: string; unit?: string }>(LAST_USER_KEY);
     if (last) {
       setRememberedEmail(last.email);
       setRememberedUnit(last.unit ?? null);
@@ -294,6 +294,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     if (session) {
       setCurrentUserId(session.residentId);
       setRememberedEmail(session.email);
+      /* Returning within the window slides the deadline forward. */
+      writeExpiring(SESSION_KEY, session, SESSION_TTL_MS);
     }
     const savedRequests = readStore<ConciergeRequest[] | null>(REQUESTS_KEY, null);
     if (savedRequests && savedRequests.length > 0) setConciergeRequests(savedRequests);
