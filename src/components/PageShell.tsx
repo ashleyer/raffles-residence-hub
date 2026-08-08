@@ -10,7 +10,7 @@ export function PageShell({
 }: {
   eyebrow: string;
   title: string;
-  intro?: string;
+  intro?: ReactNode;
   children: ReactNode;
 }) {
   return (
