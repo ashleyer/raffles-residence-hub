@@ -10,7 +10,7 @@ import boardRoom from "@/assets/board-room.jpg";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Reveal } from "@/components/Reveal";
-import { NotifySecurity } from "@/components/NotifySecurity";
+
 import { HouseDirectory } from "@/components/HouseDirectory";
 
 
