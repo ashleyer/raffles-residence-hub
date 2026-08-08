@@ -29,6 +29,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { usePortal } from "@/lib/portal-store";
 import { ForYou } from "@/components/ForYou";
+import { SpatialBookingGrid } from "@/components/SpatialBookingGrid";
+
 
 export const Route = createFileRoute("/amenities")({
   head: () => ({
