@@ -57,6 +57,7 @@ type PortalValue = {
   }) => { ok: boolean; error?: string };
   signOut: () => void;
   rememberedEmail: string | null;
+  rememberedUnit: string | null;
 
   /* directory & profile */
   residents: Resident[];
@@ -140,6 +141,8 @@ const nextId = () => Date.now() + Math.floor(Math.random() * 1000);
 const ACCOUNTS_KEY = "raffles.accounts.v1";
 const RESIDENTS_KEY = "raffles.residents.v1";
 const SESSION_KEY = "raffles.session.v1";
+/* Last signed-in identity: kept after sign out so residents never re-register. */
+const LAST_USER_KEY = "raffles.lastUser.v1";
 
 type Account = { email: string; password: string; residentId: string };
 
@@ -176,6 +179,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [rememberedEmail, setRememberedEmail] = useState<string | null>(null);
+  const [rememberedUnit, setRememberedUnit] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const [threads, setThreads] = useState<Thread[]>(SEED_THREADS);
   const [statements, setStatements] = useState<Statement[]>(STATEMENTS);
@@ -215,6 +219,11 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     }
     setAccounts(readStore<Account[]>(ACCOUNTS_KEY, []));
     const session = readStore<{ residentId: string; email: string } | null>(SESSION_KEY, null);
+    const last = readStore<{ email: string; unit?: string } | null>(LAST_USER_KEY, null);
+    if (last) {
+      setRememberedEmail(last.email);
+      setRememberedUnit(last.unit ?? null);
+    }
     if (session) {
       setCurrentUserId(session.residentId);
       setRememberedEmail(session.email);
@@ -236,6 +245,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const rememberSession = useCallback((resident: Resident, remember: boolean) => {
     setCurrentUserId(resident.id);
     setRememberedEmail(resident.email);
+    setRememberedUnit(resident.unit ?? null);
+    writeStore(LAST_USER_KEY, { email: resident.email, unit: resident.unit });
     if (remember) writeStore(SESSION_KEY, { residentId: resident.id, email: resident.email });
     else clearStore(SESSION_KEY);
   }, []);
@@ -360,6 +371,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       signIn,
       signUp,
       rememberedEmail,
+      rememberedUnit,
+      /* Sign out only ends the session: the account, profile and remembered
+         email stay in this browser so the resident signs back in, never up. */
       signOut: () => {
         setCurrentUserId(null);
         clearStore(SESSION_KEY);
@@ -499,6 +513,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       signIn,
       signUp,
       rememberedEmail,
+      rememberedUnit,
       residents,
       threads,
       statements,
