@@ -277,7 +277,12 @@ function EventsPage() {
           </aside>
         </section>
 
+        <PastEventsCarousel />
+
+        <SocialFeed />
+
         <ForYou variant="inline" area="events" />
+
       </main>
       <SiteFooter />
     </div>
