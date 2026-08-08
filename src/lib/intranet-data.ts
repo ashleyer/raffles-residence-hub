@@ -4,6 +4,10 @@ import longBarImg from "@/assets/long-bar.jpg";
 import guerlainSpaImg from "@/assets/guerlain-spa.jpg";
 import laPadronaImg from "@/assets/la-padrona.jpg";
 import blindDuckImg from "@/assets/blind-duck.jpg";
+import nantucketKitchenImg from "@/assets/nantucket-kitchen.jpg";
+import secretGardenImg from "@/assets/secret-garden-room.jpg";
+import sportsLoungeImg from "@/assets/sports-lounge.jpg";
+import emeraldLoungeImg from "@/assets/emerald-lounge.jpg";
 
 export type Broadcast = {
   id: number;
