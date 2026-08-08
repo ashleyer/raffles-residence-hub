@@ -273,6 +273,24 @@ function SignUpForm() {
           </p>
         </div>
         <div className="space-y-2">
+          <Label htmlFor="su-phone">Contact number</Label>
+          <Input
+            id="su-phone"
+            type="tel"
+            autoComplete="tel"
+            required
+            value={form.phone}
+            onChange={set("phone")}
+            placeholder="617-555-0123"
+            aria-describedby="su-phone-hint"
+            className="min-h-11"
+          />
+          <p id="su-phone-hint" className="text-xs text-muted-foreground">
+            Every household keeps a profile with contact details on file. Listing in the directory and letting
+            neighbours contact you both stay optional — you choose in your profile settings.
+          </p>
+        </div>
+        <div className="space-y-2">
           <Label htmlFor="su-password">Password</Label>
           <Input
             id="su-password"
