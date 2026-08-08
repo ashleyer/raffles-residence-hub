@@ -130,6 +130,21 @@ type PortalValue = {
   hasAnsweredSurvey: boolean;
 };
 
+/** An in-app alert raised for one residence when the desk touches its request. */
+export type PortalNotification = {
+  id: number;
+  /** Residence the alert belongs to, e.g. "Residence 22H". */
+  unit: string;
+  requestId: number;
+  kind: "reply" | "status" | "assigned";
+  title: string;
+  body: string;
+  at: string;
+  read: boolean;
+};
+
+
+
 /** "22h" / "unit 22H" -> "Residence 22H" */
 export function formatUnit(raw: string): string {
   const value = raw.trim().replace(/^(residence|unit|apt\.?|apartment)\s+/i, "");
