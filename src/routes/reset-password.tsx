@@ -111,17 +111,31 @@ function ResetPasswordPage() {
     );
 
   const summaryText = visibleIssues.length
-    ? `${visibleIssues.length} field${visibleIssues.length > 1 ? "s need" : " needs"} attention: ${visibleIssues
-        .map((issue) => issue.message)
+    ? `${visibleIssues.length} field${visibleIssues.length > 1 ? "s need" : " needs"} attention. ${visibleIssues
+        .map((issue) => `${fieldLabels[issue.field]}: ${issue.message}`)
         .join(" ")}`
-    : "";
+    : "All fields are valid.";
 
-  /* Debounced so a screen reader announces settled text rather than every keystroke. */
+  /* Which fields are failing — used to announce a changed field set at once. */
+  const invalidFieldKey = visibleIssues.map((issue) => issue.field).join(",");
+
+  useEffect(() => {
+    if (step !== "reset") return;
+    /* Announce immediately when the set of failing fields changes; debounce
+       wording-only changes so a screen reader is not interrupted per keystroke. */
+    setAnnouncement("");
+    const delay = 60;
+    const timer = window.setTimeout(() => setAnnouncement(summaryText), delay);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invalidFieldKey, step]);
+
   useEffect(() => {
     if (step !== "reset") return;
     const timer = window.setTimeout(() => setAnnouncement(summaryText), 700);
     return () => window.clearTimeout(timer);
   }, [summaryText, step]);
+
 
   /** Moves keyboard focus to the first field, in visual order, that is failing validation. */
   const focusFirstInvalid = (issues: FieldErrors) => {
