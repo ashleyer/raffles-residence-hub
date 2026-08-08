@@ -91,6 +91,12 @@ export function SiteFooter() {
             Sales & leasing
           </Link>
           <Link
+            to="/gallery"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Residence gallery
+          </Link>
+          <Link
             to="/gratitude"
             className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
           >
