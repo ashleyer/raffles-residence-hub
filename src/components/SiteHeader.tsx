@@ -142,9 +142,23 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
                 </button>
               </>
             ) : (
-              <Link to="/login" className="btn-outline whitespace-nowrap">
-                Sign in or up as a resident
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  to="/login"
+                  search={{ mode: "signin" }}
+                  className="btn-outline whitespace-nowrap"
+                >
+                  Resident sign in
+                </Link>
+                <Link
+                  to="/login"
+                  search={{ mode: "signup" }}
+                  className="btn-outline whitespace-nowrap"
+                >
+                  Resident sign up
+                </Link>
+              </div>
+
             )}
           </div>
         </div>
