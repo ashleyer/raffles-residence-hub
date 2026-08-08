@@ -2,11 +2,20 @@
 
 export type StrengthLevel = 0 | 1 | 2 | 3 | 4;
 
+/** A single scoring rule, shown inline so the score is never a mystery. */
+export interface StrengthCriterion {
+  id: string;
+  label: string;
+  met: boolean;
+}
+
 export interface PasswordStrength {
   score: StrengthLevel;
   label: string;
   /** Short, actionable suggestions for making the password stronger. */
   suggestions: string[];
+  /** Per-rule breakdown explaining how the score was reached. */
+  criteria: StrengthCriterion[];
 }
 
 const COMMON = [
@@ -26,10 +35,6 @@ export function scorePassword(value: string): PasswordStrength {
   const password = value ?? "";
   const suggestions: string[] = [];
 
-  if (!password) {
-    return { score: 0, label: LABELS[0], suggestions: ["Choose at least eight characters."] };
-  }
-
   const lower = password.toLowerCase();
   const hasLower = /[a-z]/.test(password);
   const hasUpper = /[A-Z]/.test(password);
@@ -38,6 +43,28 @@ export function scorePassword(value: string): PasswordStrength {
   const variety = [hasLower, hasUpper, hasDigit, hasSymbol].filter(Boolean).length;
   const isCommon = COMMON.some((word) => lower.includes(word));
   const isRepetitive = /^(.)\1+$/.test(password) || /(.)\1{3,}/.test(password);
+
+  const criteria: StrengthCriterion[] = [
+    { id: "length", label: "At least 8 characters", met: password.length >= 8 },
+    { id: "long", label: "12 or more for a stronger passphrase", met: password.length >= 12 },
+    { id: "case", label: "Upper and lower case letters", met: hasUpper && hasLower },
+    { id: "digit", label: "At least one number", met: hasDigit },
+    { id: "symbol", label: "At least one symbol", met: hasSymbol },
+    {
+      id: "predictable",
+      label: "No common words or repeated characters",
+      met: password.length > 0 && !isCommon && !isRepetitive,
+    },
+  ];
+
+  if (!password) {
+    return {
+      score: 0,
+      label: LABELS[0],
+      suggestions: ["Choose at least eight characters."],
+      criteria,
+    };
+  }
 
   let points = 0;
   if (password.length >= 8) points += 1;
@@ -58,5 +85,5 @@ export function scorePassword(value: string): PasswordStrength {
   if (isRepetitive) suggestions.push("Avoid repeated characters.");
 
   const score = Math.max(0, Math.min(4, points)) as StrengthLevel;
-  return { score, label: LABELS[score], suggestions: suggestions.slice(0, 3) };
+  return { score, label: LABELS[score], suggestions: suggestions.slice(0, 3), criteria };
 }
