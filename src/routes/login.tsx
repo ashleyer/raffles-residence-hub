@@ -12,7 +12,7 @@ import { RememberMeConsent } from "@/components/RememberMeConsent";
 import { signInSchema, signUpSchema, validate, type FieldErrors } from "@/lib/auth-validation";
 
 /** Inline, screen-reader announced message for a single field. */
-function FieldError({ id, message }: { id: string; message?: string }) {
+function FieldError({ id, message }: { id: string; message?: string | undefined }) {
   if (!message) return null;
   return (
     <p id={id} role="alert" className="text-sm text-destructive">
