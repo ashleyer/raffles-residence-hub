@@ -81,8 +81,12 @@ describe("Index route", () => {
   it("links both cards to the login route with the right mode", async () => {
     renderIndexRoute();
 
-    const signUpLink = await screen.findByRole("link", { name: /^sign up$/i });
-    const signInLink = await screen.findByRole("link", { name: /^sign in$/i });
+    const section = (await screen.findByRole("heading", { name: /resident account access/i }))
+      .closest("section")!;
+    const within = (name: RegExp) =>
+      Array.from(section.querySelectorAll("a")).find((a) => name.test(a.textContent ?? ""))!;
+    const signUpLink = within(/^sign up$/i);
+    const signInLink = within(/^sign in$/i);
 
     expect(signUpLink).toHaveAttribute("href", expect.stringContaining("/login"));
     expect(signUpLink.getAttribute("href")).toContain("signup");
