@@ -164,7 +164,6 @@ export function SiteHeader({ variant = "solid" }: { variant?: "solid" | "overlay
               </div>
             )}
           </div>
-
         </div>
 
         {/* Slim desktop rail of primary destinations */}
