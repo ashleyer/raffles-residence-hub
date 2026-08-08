@@ -181,6 +181,12 @@ export const RESIDENTS: Resident[] = [
 /** Demo credentials — passcode is the same for every account in this preview. */
 export const DEMO_PASSCODE = "raffles2026";
 
+/** Open demonstration login shown on the sign-in page. */
+export const DEMO_ACCOUNT = {
+  email: "demo@demo.com",
+  password: "checkitout02116",
+} as const;
+
 export const BOARD: Person[] = [
   {
     id: 1,
