@@ -60,6 +60,14 @@ type PortalValue = {
     remember?: boolean;
   }) => { ok: boolean; error?: string };
   signOut: () => void;
+  /* Demo password reset: a code is issued in the browser, then redeemed. */
+  requestPasswordReset: (email: string) => { ok: boolean; code?: string; error?: string };
+  resetPassword: (input: {
+    email: string;
+    code: string;
+    password: string;
+    confirm: string;
+  }) => { ok: boolean; error?: string };
   /* Erase the remembered residence and contact details kept in this browser. */
   clearSavedDetails: () => void;
   rememberedEmail: string | null;
