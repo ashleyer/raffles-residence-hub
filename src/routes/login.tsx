@@ -61,7 +61,35 @@ function LoginPage() {
             ? "Resident sign in"
             : "Create your account"
       }
-      intro="Registered deed-holders and leaseholders sign in with their residence address. New visitors may register an account or explore with the shared preview passcode. Accounts are kept in this browser only."
+      intro={
+        <>
+          Registered deed-holders and approved leaseholders can sign up with their residence address
+          here, or if previously registered,{" "}
+          <Link
+            to="/login"
+            search={{ mode: "signin" }}
+            onClick={() => setMode("signin")}
+            className="underline underline-offset-4"
+          >
+            sign in by clicking here
+          </Link>
+          . Internal Raffles Persons can use the{" "}
+          <Link to="/staff-signup" className="underline underline-offset-4">
+            Raffles Personnel Sign Up
+          </Link>{" "}
+          and/or the{" "}
+          <Link to="/staff-signin" className="underline underline-offset-4">
+            Raffles Personnel Sign In
+          </Link>{" "}
+          found by scrolling down to the bottom.
+          <strong className="mt-3 block text-foreground">
+            For Demo purposes, login with "{DEMO_ACCOUNT.email}" with password "
+            {DEMO_ACCOUNT.password}" to explore the site without signing up (not all features
+            available in Demo Login).
+          </strong>
+        </>
+      }
+
     >
       {currentUser ? (
         <SignedIn />
