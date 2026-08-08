@@ -88,6 +88,19 @@ function ResetPasswordPage() {
   const errorFor = (field: "code" | "password" | "confirm") =>
     touched[field] ? (liveIssues[field] ?? fieldErrors[field]) : undefined;
 
+  const fieldLabels = {
+    code: "Reset code",
+    password: "New password",
+    confirm: "Confirm password",
+  } as const;
+
+  const blockingIssues = (["code", "password", "confirm"] as const)
+    .map((field) => ({ field, label: fieldLabels[field], message: liveIssues[field] }))
+    .filter(
+      (entry): entry is { field: typeof entry.field; label: string; message: string } =>
+        Boolean(entry.message),
+    );
+
   const visibleIssues = (["code", "password", "confirm"] as const)
     .map((field) => ({ field, message: errorFor(field) }))
     .filter((entry): entry is { field: typeof entry.field; message: string } =>
