@@ -18,8 +18,8 @@ if (!("IntersectionObserver" in globalThis)) {
 }
 
 if (!globalThis.matchMedia) {
-  // @ts-expect-error test shim
-  globalThis.matchMedia = (query: string) => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).matchMedia = (query: string) => ({
     matches: false,
     media: query,
     onchange: null,
