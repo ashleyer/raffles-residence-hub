@@ -118,6 +118,12 @@ type PortalValue = {
   assignConciergeRequest: (id: number, staff: string) => void;
   replyToConciergeRequest: (id: number, body: string, author: string) => void;
 
+  /* in-app notifications raised when the desk touches a resident's request */
+  notifications: PortalNotification[];
+  unreadNotifications: number;
+  markNotificationsRead: () => void;
+  dismissNotification: (id: number) => void;
+
   /* surveys */
   surveyResponses: SurveyResponse[];
   submitSurvey: (r: Omit<SurveyResponse, "id">) => void;
