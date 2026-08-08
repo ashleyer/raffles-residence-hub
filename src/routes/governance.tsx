@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { GOVERNANCE_DOCUMENTS, MEASURES, type GovernanceMeasure } from "@/lib/intranet-data";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ResidenceHandbook } from "@/components/ResidenceHandbook";
+
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/governance")({
@@ -151,7 +153,12 @@ function GovernancePage() {
             </div>
           </aside>
         </div>
+
+        <div className="mt-16 border-t border-border pt-12">
+          <ResidenceHandbook />
+        </div>
       </main>
+
       <SiteFooter />
     </div>
   );
