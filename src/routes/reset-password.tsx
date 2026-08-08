@@ -66,7 +66,6 @@ function ResetPasswordPage() {
     if (issueCode()) setStep("reset");
   };
 
-
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
     const result = resetPassword({ email, code, password, confirm });
@@ -187,7 +186,6 @@ function ResetPasswordPage() {
             >
               {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
             </Button>
-
           </form>
         )}
 
