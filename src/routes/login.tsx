@@ -147,41 +147,76 @@ function SignInForm() {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (rememberedEmail) setEmail(rememberedEmail);
     if (rememberedUnit) setUnit(rememberedUnit);
   }, [rememberedEmail, rememberedUnit]);
 
-  const submit = (e: React.FormEvent) => {
+  const values = { email, unit, password };
+
+  const check = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const next = validate(signInSchema, values);
+    setFieldErrors((prev) => ({ ...prev, [field]: next[field] ?? "" }));
+  };
+
+  const errorFor = (field: string) =>
+    touched[field] && fieldErrors[field] ? fieldErrors[field] : undefined;
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = signIn(email, password, remember, unit);
-    if (!result.ok) {
-      setError(result.error ?? "Sign in failed.");
+    if (submitting) return;
+    const found = validate(signInSchema, values);
+    setFieldErrors(found);
+    setTouched({ email: true, unit: true, password: true });
+    if (Object.keys(found).length > 0) {
+      setError(null);
+      const first = document.getElementById(Object.keys(found)[0] === "unit" ? "signin-unit" : Object.keys(found)[0]!);
+      first?.focus();
       return;
     }
+    setSubmitting(true);
     setError(null);
-    toast.success("Welcome to the residences.");
-    navigate({ to: "/directory" });
+    try {
+      /* Brief pause so the pending state is visible on this browser-only demo. */
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      const result = signIn(email.trim(), password, remember, unit.trim());
+      if (!result.ok) {
+        setError(result.error ?? "Sign in failed.");
+        return;
+      }
+      toast.success("Welcome to the residences.");
+      navigate({ to: "/directory" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <form onSubmit={submit} className="max-w-xl border border-border bg-card p-8" noValidate>
       <h2 className="text-2xl">Sign in</h2>
-      <div className="mt-6 space-y-5">
+      <fieldset disabled={submitting} className="mt-6 space-y-5 disabled:opacity-70">
         <div className="space-y-2">
           <Label htmlFor="email">Email address</Label>
           <Input
             id="email"
             type="email"
             autoComplete="email"
-            required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-describedby={error ? "signin-error" : "email-hint"}
-            aria-invalid={error ? true : undefined}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (touched['email']) setFieldErrors((p) => ({ ...p, email: validate(signInSchema, { ...values, email: e.target.value })['email'] ?? "" }));
+            }}
+            onBlur={() => check("email")}
+            aria-describedby={errorFor("email") ? "email-error" : "email-hint"}
+            aria-invalid={errorFor("email") ? true : undefined}
             className="min-h-11"
           />
+          <FieldError id="email-error" message={errorFor("email")} />
           <p id="email-hint" className="text-xs text-muted-foreground">
             Use your registered address, or any email of your own to explore as a guest.
           </p>
@@ -190,32 +225,39 @@ function SignInForm() {
           <Label htmlFor="signin-unit">Residence number</Label>
           <Input
             id="signin-unit"
-            required
             value={unit}
-            onChange={(e) => setUnit(e.target.value)}
+            onChange={(e) => {
+              setUnit(e.target.value);
+              if (touched['unit']) setFieldErrors((p) => ({ ...p, unit: validate(signInSchema, { ...values, unit: e.target.value })['unit'] ?? "" }));
+            }}
+            onBlur={() => check("unit")}
             placeholder="Residence 22H"
-            aria-describedby={error ? "signin-error" : "signin-unit-hint"}
-            aria-invalid={error ? true : undefined}
+            aria-describedby={errorFor("unit") ? "signin-unit-error" : "signin-unit-hint"}
+            aria-invalid={errorFor("unit") ? true : undefined}
             className="min-h-11"
           />
+          <FieldError id="signin-unit-error" message={errorFor("unit")} />
           <p id="signin-unit-hint" className="text-xs text-muted-foreground">
             The residence on file for your address — for example 22H.
           </p>
         </div>
         <div className="space-y-2">
-
           <Label htmlFor="password">Password or residence passcode</Label>
           <Input
             id="password"
             type="password"
             autoComplete="current-password"
-            required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            aria-describedby={error ? "signin-error" : "passcode-hint"}
-            aria-invalid={error ? true : undefined}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (touched['password']) setFieldErrors((p) => ({ ...p, password: validate(signInSchema, { ...values, password: e.target.value })['password'] ?? "" }));
+            }}
+            onBlur={() => check("password")}
+            aria-describedby={errorFor("password") ? "password-error" : "passcode-hint"}
+            aria-invalid={errorFor("password") ? true : undefined}
             className="min-h-11"
           />
+          <FieldError id="password-error" message={errorFor("password")} />
           <p id="passcode-hint" className="text-xs text-muted-foreground">
             Preview passcode for the demonstration residences: {DEMO_PASSCODE}
           </p>
@@ -228,15 +270,21 @@ function SignInForm() {
 
         <RememberMeConsent id="remember" checked={remember} onChange={setRemember} />
 
-
         <p id="signin-error" role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
           {error}
         </p>
 
-        <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
-          Enter the portal
+        <Button type="submit" disabled={submitting} className="min-h-11 w-full tracking-[0.18em] uppercase">
+          {submitting ? (
+            <>
+              <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+              Signing in…
+            </>
+          ) : (
+            "Enter the portal"
+          )}
         </Button>
-      </div>
+      </fieldset>
     </form>
   );
 }
@@ -247,20 +295,52 @@ function SignUpForm() {
   const [form, setForm] = useState({ name: "", email: "", unit: "", phone: "", password: "", confirm: "" });
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [submitting, setSubmitting] = useState(false);
 
-  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm({ ...form, [key]: e.target.value });
+  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const next = { ...form, [key]: e.target.value };
+    setForm(next);
+    if (touched[key]) {
+      const found = validate(signUpSchema, next);
+      setFieldErrors((prev) => ({ ...prev, [key]: found[key] ?? "", confirm: touched['confirm'] ? found['confirm'] ?? "" : prev['confirm'] ?? "" }));
+    }
+  };
 
-  const submit = (e: React.FormEvent) => {
+  const check = (key: keyof typeof form) => () => {
+    setTouched((prev) => ({ ...prev, [key]: true }));
+    const found = validate(signUpSchema, form);
+    setFieldErrors((prev) => ({ ...prev, [key]: found[key] ?? "" }));
+  };
+
+  const errorFor = (key: keyof typeof form) => (touched[key] && fieldErrors[key] ? fieldErrors[key] : undefined);
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = signUp({ ...form, remember });
-    if (!result.ok) {
-      setError(result.error ?? "Registration failed.");
+    if (submitting) return;
+    const found = validate(signUpSchema, form);
+    setFieldErrors(found);
+    setTouched({ name: true, email: true, unit: true, phone: true, password: true, confirm: true });
+    if (Object.keys(found).length > 0) {
+      setError(null);
+      document.getElementById(`su-${Object.keys(found)[0]}`)?.focus();
       return;
     }
+    setSubmitting(true);
     setError(null);
-    toast.success("Your account has been created.");
-    navigate({ to: "/directory" });
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 350));
+      const result = signUp({ ...form, remember });
+      if (!result.ok) {
+        setError(result.error ?? "Registration failed.");
+        return;
+      }
+      toast.success("Your account has been created.");
+      navigate({ to: "/directory" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -269,10 +349,20 @@ function SignUpForm() {
       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
         Registering creates your household profile with contact details, and keeps your directory profile, reservations and preferences on this device.
       </p>
-      <div className="mt-6 space-y-5">
+      <fieldset disabled={submitting} className="mt-6 space-y-5 disabled:opacity-70">
         <div className="space-y-2">
           <Label htmlFor="su-name">Household or resident name</Label>
-          <Input id="su-name" autoComplete="name" required value={form.name} onChange={set("name")} className="min-h-11" />
+          <Input
+            id="su-name"
+            autoComplete="name"
+            value={form.name}
+            onChange={set("name")}
+            onBlur={check("name")}
+            aria-invalid={errorFor("name") ? true : undefined}
+            aria-describedby={errorFor("name") ? "su-name-error" : undefined}
+            className="min-h-11"
+          />
+          <FieldError id="su-name-error" message={errorFor("name")} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="su-email">Email address</Label>
@@ -280,16 +370,29 @@ function SignUpForm() {
             id="su-email"
             type="email"
             autoComplete="email"
-            required
             value={form.email}
             onChange={set("email")}
+            onBlur={check("email")}
+            aria-invalid={errorFor("email") ? true : undefined}
+            aria-describedby={errorFor("email") ? "su-email-error" : undefined}
             className="min-h-11"
           />
+          <FieldError id="su-email-error" message={errorFor("email")} />
         </div>
         <div className="space-y-2">
           <Label htmlFor="su-unit">Residence number</Label>
-          <Input id="su-unit" required value={form.unit} onChange={set("unit")} placeholder="Residence 22H" className="min-h-11" />
-          <p className="text-xs text-muted-foreground">
+          <Input
+            id="su-unit"
+            value={form.unit}
+            onChange={set("unit")}
+            onBlur={check("unit")}
+            placeholder="Residence 22H"
+            aria-invalid={errorFor("unit") ? true : undefined}
+            aria-describedby={errorFor("unit") ? "su-unit-error" : "su-unit-hint"}
+            className="min-h-11"
+          />
+          <FieldError id="su-unit-error" message={errorFor("unit")} />
+          <p id="su-unit-hint" className="text-xs text-muted-foreground">
             Residences are verified by the Residences Office before the directory listing is confirmed.
           </p>
         </div>
@@ -299,13 +402,15 @@ function SignUpForm() {
             id="su-phone"
             type="tel"
             autoComplete="tel"
-            required
             value={form.phone}
             onChange={set("phone")}
+            onBlur={check("phone")}
             placeholder="617-555-0123"
-            aria-describedby="su-phone-hint"
+            aria-invalid={errorFor("phone") ? true : undefined}
+            aria-describedby={errorFor("phone") ? "su-phone-error" : "su-phone-hint"}
             className="min-h-11"
           />
+          <FieldError id="su-phone-error" message={errorFor("phone")} />
           <p id="su-phone-hint" className="text-xs text-muted-foreground">
             Every household keeps a profile with contact details on file. Listing in the directory and letting
             neighbours contact you both stay optional — you choose in your profile settings.
@@ -317,12 +422,14 @@ function SignUpForm() {
             id="su-password"
             type="password"
             autoComplete="new-password"
-            required
             value={form.password}
             onChange={set("password")}
-            aria-describedby="su-password-hint"
+            onBlur={check("password")}
+            aria-invalid={errorFor("password") ? true : undefined}
+            aria-describedby={errorFor("password") ? "su-password-error" : "su-password-hint"}
             className="min-h-11"
           />
+          <FieldError id="su-password-error" message={errorFor("password")} />
           <p id="su-password-hint" className="text-xs text-muted-foreground">
             At least eight characters. Never use a real password — this demo stores it in your browser.
           </p>
@@ -333,24 +440,34 @@ function SignUpForm() {
             id="su-confirm"
             type="password"
             autoComplete="new-password"
-            required
             value={form.confirm}
             onChange={set("confirm")}
+            onBlur={check("confirm")}
+            aria-invalid={errorFor("confirm") ? true : undefined}
+            aria-describedby={errorFor("confirm") ? "su-confirm-error" : undefined}
             className="min-h-11"
           />
+          <FieldError id="su-confirm-error" message={errorFor("confirm")} />
         </div>
 
         <RememberMeConsent id="su-remember" checked={remember} onChange={setRemember} />
-
 
         <p role="alert" aria-live="polite" className="min-h-5 text-sm text-destructive">
           {error}
         </p>
 
-        <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
-          Create account
+        <Button type="submit" disabled={submitting} className="min-h-11 w-full tracking-[0.18em] uppercase">
+          {submitting ? (
+            <>
+              <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+              Creating account…
+            </>
+          ) : (
+            "Create account"
+          )}
         </Button>
-      </div>
+      </fieldset>
     </form>
   );
 }
+
