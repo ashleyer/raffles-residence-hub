@@ -32,6 +32,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as SalesAndLeasingRouteImport } from './routes/sales-and-leasing'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
 const IndexRoute = IndexRouteImport.update({
@@ -149,6 +150,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HealthReadyRoute = HealthReadyRouteImport.update({
   id: '/ready',
   path: '/ready',
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesByTo {
@@ -205,6 +212,7 @@ export interface FileRoutesByTo {
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRoutesById {
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/proposals': typeof ProposalsRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
 export interface FileRouteTypes {
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
+    | '/terms'
     | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -286,6 +296,7 @@ export interface FileRouteTypes {
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
+    | '/terms'
     | '/health/ready'
   id:
     | '__root__'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/proposals'
     | '/sales-and-leasing'
     | '/services'
+    | '/terms'
     | '/health/ready'
   fileRoutesById: FileRoutesById
 }
@@ -339,6 +351,7 @@ export interface RootRouteChildren {
   ProposalsRoute: typeof ProposalsRoute
   SalesAndLeasingRoute: typeof SalesAndLeasingRoute
   ServicesRoute: typeof ServicesRoute
+  TermsRoute: typeof TermsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -504,6 +517,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/health/ready': {
       id: '/health/ready'
       path: '/ready'
@@ -549,6 +569,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProposalsRoute: ProposalsRoute,
   SalesAndLeasingRoute: SalesAndLeasingRoute,
   ServicesRoute: ServicesRoute,
+  TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
