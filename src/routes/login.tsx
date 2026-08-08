@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RememberMeConsent } from "@/components/RememberMeConsent";
+import { safeRedirectPath } from "@/lib/session-guard";
 import { signInSchema, signUpSchema, validate, type FieldErrors } from "@/lib/auth-validation";
 
 /** Inline, screen-reader announced message for a single field. */
@@ -37,12 +38,18 @@ export const Route = createFileRoute("/login")({
       },
     ],
   }),
-  validateSearch: (search: Record<string, unknown>): { mode?: "signin" | "signup" } =>
-    search["mode"] === "signup"
-      ? { mode: "signup" }
-      : search["mode"] === "signin"
-        ? { mode: "signin" }
-        : {},
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { mode?: "signin" | "signup"; redirect?: string } => {
+    const mode =
+      search["mode"] === "signup"
+        ? ("signup" as const)
+        : search["mode"] === "signin"
+          ? ("signin" as const)
+          : undefined;
+    const redirect = safeRedirectPath(search["redirect"]);
+    return { ...(mode ? { mode } : {}), ...(redirect ? { redirect } : {}) };
+  },
   component: LoginPage,
 });
 
@@ -242,7 +249,7 @@ function SignInForm() {
         return;
       }
       toast.success("Welcome to the residences.");
-      navigate({ to: "/directory" });
+      navigate({ to: redirectTo });
     } finally {
       setSubmitting(false);
     }
@@ -427,7 +434,7 @@ function SignUpForm() {
         return;
       }
       toast.success("Your account has been created.");
-      navigate({ to: "/directory" });
+      navigate({ to: redirectTo });
     } finally {
       setSubmitting(false);
     }
