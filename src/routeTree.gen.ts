@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRafflesRouteImport } from './routes/about-raffles'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as AmenitiesRouteImport } from './routes/amenities'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -19,6 +20,7 @@ import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ForYouRouteImport } from './routes/for-you'
 import { Route as GovernanceRouteImport } from './routes/governance'
+import { Route as GratitudeRouteImport } from './routes/gratitude'
 import { Route as HealthRouteImport } from './routes/health'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ManagementRouteImport } from './routes/management'
@@ -32,6 +34,11 @@ import { Route as HealthReadyRouteImport } from './routes/health.ready'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRafflesRoute = AboutRafflesRouteImport.update({
+  id: '/about-raffles',
+  path: '/about-raffles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountRoute = AccountRouteImport.update({
@@ -77,6 +84,11 @@ const ForYouRoute = ForYouRouteImport.update({
 const GovernanceRoute = GovernanceRouteImport.update({
   id: '/governance',
   path: '/governance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GratitudeRoute = GratitudeRouteImport.update({
+  id: '/gratitude',
+  path: '/gratitude',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HealthRoute = HealthRouteImport.update({
@@ -127,6 +139,7 @@ const HealthReadyRoute = HealthReadyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-raffles': typeof AboutRafflesRoute
   '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/community': typeof CommunityRoute
@@ -136,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
@@ -148,6 +162,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-raffles': typeof AboutRafflesRoute
   '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/community': typeof CommunityRoute
@@ -157,6 +172,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
@@ -170,6 +186,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about-raffles': typeof AboutRafflesRoute
   '/account': typeof AccountRoute
   '/amenities': typeof AmenitiesRoute
   '/community': typeof CommunityRoute
@@ -179,6 +196,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/for-you': typeof ForYouRoute
   '/governance': typeof GovernanceRoute
+  '/gratitude': typeof GratitudeRoute
   '/health': typeof HealthRouteWithChildren
   '/login': typeof LoginRoute
   '/management': typeof ManagementRoute
@@ -193,6 +211,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about-raffles'
     | '/account'
     | '/amenities'
     | '/community'
@@ -202,6 +221,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/gratitude'
     | '/health'
     | '/login'
     | '/management'
@@ -214,6 +234,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about-raffles'
     | '/account'
     | '/amenities'
     | '/community'
@@ -223,6 +244,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/gratitude'
     | '/health'
     | '/login'
     | '/management'
@@ -235,6 +257,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about-raffles'
     | '/account'
     | '/amenities'
     | '/community'
@@ -244,6 +267,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/for-you'
     | '/governance'
+    | '/gratitude'
     | '/health'
     | '/login'
     | '/management'
@@ -257,6 +281,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRafflesRoute: typeof AboutRafflesRoute
   AccountRoute: typeof AccountRoute
   AmenitiesRoute: typeof AmenitiesRoute
   CommunityRoute: typeof CommunityRoute
@@ -266,6 +291,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   ForYouRoute: typeof ForYouRoute
   GovernanceRoute: typeof GovernanceRoute
+  GratitudeRoute: typeof GratitudeRoute
   HealthRoute: typeof HealthRouteWithChildren
   LoginRoute: typeof LoginRoute
   ManagementRoute: typeof ManagementRoute
@@ -283,6 +309,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about-raffles': {
+      id: '/about-raffles'
+      path: '/about-raffles'
+      fullPath: '/about-raffles'
+      preLoaderRoute: typeof AboutRafflesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account': {
@@ -346,6 +379,13 @@ declare module '@tanstack/react-router' {
       path: '/governance'
       fullPath: '/governance'
       preLoaderRoute: typeof GovernanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gratitude': {
+      id: '/gratitude'
+      path: '/gratitude'
+      fullPath: '/gratitude'
+      preLoaderRoute: typeof GratitudeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/health': {
@@ -427,6 +467,7 @@ const HealthRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRafflesRoute: AboutRafflesRoute,
   AccountRoute: AccountRoute,
   AmenitiesRoute: AmenitiesRoute,
   CommunityRoute: CommunityRoute,
@@ -436,6 +477,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   ForYouRoute: ForYouRoute,
   GovernanceRoute: GovernanceRoute,
+  GratitudeRoute: GratitudeRoute,
   HealthRoute: HealthRouteWithChildren,
   LoginRoute: LoginRoute,
   ManagementRoute: ManagementRoute,
