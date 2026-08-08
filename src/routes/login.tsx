@@ -89,7 +89,6 @@ function LoginPage() {
           </strong>
         </>
       }
-
     >
       {currentUser ? (
         <SignedIn />
@@ -133,10 +132,9 @@ function LoginPage() {
               device until you sign out.
             </p>
             <p className="mt-4 border border-border bg-background p-4 text-sm leading-relaxed">
-              Demo login — email{" "}
-              <span className="text-foreground">{DEMO_ACCOUNT.email}</span>, password{" "}
-              <span className="text-foreground">{DEMO_ACCOUNT.password}</span>. No residence number
-              required; not all features are available.
+              Demo login — email <span className="text-foreground">{DEMO_ACCOUNT.email}</span>,
+              password <span className="text-foreground">{DEMO_ACCOUNT.password}</span>. No
+              residence number required; not all features are available.
             </p>
 
             <ul className="mt-6 space-y-4">
@@ -305,7 +303,6 @@ function SignInForm() {
               ? "Not required for the demo login — leave blank."
               : "The residence on file for your address — for example 22H."}
           </p>
-
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password or residence passcode</Label>

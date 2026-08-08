@@ -434,7 +434,6 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       if (!passcode.trim())
         return { ok: false, error: "Enter your password or the residence passcode." };
 
-
       const unitMatches = (resident: Resident) =>
         !isKnownUnit(resident.unit) || sameUnit(resident.unit, residence);
 

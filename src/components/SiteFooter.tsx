@@ -68,7 +68,6 @@ export function SiteFooter() {
           </Link>
         </nav>
 
-
         <nav aria-label="Raffles websites and resident pages" className="mx-auto mt-10 max-w-xl">
           <ul className="grid grid-cols-1 gap-y-1 divide-y divide-border/60 border-y border-border/60 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-x-8 sm:gap-y-3 sm:divide-y-0 sm:border-0">
             <li className="w-full sm:w-auto">
