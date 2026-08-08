@@ -73,6 +73,13 @@ export type EventIdea = {
 };
 
 
+export type ConciergeReply = {
+  id: number;
+  body: string;
+  author: string;
+  at: string;
+};
+
 export type ConciergeRequest = {
   id: number;
   service: string;
@@ -81,6 +88,9 @@ export type ConciergeRequest = {
   priority: "Standard" | "Priority";
   status: "Lodged" | "In progress" | "Completed";
   placedAt: string;
+  /* Desk-side fields, filled in by staff in the concierge management view. */
+  assignedTo?: string;
+  replies?: ConciergeReply[];
 };
 
 export type GovernanceMeasure = {

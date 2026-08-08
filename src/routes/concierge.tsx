@@ -2,7 +2,9 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { BellRing, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { CONCIERGE_SERVICES, SEED_REQUESTS, type ConciergeRequest } from "@/lib/intranet-data";
+import { CONCIERGE_SERVICES, type ConciergeRequest } from "@/lib/intranet-data";
+import { usePortal } from "@/lib/portal-store";
+import { Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
@@ -37,7 +39,7 @@ const STATUS_ICON = {
 } as const;
 
 function ConciergePage() {
-  const [requests, setRequests] = useState<ConciergeRequest[]>(SEED_REQUESTS);
+  const { conciergeRequests: requests, addConciergeRequest, setConciergeStatus } = usePortal();
   const [service, setService] = useState<string>(CONCIERGE_SERVICES[0]);
   const [detail, setDetail] = useState("");
   const [unit, setUnit] = useState("");
@@ -52,30 +54,20 @@ function ConciergePage() {
       toast.error("Please describe the request and give a residence number.");
       return;
     }
-    setRequests((prev) => [
-      {
-        id: Date.now(),
-        service,
-        detail: detail.trim(),
-        unit: unit.trim(),
-        priority: priority ? "Priority" : "Standard",
-        status: "Lodged",
-        placedAt: "Just now",
-      },
-      ...prev,
-    ]);
+    addConciergeRequest({
+      service,
+      detail: detail.trim(),
+      unit: unit.trim(),
+      priority: priority ? "Priority" : "Standard",
+    });
     setDetail("");
     toast.success("Request lodged with the concierge desk.");
   };
 
   const advance = (id: number) => {
-    setRequests((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? { ...r, status: r.status === "Lodged" ? "In progress" : "Completed" }
-          : r,
-      ),
-    );
+    const current = requests.find((r) => r.id === id);
+    if (!current) return;
+    setConciergeStatus(id, current.status === "Lodged" ? "In progress" : "Completed");
   };
 
   return (
@@ -88,6 +80,12 @@ function ConciergePage() {
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Every residence is attended around the clock. Requests lodged here reach the concierge desk immediately and
           are acknowledged within fifteen minutes.
+        </p>
+        <p className="mt-4 text-xs tracking-wider text-muted-foreground uppercase">
+          Residences team ·{" "}
+          <Link to="/concierge-desk" className="text-primary underline-offset-4 hover:underline">
+            Open the concierge desk queue
+          </Link>
         </p>
 
         <div className="mt-12 grid gap-10 md:gap-12 lg:grid-cols-[1.5fr_1fr]">
@@ -123,7 +121,20 @@ function ConciergePage() {
                         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">{r.detail}</p>
                         <p className="mt-3 text-xs tracking-wider text-muted-foreground uppercase">
                           {r.unit} · {r.priority} · {r.placedAt}
+                          {r.assignedTo ? ` · ${r.assignedTo}` : ""}
                         </p>
+                        {(r.replies ?? []).length > 0 && (
+                          <ul className="mt-4 space-y-3 border-l border-primary/40 pl-4">
+                            {(r.replies ?? []).map((reply) => (
+                              <li key={reply.id}>
+                                <p className="text-xs tracking-wider text-primary uppercase">
+                                  {reply.author} · {reply.at}
+                                </p>
+                                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{reply.body}</p>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                       <div className="flex flex-col items-end gap-3">
                         <span className="flex items-center gap-2 border border-primary/50 px-3 py-1 text-[0.6rem] tracking-[0.2em] text-primary uppercase">
