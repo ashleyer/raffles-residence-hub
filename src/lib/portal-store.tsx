@@ -173,6 +173,7 @@ const nextId = () => Date.now() + Math.floor(Math.random() * 1000);
 const ACCOUNTS_KEY = "raffles.accounts.v1";
 const RESIDENTS_KEY = "raffles.residents.v1";
 const SESSION_KEY = "raffles.session.v1";
+const NOTIFICATIONS_KEY = "raffles.notifications.v1";
 /* Last signed-in identity: kept after sign out so residents never re-register. */
 const LAST_USER_KEY = "raffles.lastUser.v1";
 const REQUESTS_KEY = "raffles.conciergeRequests.v1";
@@ -228,6 +229,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [votes, setVotes] = useState<Record<number, Vote>>({});
   const [surveyResponses, setSurveyResponses] = useState<SurveyResponse[]>(SEED_SURVEY_RESPONSES);
   const [answeredSurvey, setAnsweredSurvey] = useState(false);
+  const [notifications, setNotifications] = useState<PortalNotification[]>([]);
   const [activity, setActivity] = useState<ActivityEvent[]>([]);
   const [conciergeRequests, setConciergeRequests] = useState<ConciergeRequest[]>(SEED_REQUESTS);
 
@@ -264,8 +266,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     }
     const savedRequests = readStore<ConciergeRequest[] | null>(REQUESTS_KEY, null);
     if (savedRequests && savedRequests.length > 0) setConciergeRequests(savedRequests);
+    setNotifications(readStore<PortalNotification[]>(NOTIFICATIONS_KEY, []));
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (hydrated) writeStore(NOTIFICATIONS_KEY, notifications);
+  }, [notifications, hydrated]);
+
 
   useEffect(() => {
     if (hydrated) writeStore(ACCOUNTS_KEY, accounts);
