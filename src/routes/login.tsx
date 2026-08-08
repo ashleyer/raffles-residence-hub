@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
-import { DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
+import { DEMO_ACCOUNT, DEMO_PASSCODE, RESIDENTS } from "@/lib/portal-data";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
