@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Copy } from "lucide-react";
+import { Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
 
@@ -36,9 +36,36 @@ export function SiteFooter() {
           Notify security of an issue
         </a>
 
+        <nav
+          aria-label="Official Raffles websites"
+          className="mx-auto mt-10 flex max-w-xl flex-col items-center gap-3 sm:flex-row sm:justify-center sm:gap-8"
+        >
+          <a
+            href="https://rafflesresidencesboston.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Raffles Residences Boston
+            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+          <a
+            href="https://www.raffles.com/boston/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+          >
+            Raffles Boston Hotel
+            <ExternalLink className="ml-2 h-3 w-3 shrink-0" aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        </nav>
+
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>
+
 
         <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
           className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
