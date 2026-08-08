@@ -290,7 +290,7 @@ function SignInForm() {
               if (touched["unit"])
                 setFieldErrors((p) => ({
                   ...p,
-                  unit: validate(signInSchema, { ...values, unit: e.target.value })["unit"] ?? "",
+                  unit: checkValues({ ...values, unit: e.target.value })["unit"] ?? "",
                 }));
             }}
             onBlur={() => check("unit")}
@@ -301,8 +301,11 @@ function SignInForm() {
           />
           <FieldError id="signin-unit-error" message={errorFor("unit")} />
           <p id="signin-unit-hint" className="text-xs text-muted-foreground">
-            The residence on file for your address — for example 22H.
+            {isDemo
+              ? "Not required for the demo login — leave blank."
+              : "The residence on file for your address — for example 22H."}
           </p>
+
         </div>
         <div className="space-y-2">
           <Label htmlFor="password">Password or residence passcode</Label>
