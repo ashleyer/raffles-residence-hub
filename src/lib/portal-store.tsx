@@ -195,6 +195,12 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   /* Restore any remembered residences and session after hydration. */
   useEffect(() => {
+    try {
+      const month = new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
+      if (localStorage.getItem(`raffles-happiness-survey-${month}`)) setAnsweredSurvey(true);
+    } catch {
+      /* ignore */
+    }
     const savedResidents = readStore<Resident[]>(RESIDENTS_KEY, []);
     if (savedResidents.length > 0) {
       setResidents((seed) => {
@@ -479,6 +485,11 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       submitSurvey: (r) => {
         setSurveyResponses((prev) => [{ ...r, id: nextId() }, ...prev]);
         setAnsweredSurvey(true);
+        try {
+          localStorage.setItem(`raffles-happiness-survey-${r.month}`, "done");
+        } catch {
+          /* ignore */
+        }
       },
       hasAnsweredSurvey: answeredSurvey,
     }),
