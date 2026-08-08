@@ -127,18 +127,18 @@ export function buildRecommendations(input: RecommendationInput): Recommendation
   /* --- booking history -------------------------------------------------- */
   for (const id of bookedAmenityIds) {
     bump(amenityScore, id, 2, "You have reserved this before");
-    if (id === "long-bar" || id === "la-padrona") bump(communityScore, "wine", 2, "Dining and bar reservations");
-    if (id === "guerlain-spa") bump(communityScore, "wellness", 2, "Spa reservations");
+    if (id === "emerald-lounge" || id === "nantucket-kitchen") bump(communityScore, "wine", 2, "Dining and bar reservations");
+    if (id === "secret-garden-room") bump(communityScore, "wellness", 2, "Quiet mornings on Floor 21");
     if (id === "residents-lounge") bump(communityScore, "books", 1, "Time in the Residents' Lounge");
   }
 
   /* --- community memberships ------------------------------------------- */
   for (const c of joined) {
     if (c === "wine") {
-      bump(amenityScore, "long-bar", 2, "Wine & Spirits Circle member");
-      bump(amenityScore, "la-padrona", 2, "Wine & Spirits Circle member");
+      bump(amenityScore, "emerald-lounge", 2, "Wine & Spirits Circle member");
+      bump(amenityScore, "nantucket-kitchen", 2, "Wine & Spirits Circle member");
     }
-    if (c === "wellness") bump(amenityScore, "guerlain-spa", 3, "Wellness & Lap Swim member");
+    if (c === "wellness") bump(amenityScore, "secret-garden-room", 3, "Wellness & Lap Swim member");
     if (c === "books") bump(amenityScore, "residents-lounge", 2, "Floor 21 Book Club member");
     if (c === "families") bump(amenityScore, "residents-lounge", 1, "Families at Trinity Place member");
   }
