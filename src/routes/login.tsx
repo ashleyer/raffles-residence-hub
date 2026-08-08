@@ -23,9 +23,12 @@ export const Route = createFileRoute("/login")({
       { property: "og:description", content: "Private portal access for registered residences at 40 Trinity Place." },
     ],
   }),
-  validateSearch: (search: Record<string, unknown>): { mode?: "signin" | "signup" } => ({
-    mode: search['mode'] === "signup" ? "signup" : search['mode'] === "signin" ? "signin" : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { mode?: "signin" | "signup" } =>
+    search['mode'] === "signup"
+      ? { mode: "signup" }
+      : search['mode'] === "signin"
+        ? { mode: "signin" }
+        : {},
   component: LoginPage,
 });
 
