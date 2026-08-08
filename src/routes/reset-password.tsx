@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { AlertCircle, Eye, EyeOff, KeyRound } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, KeyRound, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PageShell } from "@/components/PageShell";
 import { usePortal } from "@/lib/portal-store";
@@ -51,6 +51,8 @@ function ResetPasswordPage() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [announcement, setAnnouncement] = useState("");
+  const [pending, setPending] = useState<null | "request" | "resend" | "reset">(null);
+  const busy = pending !== null;
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -58,10 +60,15 @@ function ResetPasswordPage() {
     return () => window.clearTimeout(timer);
   }, [cooldown]);
 
-  const issueCode = (silent = false) => {
+  const issueCode = async (silent = false) => {
+    if (busy) return false;
+    setPending(silent ? "resend" : "request");
+    /* Simulated request latency so the loading state is observable. */
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     const result = requestPasswordReset(email);
     if (!result.ok) {
       setError(result.error ?? "That request could not be completed.");
+      setPending(null);
       return false;
     }
     setError(null);
@@ -69,12 +76,14 @@ function ResetPasswordPage() {
     setCode("");
     setCooldown(30);
     toast.success(silent ? "New reset code issued." : "Reset code issued.");
+    setPending(null);
     return true;
   };
 
-  const request = (e: React.FormEvent) => {
+  const request = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (issueCode()) setStep("reset");
+    if (busy) return;
+    if (await issueCode()) setStep("reset");
   };
 
   const strength = scorePassword(password);
@@ -162,8 +171,9 @@ function ResetPasswordPage() {
     });
   };
 
-  const complete = (e: React.FormEvent) => {
+  const complete = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setTouched({ code: true, password: true, confirm: true });
     const issues = { ...validate(newPasswordSchema, { code, password, confirm }) };
     if (!issues["password"] && password && strength.score < MIN_STRENGTH_SCORE) {
@@ -176,9 +186,12 @@ function ResetPasswordPage() {
       focusFirstInvalid(issues);
       return;
     }
+    setPending("reset");
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     const result = resetPassword({ email, code, password, confirm });
     if (!result.ok) {
       setError(result.error ?? "That password could not be changed.");
+      setPending(null);
       return;
     }
     setError(null);
@@ -202,21 +215,23 @@ function ResetPasswordPage() {
         </div>
 
         {step === "request" ? (
-          <form onSubmit={request} className="mt-6 space-y-5" noValidate>
-            <div className="space-y-2">
-              <Label htmlFor="reset-email">Email address</Label>
-              <Input
-                id="reset-email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                aria-describedby={error ? "reset-error" : undefined}
-                aria-invalid={error ? true : undefined}
-                className="min-h-11"
-              />
-            </div>
+          <form onSubmit={request} className="mt-6 space-y-5" noValidate aria-busy={busy}>
+            <fieldset disabled={busy} className="space-y-5 disabled:opacity-70">
+              <div className="space-y-2">
+                <Label htmlFor="reset-email">Email address</Label>
+                <Input
+                  id="reset-email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  aria-describedby={error ? "reset-error" : undefined}
+                  aria-invalid={error ? true : undefined}
+                  className="min-h-11"
+                />
+              </div>
+            </fieldset>
             <p
               id="reset-error"
               role="alert"
@@ -225,12 +240,26 @@ function ResetPasswordPage() {
             >
               {error}
             </p>
-            <Button type="submit" className="min-h-11 w-full tracking-[0.18em] uppercase">
-              Send reset code
+            <Button
+              type="submit"
+              disabled={busy}
+              className="min-h-11 w-full tracking-[0.18em] uppercase"
+            >
+              {pending === "request" ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                  Sending reset code…
+                </>
+              ) : (
+                "Send reset code"
+              )}
             </Button>
+            <p role="status" aria-live="polite" className="sr-only">
+              {pending === "request" ? "Sending your reset code, please wait." : ""}
+            </p>
           </form>
         ) : (
-          <form onSubmit={complete} className="mt-6 space-y-5" noValidate>
+          <form onSubmit={complete} className="mt-6 space-y-5" noValidate aria-busy={busy}>
             {issuedCode ? (
               <p className="border border-border bg-secondary/40 p-4 text-sm text-muted-foreground">
                 Demonstration only — your reset code is{" "}
@@ -339,11 +368,18 @@ function ResetPasswordPage() {
             </p>
             <Button
               type="submit"
-              disabled={!canSubmit}
+              disabled={!canSubmit || busy}
               aria-describedby="reset-submit-hint"
               className="min-h-11 w-full tracking-[0.18em] uppercase"
             >
-              Change my password
+              {pending === "reset" ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                  Changing password…
+                </>
+              ) : (
+                "Change my password"
+              )}
             </Button>
             <div
               id="reset-submit-hint"
@@ -356,7 +392,9 @@ function ResetPasswordPage() {
                   : "border-border bg-muted/40 text-muted-foreground",
               )}
             >
-              {canSubmit ? (
+              {busy ? (
+                <p>Working on your request — please wait.</p>
+              ) : canSubmit ? (
                 <p>All required fields are valid — you can submit this form.</p>
               ) : blockingIssues.length === 0 ? (
                 <p>Complete all three fields to enable “Change my password”.</p>
@@ -380,11 +418,20 @@ function ResetPasswordPage() {
             <Button
               type="button"
               variant="outline"
-              disabled={cooldown > 0}
-              onClick={() => issueCode(true)}
+              disabled={cooldown > 0 || busy}
+              onClick={() => void issueCode(true)}
               className="min-h-11 w-full tracking-[0.18em] uppercase"
             >
-              {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
+              {pending === "resend" ? (
+                <>
+                  <Loader2 className="mr-2 size-4 animate-spin" aria-hidden="true" />
+                  Sending new code…
+                </>
+              ) : cooldown > 0 ? (
+                `Resend code in ${cooldown}s`
+              ) : (
+                "Resend code"
+              )}
             </Button>
           </form>
         )}

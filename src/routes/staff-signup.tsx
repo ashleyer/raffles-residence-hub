@@ -45,9 +45,12 @@ function StaffSignUpPage() {
     if (currentStaff()) void navigate({ to: "/staff-dashboard" });
   }, [navigate]);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setBusy(true);
+    /* Simulated request latency so the loading state is observable. */
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     const result = registerStaff({ name, email, department, role, password, confirm });
     setBusy(false);
     if (!result.ok) {
@@ -65,7 +68,12 @@ function StaffSignUpPage() {
       title="Raffles Personnel Sign Up"
       intro="For internal Raffles Boston colleagues. Register a personnel account to reach the staff dashboard. Demonstration only — accounts are kept in this browser."
     >
-      <form onSubmit={submit} className="mt-12 max-w-xl space-y-5" noValidate>
+      <form
+        onSubmit={(e) => void submit(e)}
+        aria-busy={busy}
+        className="mt-12 max-w-xl space-y-5"
+        noValidate
+      >
         <div className="space-y-2">
           <Label htmlFor="staff-name">Full name</Label>
           <Input

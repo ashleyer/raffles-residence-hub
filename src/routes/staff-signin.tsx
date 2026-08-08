@@ -40,9 +40,12 @@ function StaffSignInPage() {
     if (currentStaff()) void navigate({ to: "/staff-dashboard" });
   }, [navigate]);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setBusy(true);
+    /* Simulated request latency so the loading state is observable. */
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     const result = signInStaff(email, password);
     setBusy(false);
     if (!result.ok) {
@@ -60,7 +63,12 @@ function StaffSignInPage() {
       title="Raffles Personnel Sign In"
       intro="Internal colleagues only. Sign in with the personnel account you registered on this device."
     >
-      <form onSubmit={submit} className="mt-12 max-w-md space-y-5" noValidate>
+      <form
+        onSubmit={(e) => void submit(e)}
+        aria-busy={busy}
+        className="mt-12 max-w-md space-y-5"
+        noValidate
+      >
         <div className="space-y-2">
           <Label htmlFor="staff-signin-email">Work email</Label>
           <Input
