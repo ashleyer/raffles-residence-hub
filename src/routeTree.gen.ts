@@ -33,6 +33,7 @@ import { Route as ProposalsRouteImport } from './routes/proposals'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SalesAndLeasingRouteImport } from './routes/sales-and-leasing'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as StaffSignupRouteImport } from './routes/staff-signup'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as HealthReadyRouteImport } from './routes/health.ready'
 
@@ -156,6 +157,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffSignupRoute = StaffSignupRouteImport.update({
+  id: '/staff-signup',
+  path: '/staff-signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -192,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/staff-signup': typeof StaffSignupRoute
   '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
@@ -220,6 +227,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/staff-signup': typeof StaffSignupRoute
   '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
@@ -249,6 +257,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sales-and-leasing': typeof SalesAndLeasingRoute
   '/services': typeof ServicesRoute
+  '/staff-signup': typeof StaffSignupRoute
   '/terms': typeof TermsRoute
   '/health/ready': typeof HealthReadyRoute
 }
@@ -279,6 +288,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
+    | '/staff-signup'
     | '/terms'
     | '/health/ready'
   fileRoutesByTo: FileRoutesByTo
@@ -307,6 +317,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
+    | '/staff-signup'
     | '/terms'
     | '/health/ready'
   id:
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sales-and-leasing'
     | '/services'
+    | '/staff-signup'
     | '/terms'
     | '/health/ready'
   fileRoutesById: FileRoutesById
@@ -364,6 +376,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SalesAndLeasingRoute: typeof SalesAndLeasingRoute
   ServicesRoute: typeof ServicesRoute
+  StaffSignupRoute: typeof StaffSignupRoute
   TermsRoute: typeof TermsRoute
 }
 
@@ -537,6 +550,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff-signup': {
+      id: '/staff-signup'
+      path: '/staff-signup'
+      fullPath: '/staff-signup'
+      preLoaderRoute: typeof StaffSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -590,6 +610,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SalesAndLeasingRoute: SalesAndLeasingRoute,
   ServicesRoute: ServicesRoute,
+  StaffSignupRoute: StaffSignupRoute,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
