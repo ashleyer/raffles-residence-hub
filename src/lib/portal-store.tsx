@@ -73,6 +73,9 @@ type PortalValue = {
   clearSavedDetails: () => void;
   rememberedEmail: string | null;
   rememberedUnit: string | null;
+  /* Privacy toggle: when off, nothing is persisted between sign-ins. */
+  rememberEnabled: boolean;
+  setRememberEnabled: (enabled: boolean) => void;
 
   /* directory & profile */
   residents: Resident[];
