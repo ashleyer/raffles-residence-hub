@@ -25,11 +25,12 @@ export function DemoBanner() {
   if (dismissed) return null;
 
   return (
-    <div className="w-full border-b border-border bg-muted/60">
+    <div className="border-emerald-deep/40 bg-emerald-deep w-full border-b">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-2 py-1.5 pr-1 pl-4 sm:gap-4 sm:py-2 sm:pr-2 sm:pl-6">
-        <p className="min-w-0 flex-1 text-center text-[0.6875rem] leading-snug tracking-[0.12em] text-balance text-muted-foreground uppercase sm:text-[0.6875rem] sm:tracking-[0.18em]">
+        <p className="text-ivory/90 min-w-0 flex-1 text-center text-[0.6875rem] leading-snug tracking-[0.12em] text-balance uppercase sm:text-[0.6875rem] sm:tracking-[0.18em]">
           Demo Site Only: All information is simulated and not real
         </p>
+
         <button
           type="button"
           aria-label="Dismiss demo notice"
