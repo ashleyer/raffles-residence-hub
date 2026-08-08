@@ -124,6 +124,7 @@ function SignInForm() {
   const { signIn, rememberedEmail } = usePortal();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [unit, setUnit] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -134,7 +135,7 @@ function SignInForm() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const result = signIn(email, password, remember);
+    const result = signIn(email, password, remember, unit);
     if (!result.ok) {
       setError(result.error ?? "Sign in failed.");
       return;
