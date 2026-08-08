@@ -4,6 +4,7 @@ import { Copy, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import rafflesLogo from "@/assets/raffles-logo.png";
 import { NotifySecurity } from "@/components/NotifySecurity";
+import { ContactLink } from "@/components/ContactLink";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
