@@ -31,7 +31,6 @@ import { usePortal } from "@/lib/portal-store";
 import { ForYou } from "@/components/ForYou";
 import { SpatialBookingGrid } from "@/components/SpatialBookingGrid";
 
-
 export const Route = createFileRoute("/amenities")({
   head: () => ({
     meta: [
@@ -272,7 +271,6 @@ function AmenitiesPage() {
                   />
                   <input type="hidden" id="slot" value={slot} readOnly />
                 </div>
-
 
                 <div className="space-y-2">
                   <Label htmlFor="catering">Catering</Label>
