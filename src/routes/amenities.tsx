@@ -103,15 +103,17 @@ function AmenitiesPage() {
         <h1 className="mt-3 text-4xl md:text-5xl">Reservation requests</h1>
         <div className="gold-rule mt-5" />
         <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Requests are submitted to the Residences Office and confirmed by the Raffles Concierge. Catering may be
-          attached to any sitting. Releases made before noon return the window to the house immediately.
+          The Residents' Lounge on Floor 21 and its amenity rooms — the Nantucket Kitchen, Secret Garden Room, sports
+          simulator and sports lounge — along with the Emerald Lounge may be reserved here, with catering supplied by
+          the hotel kitchen. Hotel venues below are open to residents but are not reservable through this desk.
         </p>
 
         <div className="mt-12 grid gap-10 md:gap-12 lg:grid-cols-[1.5fr_1fr]">
           <section aria-labelledby="rooms">
             <h2 id="rooms" className="text-2xl">
-              In residence
+              Reservable spaces
             </h2>
+
             <ul className="mt-6 grid gap-6 sm:grid-cols-2">
               {AMENITIES.map((a) => (
                 <li key={a.id}>
