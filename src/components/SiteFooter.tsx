@@ -32,18 +32,18 @@ export function SiteFooter() {
           <span className="mt-2 block">Private Residents' Portal</span>
         </p>
 
-        <div className="mx-auto mt-8 grid grid-cols-1 gap-y-1 justify-items-center sm:flex-row sm:justify-center sm:gap-8">
+        <div className="mx-auto mt-8 grid grid-cols-1 gap-y-1 sm:flex sm:flex-row sm:items-center sm:justify-center sm:gap-8">
           <a
             href="tel:+16175891480"
             aria-label="Call the Concierge at 617-589-1480"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+            className="nav-link inline-flex min-h-12 w-full items-center justify-center px-3 text-center text-balance text-muted-foreground hover:text-foreground sm:min-h-11 sm:w-auto sm:px-0"
           >
             Concierge · 617-589-1480
           </a>
           <a
             href="mailto:ResidencesConcierge.Boston@raffles.com"
             aria-label="Email the Concierge at ResidencesConcierge.Boston@raffles.com"
-            className="nav-link inline-flex min-h-11 items-center text-muted-foreground hover:text-foreground"
+            className="nav-link inline-flex min-h-12 w-full items-center justify-center px-3 text-center text-balance text-muted-foreground hover:text-foreground sm:min-h-11 sm:w-auto sm:px-0"
           >
             ResidencesConcierge.Boston@raffles.com
           </a>
