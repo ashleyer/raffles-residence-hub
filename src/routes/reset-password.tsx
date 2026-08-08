@@ -294,22 +294,24 @@ function ResetPasswordPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, password: true }))}
                 aria-invalid={errorFor("password") ? true : undefined}
-                aria-describedby={
-                  errorFor("password")
-                    ? "reset-password-meter reset-password-error"
-                    : "reset-password-meter"
-                }
-                className="min-h-11"
+                aria-describedby={describedBy("password", "reset-password-meter")}
+                className={fieldClass("password")}
               />
               <PasswordStrengthMeter id="reset-password-meter" value={password} />
               {errorFor("password") ? (
-                <p id="reset-password-error" className="text-sm text-destructive">
-                  {errorFor("password")}
+                <p id="reset-password-error" className="flex gap-1.5 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <span>{errorFor("password")}</span>
                 </p>
               ) : null}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="reset-confirm">Confirm new password</Label>
+              <Label
+                htmlFor="reset-confirm"
+                className={errorFor("confirm") ? "text-destructive" : ""}
+              >
+                Confirm new password
+              </Label>
               <Input
                 id="reset-confirm"
                 type={showPassword ? "text" : "password"}
@@ -319,15 +321,17 @@ function ResetPasswordPage() {
                 onChange={(e) => setConfirm(e.target.value)}
                 onBlur={() => setTouched((t) => ({ ...t, confirm: true }))}
                 aria-invalid={errorFor("confirm") ? true : undefined}
-                aria-describedby={errorFor("confirm") ? "reset-confirm-error" : undefined}
-                className="min-h-11"
+                aria-describedby={describedBy("confirm")}
+                className={fieldClass("confirm")}
               />
               {errorFor("confirm") ? (
-                <p id="reset-confirm-error" className="text-sm text-destructive">
-                  {errorFor("confirm")}
+                <p id="reset-confirm-error" className="flex gap-1.5 text-sm text-destructive">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <span>{errorFor("confirm")}</span>
                 </p>
               ) : null}
             </div>
+
 
             <p
               id="reset-error"
