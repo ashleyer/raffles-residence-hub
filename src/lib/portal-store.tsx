@@ -554,6 +554,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       currentUser,
       signIn,
       signUp,
+      requestPasswordReset,
+      resetPassword,
       rememberedEmail,
       rememberedUnit,
       /* Sign out only ends the session: the account, profile and remembered
