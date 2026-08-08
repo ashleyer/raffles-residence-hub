@@ -231,14 +231,19 @@ function ResetPasswordPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                aria-invalid={fieldErrors["password"] ? true : undefined}
-                aria-describedby="reset-password-meter"
+                onBlur={() => setTouched((t) => ({ ...t, password: true }))}
+                aria-invalid={errorFor("password") ? true : undefined}
+                aria-describedby={
+                  errorFor("password")
+                    ? "reset-password-meter reset-password-error"
+                    : "reset-password-meter"
+                }
                 className="min-h-11"
               />
               <PasswordStrengthMeter id="reset-password-meter" value={password} />
-              {fieldErrors["password"] ? (
-                <p role="alert" className="text-sm text-destructive">
-                  {fieldErrors["password"]}
+              {errorFor("password") ? (
+                <p id="reset-password-error" className="text-sm text-destructive">
+                  {errorFor("password")}
                 </p>
               ) : null}
             </div>
@@ -251,16 +256,18 @@ function ResetPasswordPage() {
                 required
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                aria-invalid={fieldErrors["confirm"] ? true : undefined}
-                aria-describedby={fieldErrors["confirm"] ? "reset-confirm-error" : undefined}
+                onBlur={() => setTouched((t) => ({ ...t, confirm: true }))}
+                aria-invalid={errorFor("confirm") ? true : undefined}
+                aria-describedby={errorFor("confirm") ? "reset-confirm-error" : undefined}
                 className="min-h-11"
               />
-              {fieldErrors["confirm"] ? (
-                <p id="reset-confirm-error" role="alert" className="text-sm text-destructive">
-                  {fieldErrors["confirm"]}
+              {errorFor("confirm") ? (
+                <p id="reset-confirm-error" className="text-sm text-destructive">
+                  {errorFor("confirm")}
                 </p>
               ) : null}
             </div>
+
 
             <p
               id="reset-error"
