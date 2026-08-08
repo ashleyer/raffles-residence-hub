@@ -138,8 +138,15 @@ function ResetPasswordPage() {
                 required
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
+                aria-invalid={fieldErrors.code ? true : undefined}
+                aria-describedby={fieldErrors.code ? "reset-code-error" : undefined}
                 className="min-h-11"
               />
+              {fieldErrors.code ? (
+                <p id="reset-code-error" role="alert" className="text-sm text-destructive">
+                  {fieldErrors.code}
+                </p>
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="reset-password">New password</Label>
@@ -150,9 +157,16 @@ function ResetPasswordPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                aria-invalid={fieldErrors.password ? true : undefined}
+                aria-describedby="reset-password-meter"
                 className="min-h-11"
               />
-              <p className="text-xs text-muted-foreground">At least eight characters.</p>
+              <PasswordStrengthMeter id="reset-password-meter" value={password} />
+              {fieldErrors.password ? (
+                <p role="alert" className="text-sm text-destructive">
+                  {fieldErrors.password}
+                </p>
+              ) : null}
             </div>
             <div className="space-y-2">
               <Label htmlFor="reset-confirm">Confirm new password</Label>
@@ -163,9 +177,17 @@ function ResetPasswordPage() {
                 required
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
+                aria-invalid={fieldErrors.confirm ? true : undefined}
+                aria-describedby={fieldErrors.confirm ? "reset-confirm-error" : undefined}
                 className="min-h-11"
               />
+              {fieldErrors.confirm ? (
+                <p id="reset-confirm-error" role="alert" className="text-sm text-destructive">
+                  {fieldErrors.confirm}
+                </p>
+              ) : null}
             </div>
+
             <p
               id="reset-error"
               role="alert"
