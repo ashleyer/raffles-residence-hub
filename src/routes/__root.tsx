@@ -15,6 +15,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PortalProvider } from "@/lib/portal-store";
 import { DemoBanner, DemoModal } from "@/components/DemoNotice";
 import { SurveyPrompt } from "@/components/SurveyPrompt";
+import { AppErrorBoundary } from "@/components/AppErrorBoundary";
 
 
 
@@ -119,7 +120,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <AppErrorBoundary>{children}</AppErrorBoundary>
         <Scripts />
       </body>
     </html>
