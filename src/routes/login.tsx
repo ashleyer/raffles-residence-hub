@@ -215,8 +215,9 @@ function SignInForm() {
               Remember me on this device
             </Label>
             <p id="remember-hint" className="mt-1 text-pretty text-xs text-muted-foreground">
-              On: your residence and contact details stay on this device after sign out. Off: they are
-              cleared the moment you sign out.
+              On: your residence and contact details stay on this device after sign out, and are cleared
+              automatically after 30 days. Your signed-in session lapses after 12 hours of inactivity.
+              Off: everything is cleared the moment you sign out.
             </p>
           </div>
           <Switch
