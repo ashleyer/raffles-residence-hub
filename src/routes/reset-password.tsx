@@ -110,6 +110,7 @@ function ResetPasswordPage() {
 
   const complete = (e: React.FormEvent) => {
     e.preventDefault();
+    setTouched({ code: true, password: true, confirm: true });
     const issues = validate(newPasswordSchema, { code, password, confirm });
     setFieldErrors(issues);
     if (Object.keys(issues).length > 0) {
