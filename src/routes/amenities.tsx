@@ -11,6 +11,7 @@ import {
   VENUES,
   type Booking,
 } from "@/lib/intranet-data";
+import { HOUSE_AMENITIES } from "@/lib/venue-extras";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
