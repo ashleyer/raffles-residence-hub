@@ -28,9 +28,16 @@ export function SiteFooter() {
           40 Trinity Place · Back Bay · Boston, Massachusetts 02116
           <span className="mt-2 block">Private Residents' Portal</span>
         </p>
+        <a
+          href="mailto:security@raffles-boston.demo?subject=Security%20issue%20report&body=Residence%3A%0ALocation%3A%0ATime%20observed%3A%0AWhat%20happened%3A%0A"
+          className="btn-outline mt-8 inline-flex min-h-11 items-center"
+        >
+          Notify security of an issue
+        </a>
         <p className="measure mx-auto mt-8 text-xs leading-relaxed text-muted-foreground">
           Preview environment — resident data shown here is illustrative and resets when the page reloads.
         </p>
+
         <p style={{ fontFamily: "'Courier New', Courier, monospace" }}
           className="mt-10 text-[0.6875rem] text-[oklch(1_0_0)]">
           built with 🤍 in Raffles Residences Boston, Unit 22H by{" "}
