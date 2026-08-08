@@ -159,9 +159,9 @@ function Index() {
 
         <section
           aria-labelledby="contact-concierge"
-          className="mx-auto w-full max-w-7xl px-5 pb-20 sm:px-8"
+          className="mx-auto grid w-full max-w-7xl gap-6 px-5 pb-20 sm:px-8 md:grid-cols-2"
         >
-          <div className="mx-auto max-w-xl border border-border bg-card px-6 py-8 text-center sm:px-10">
+          <div className="border border-border bg-card px-6 py-8 text-center sm:px-10">
             <p className="eyebrow">At your service</p>
             <h2 id="contact-concierge" className="mt-3 text-xl sm:text-2xl">
               Contact the concierge
@@ -179,7 +179,28 @@ function Index() {
               Demo address — messages are not delivered.
             </p>
           </div>
+
+          <div className="border border-border bg-card px-6 py-8 text-center sm:px-10">
+            <p className="eyebrow">Around the clock</p>
+            <h2 id="notify-security" className="mt-3 text-xl sm:text-2xl">
+              Notify security
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              Report a safety concern, suspicious activity or an incident in the building.
+            </p>
+            <a
+              href="mailto:security@raffles-boston.demo?subject=Security%20issue%20report&body=Residence%3A%0ALocation%3A%0ATime%20observed%3A%0AWhat%20happened%3A%0A"
+              className="btn-outline mt-6 inline-flex min-h-11 items-center"
+              aria-describedby="notify-security"
+            >
+              security@raffles-boston.demo
+            </a>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Demo address — messages are not delivered. For emergencies, dial 911.
+            </p>
+          </div>
         </section>
+
 
       </main>
 
