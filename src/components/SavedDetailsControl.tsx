@@ -71,8 +71,10 @@ export function SavedDetailsControl() {
             ) : null}{" "}
             for up to {REMEMBER_DAYS} days so sign-in is prefilled. You may remove it at any time.
           </>
-        ) : (
+        ) : rememberEnabled ? (
           <>Nothing is saved on this browser. Enable “Remember me” at sign-in if you would like it prefilled.</>
+        ) : (
+          <>Nothing is saved, and nothing will be: persistence is switched off for this browser.</>
         )}
       </p>
 
