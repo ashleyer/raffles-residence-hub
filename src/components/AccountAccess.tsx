@@ -43,6 +43,11 @@ export function AccountAccess() {
           >
             Sign in
           </Link>
+          <p className="mt-4 text-sm">
+            <Link to="/reset-password" className="underline underline-offset-4">
+              Forgot password?
+            </Link>
+          </p>
         </div>
       </div>
     </section>
