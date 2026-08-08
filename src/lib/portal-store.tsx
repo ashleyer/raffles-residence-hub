@@ -60,6 +60,8 @@ type PortalValue = {
     remember?: boolean;
   }) => { ok: boolean; error?: string };
   signOut: () => void;
+  /* Erase the remembered residence and contact details kept in this browser. */
+  clearSavedDetails: () => void;
   rememberedEmail: string | null;
   rememberedUnit: string | null;
 
@@ -514,6 +516,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         setCurrentUserId(null);
         clearStore(SESSION_KEY);
       },
+      /* One click: forget the remembered residence and contact details. */
+      clearSavedDetails: () => {
+        clearStore(LAST_USER_KEY);
+        setRememberedEmail(null);
+        setRememberedUnit(null);
+      },
+
+
 
       residents,
       updateProfile: (patch) =>
