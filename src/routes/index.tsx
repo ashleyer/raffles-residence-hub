@@ -181,20 +181,24 @@ function Index() {
               Reservations, deliveries, transport or anything else — the desk replies daily.
             </p>
             <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a
+              <ContactLink
                 href="tel:+16175891480"
+                value="617-589-1480"
+                kind="tel"
                 className="btn-outline w-full sm:w-auto"
-                aria-label="Call the concierge at 617-589-1480"
+                ariaLabel="Call the concierge at 617-589-1480"
               >
                 617-589-1480
-              </a>
-              <a
+              </ContactLink>
+              <ContactLink
                 href="mailto:ResidencesConcierge.Boston@raffles.com?subject=Resident%20request"
+                value="ResidencesConcierge.Boston@raffles.com"
+                kind="mail"
                 className="btn-outline w-full sm:w-auto"
-                aria-label="Email the concierge at Residences Concierge dot Boston at raffles dot com"
+                ariaLabel="Email the concierge at Residences Concierge dot Boston at raffles dot com"
               >
                 ResidencesConcierge.Boston@raffles.com
-              </a>
+              </ContactLink>
             </div>
           </div>
 
